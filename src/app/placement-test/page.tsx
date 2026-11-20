@@ -215,7 +215,9 @@ export default function PlacementTest() {
 
           {/* CTA */}
           <button
-            onClick={() => router.push('/')}
+            onClick={() => {
+              window.location.href = '/';
+            }}
             className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3.5 rounded-2xl font-bold text-base hover:from-indigo-700 hover:to-purple-700 active:scale-95 transition-all shadow-lg shadow-indigo-200 flex items-center justify-center gap-2"
           >
             <span>ابدأ مسار التعلم الآن</span>
