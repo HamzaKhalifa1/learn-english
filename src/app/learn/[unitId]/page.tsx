@@ -377,7 +377,7 @@ function UnitContent() {
         <div className="mb-4 flex items-center justify-between flex-wrap gap-2">
           <Link
             href="/learn"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors bg-white dark:bg-slate-850 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs active:scale-95"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors bg-white dark:bg-slate-800 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs active:scale-95"
           >
             <ChevronRight size={16} />
             <span>العودة للوحدات</span>
@@ -418,7 +418,7 @@ function UnitContent() {
             <button
               onClick={handleReStudy}
               title="إعادة دراسة هذه الوحدة من البداية"
-              className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 bg-white dark:bg-slate-850 hover:bg-orange-50 dark:hover:bg-orange-950/40 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-orange-200 dark:hover:border-orange-800/60 transition-all shadow-xs active:scale-95"
+              className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 bg-white dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-orange-950/40 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-orange-200 dark:hover:border-orange-800/60 transition-all shadow-xs active:scale-95"
             >
               <RotateCcw size={13} />
               <span>إعادة التعيين</span>
@@ -507,7 +507,7 @@ function UnitContent() {
           <button
             onClick={() => handleSelectWord(currentWordIdx - 1)}
             disabled={currentWordIdx === 0}
-            className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-850 font-bold text-xs md:text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 active:scale-95 transition-all disabled:opacity-30 disabled:pointer-events-none shadow-xs"
+            className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-bold text-xs md:text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 active:scale-95 transition-all disabled:opacity-30 disabled:pointer-events-none shadow-xs"
           >
             <ChevronRight size={18} />
             <span>الكلمة السابقة</span>
@@ -520,7 +520,7 @@ function UnitContent() {
 
           {/* Word position indicator */}
           <div className="text-center px-2 flex-none">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-300 bg-white dark:bg-slate-850 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-300 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs">
               الكلمة {currentWordIdx + 1} من {totalWords}
             </span>
           </div>

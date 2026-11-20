@@ -375,7 +375,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="bg-gradient-to-r from-indigo-50 via-purple-50 to-indigo-50 border-b border-indigo-200/80 px-4 py-2.5 flex-none overflow-hidden shadow-2xs"
+              className="bg-indigo-50/90 dark:bg-slate-800 border-b border-indigo-200/80 dark:border-slate-700 px-4 py-2.5 flex-none overflow-hidden shadow-2xs transition-colors"
             >
               <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div className="flex items-center gap-2 flex-wrap">
@@ -386,28 +386,28 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                   >
                     <Volume2 size={13} />
                   </button>
-                  <span className="font-black text-slate-800 text-sm ltr">
+                  <span className="font-black text-slate-800 dark:text-white text-sm ltr">
                     {selectedWordDetail.word}
                   </span>
                   {selectedWordDetail.phonetic && (
-                    <span className="text-xs text-indigo-700 font-mono ltr">
+                    <span className="text-xs text-indigo-700 dark:text-indigo-300 font-mono ltr">
                       {selectedWordDetail.phonetic}
                     </span>
                   )}
                   {selectedWordDetail.meaningAr && (
-                    <span className="text-xs bg-white text-indigo-900 font-bold px-2 py-0.5 rounded-md border border-indigo-200 shadow-2xs">
+                    <span className="text-xs bg-white dark:bg-slate-700 text-indigo-900 dark:text-indigo-200 font-bold px-2 py-0.5 rounded-md border border-indigo-200 dark:border-slate-600 shadow-2xs">
                       {selectedWordDetail.meaningAr}
                     </span>
                   )}
                   {allUsedTargetWords.some(
                     w => w.toLowerCase() === selectedWordDetail.word.toLowerCase()
                   ) ? (
-                    <span className="text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded-full flex items-center gap-1">
-                      <CheckCircle2 size={11} className="text-emerald-600" />
+                    <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 font-black px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <CheckCircle2 size={11} className="text-emerald-600 dark:text-emerald-400" />
                       مستخدمة ✓
                     </span>
                   ) : (
-                    <span className="text-[10px] bg-amber-100 text-amber-800 font-black px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 font-black px-2 py-0.5 rounded-full">
                       غير مستخدمة بعد
                     </span>
                   )}
@@ -427,7 +427,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                   </button>
                   <button
                     onClick={() => setSelectedWordDetail(null)}
-                    className="text-slate-400 hover:text-slate-600 p-1 rounded-lg"
+                    className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg transition-colors"
                   >
                     <X size={15} />
                   </button>
@@ -435,12 +435,12 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
               </div>
 
               {selectedWordDetail.example && (
-                <div className="text-xs text-slate-600 font-medium ltr mt-1.5 bg-white/80 px-2.5 py-1.5 rounded-xl border border-indigo-100/80 flex items-center justify-between gap-2">
+                <div className="text-xs text-slate-600 dark:text-slate-200 font-medium ltr mt-1.5 bg-white/80 dark:bg-slate-900/80 px-2.5 py-1.5 rounded-xl border border-indigo-100/80 dark:border-slate-700/80 flex items-center justify-between gap-2">
                   <span>💡 &quot;{selectedWordDetail.example}&quot;</span>
                   <button
                     onClick={() => speakText(selectedWordDetail.example!)}
                     title="استمع للمثال"
-                    className="text-slate-400 hover:text-indigo-600 flex-none"
+                    className="text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex-none transition-colors"
                   >
                     <Volume2 size={12} />
                   </button>
@@ -649,46 +649,46 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
               <motion.div
                 initial={{ scale: 0.85, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
-                className="bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl border border-slate-100"
+                className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl border border-slate-100 dark:border-slate-800"
               >
-                <div className="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-400 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-xl shadow-amber-200/60 mb-4 animate-bounce">
+                <div className="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-400 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-xl shadow-amber-200/60 dark:shadow-amber-950/50 mb-4 animate-bounce">
                   🏆
                 </div>
 
-                <h3 className="text-xl font-black text-slate-800 mb-1">
+                <h3 className="text-xl font-black text-slate-800 dark:text-white mb-1">
                   محادثة ممتازة!
                 </h3>
-                <p className="text-xs text-slate-500 mb-5 font-semibold">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-5 font-semibold">
                   أتممت الحوار الموجه مع {scenario.character.name} بنجاح
                 </p>
 
-                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 mb-6 space-y-2.5">
+                <div className="bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-4 border border-slate-100 dark:border-slate-700 mb-6 space-y-2.5">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-500 font-bold">النقاط المكتسبة:</span>
-                    <span className="font-black text-amber-600 text-sm">+{xpEarned || 30} XP</span>
+                    <span className="text-slate-500 dark:text-slate-400 font-bold">النقاط المكتسبة:</span>
+                    <span className="font-black text-amber-600 dark:text-amber-400 text-sm">+{xpEarned || 30} XP</span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-500 font-bold">الكلمات المستهدفة:</span>
-                    <span className="font-black text-emerald-600">
+                    <span className="text-slate-500 dark:text-slate-400 font-bold">الكلمات المستهدفة:</span>
+                    <span className="font-black text-emerald-600 dark:text-emerald-400">
                       {allUsedTargetWords.length} من {scenario.targetWords.length}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-500 font-bold">المستوى:</span>
-                    <span className="font-bold text-indigo-600">{scenario.level}</span>
+                    <span className="text-slate-500 dark:text-slate-400 font-bold">المستوى:</span>
+                    <span className="font-bold text-indigo-600 dark:text-indigo-400">{scenario.level}</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <button
                     onClick={handleFinishSession}
-                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold py-3.5 rounded-2xl shadow-lg shadow-indigo-200 active:scale-95 transition-all"
+                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold py-3.5 rounded-2xl shadow-lg shadow-indigo-200 dark:shadow-indigo-950 active:scale-95 transition-all"
                   >
                     متابعة التعلم 🚀
                   </button>
                   <button
                     onClick={() => setShowCelebration(false)}
-                    className="w-full text-slate-400 hover:text-slate-600 text-xs font-bold py-2"
+                    className="w-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold py-2 transition-colors"
                   >
                     متابعة المحادثة الحالية
                   </button>

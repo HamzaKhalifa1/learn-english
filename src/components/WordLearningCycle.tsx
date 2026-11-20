@@ -337,11 +337,11 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                 <WordVisualCard word={word.word} category={word.category} showWordOverlay={false} className="h-32 mb-4" />
 
                 {/* Arabic Meaning & English definition */}
-                <div className="bg-gradient-to-br from-indigo-50/70 via-white to-purple-50/70 dark:from-slate-800/90 dark:via-slate-850 dark:to-indigo-950/40 rounded-2xl p-5 mb-4 border border-indigo-100/80 dark:border-slate-700/80 shadow-xs">
-                  <div className="text-xs font-bold text-indigo-500 dark:text-indigo-400 mb-1">المعنى بالعربية:</div>
-                  <div className="text-2xl font-black text-indigo-900 dark:text-indigo-200 mb-3">{word.meaningAr}</div>
+                <div className="bg-gradient-to-br from-indigo-50/80 to-purple-50/80 dark:from-slate-800/95 dark:to-slate-900 rounded-2xl p-5 mb-4 border border-indigo-100/80 dark:border-slate-700/80 shadow-xs">
+                  <div className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mb-1">المعنى بالعربية:</div>
+                  <div className="text-2xl font-black text-slate-800 dark:text-white mb-3">{word.meaningAr}</div>
                   <div className="text-xs font-bold text-slate-400 dark:text-slate-400 mb-1">التعريف بالإنجليزية:</div>
-                  <div className="text-slate-600 dark:text-slate-300 text-sm ltr leading-relaxed">{word.meaningEn}</div>
+                  <div className="text-slate-600 dark:text-slate-200 text-sm ltr leading-relaxed font-medium">{word.meaningEn}</div>
                 </div>
 
                 {/* Synonyms & Antonyms */}
