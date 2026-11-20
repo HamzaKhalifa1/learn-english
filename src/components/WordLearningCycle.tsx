@@ -270,7 +270,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
             {/* ── STAGE 1 — RECOGNITION ──────────────────────────────────── */}
             {stage === 1 && (
               <div className="text-center">
-                <div className="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-black px-3 py-1 rounded-full border border-indigo-100 mb-4">
+                <div className="inline-flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-black px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-800/60 mb-4">
                   <span>👁️</span>
                   <span>المرحلة 1: التعرف على الكلمة وصورتها</span>
                 </div>
@@ -280,13 +280,13 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
 
                 {/* Phonetics & Audio Button */}
                 <div className="flex items-center justify-center gap-2 mb-3">
-                  <span className="font-mono text-xl ltr text-slate-500 bg-slate-50 px-3 py-1 rounded-xl border border-slate-200">
+                  <span className="font-mono text-xl ltr text-slate-500 dark:text-indigo-300 bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-xl border border-slate-200 dark:border-slate-700">
                     {word.phonetic}
                   </span>
                   <button
                     onClick={speakWord}
                     title="استمع للنطق"
-                    className="w-10 h-10 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center transition-all active:scale-95 shadow-xs border border-indigo-100"
+                    className="w-10 h-10 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-600 dark:text-indigo-300 rounded-xl flex items-center justify-center transition-all active:scale-95 shadow-xs border border-indigo-100 dark:border-indigo-800/60"
                   >
                     <Volume2 size={19} />
                   </button>
@@ -294,10 +294,10 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
 
                 {/* Part of speech badge */}
                 <div className="mb-6">
-                  <span className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 text-slate-600 px-3.5 py-1 rounded-xl text-xs font-bold">
+                  <span className="inline-flex items-center gap-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 px-3.5 py-1 rounded-xl text-xs font-bold">
                     <span>{word.partOfSpeechAr}</span>
-                    <span className="text-slate-300">•</span>
-                    <span className="ltr font-semibold text-slate-500">{word.partOfSpeech}</span>
+                    <span className="text-slate-300 dark:text-slate-600">•</span>
+                    <span className="ltr font-semibold text-slate-500 dark:text-slate-400">{word.partOfSpeech}</span>
                   </span>
                 </div>
 
@@ -316,18 +316,18 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
             {stage === 2 && (
               <div>
                 <div className="text-center mb-4">
-                  <div className="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-black px-3 py-1 rounded-full border border-indigo-100">
+                  <div className="inline-flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-black px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-800/60">
                     <span>📖</span>
                     <span>المرحلة 2: المعنى والاستخدام</span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-center gap-3 mb-4">
-                  <span className="text-3xl md:text-4xl font-black text-slate-800 ltr">{word.word}</span>
+                  <span className="text-3xl md:text-4xl font-black text-slate-800 dark:text-white ltr">{word.word}</span>
                   <button
                     onClick={speakWord}
                     title="استمع للنطق"
-                    className="w-9 h-9 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center transition-all active:scale-95 border border-indigo-100"
+                    className="w-9 h-9 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-600 dark:text-indigo-300 rounded-xl flex items-center justify-center transition-all active:scale-95 border border-indigo-100 dark:border-indigo-800/60"
                   >
                     <Volume2 size={17} />
                   </button>
@@ -337,20 +337,20 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                 <WordVisualCard word={word.word} category={word.category} showWordOverlay={false} className="h-32 mb-4" />
 
                 {/* Arabic Meaning & English definition */}
-                <div className="bg-gradient-to-br from-indigo-50/70 via-white to-purple-50/70 rounded-2xl p-5 mb-4 border border-indigo-100/80 shadow-xs">
-                  <div className="text-xs font-bold text-indigo-500 mb-1">المعنى بالعربية:</div>
-                  <div className="text-2xl font-black text-indigo-900 mb-3">{word.meaningAr}</div>
-                  <div className="text-xs font-bold text-slate-400 mb-1">التعريف بالإنجليزية:</div>
-                  <div className="text-slate-600 text-sm ltr leading-relaxed">{word.meaningEn}</div>
+                <div className="bg-gradient-to-br from-indigo-50/70 via-white to-purple-50/70 dark:from-slate-800/90 dark:via-slate-850 dark:to-indigo-950/40 rounded-2xl p-5 mb-4 border border-indigo-100/80 dark:border-slate-700/80 shadow-xs">
+                  <div className="text-xs font-bold text-indigo-500 dark:text-indigo-400 mb-1">المعنى بالعربية:</div>
+                  <div className="text-2xl font-black text-indigo-900 dark:text-indigo-200 mb-3">{word.meaningAr}</div>
+                  <div className="text-xs font-bold text-slate-400 dark:text-slate-400 mb-1">التعريف بالإنجليزية:</div>
+                  <div className="text-slate-600 dark:text-slate-300 text-sm ltr leading-relaxed">{word.meaningEn}</div>
                 </div>
 
                 {/* Synonyms & Antonyms */}
                 {word.synonyms && word.synonyms.length > 0 && (
                   <div className="mb-3.5">
-                    <div className="text-xs text-slate-400 mb-1.5 font-bold">مرادفات مشابهة (Synonyms):</div>
+                    <div className="text-xs text-slate-400 dark:text-slate-400 mb-1.5 font-bold">مرادفات مشابهة (Synonyms):</div>
                     <div className="flex flex-wrap gap-1.5">
                       {word.synonyms.map(s => (
-                        <span key={s} className="bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-3 py-1 rounded-xl text-xs font-bold ltr">
+                        <span key={s} className="bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 px-3 py-1 rounded-xl text-xs font-bold ltr">
                           {s}
                         </span>
                       ))}
@@ -360,10 +360,10 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
 
                 {word.antonyms && word.antonyms.length > 0 && (
                   <div className="mb-4">
-                    <div className="text-xs text-slate-400 mb-1.5 font-bold">الأضداد المعاكسة (Antonyms):</div>
+                    <div className="text-xs text-slate-400 dark:text-slate-400 mb-1.5 font-bold">الأضداد المعاكسة (Antonyms):</div>
                     <div className="flex flex-wrap gap-1.5">
                       {word.antonyms.map(s => (
-                        <span key={s} className="bg-rose-50 text-rose-800 border border-rose-200/80 px-3 py-1 rounded-xl text-xs font-bold ltr">
+                        <span key={s} className="bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-200/80 dark:border-rose-800/60 px-3 py-1 rounded-xl text-xs font-bold ltr">
                           {s}
                         </span>
                       ))}
@@ -374,15 +374,15 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                 {/* Examples */}
                 {word.examples && word.examples.length > 0 && (
                   <div className="mb-6">
-                    <div className="text-xs text-slate-400 mb-2 font-bold">أمثلة في سياق واقعي:</div>
+                    <div className="text-xs text-slate-400 dark:text-slate-400 mb-2 font-bold">أمثلة في سياق واقعي:</div>
                     <div className="space-y-2">
                       {word.examples.slice(0, 2).map((ex, i) => (
-                        <div key={i} className="flex items-center justify-between gap-2 bg-slate-50 border border-slate-200/70 rounded-xl px-3.5 py-2.5 text-xs md:text-sm text-slate-700">
+                        <div key={i} className="flex items-center justify-between gap-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/70 rounded-xl px-3.5 py-2.5 text-xs md:text-sm text-slate-700 dark:text-slate-200">
                           <span className="ltr flex-1 font-medium">{ex}</span>
                           <button
                             onClick={() => speakText(ex)}
                             title="استمع للمثال"
-                            className="text-slate-400 hover:text-indigo-600 p-1 flex-none"
+                            className="text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 p-1 flex-none transition-colors"
                           >
                             <Volume2 size={15} />
                           </button>
@@ -406,13 +406,13 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
             {/* ── STAGE 3 — PRONUNCIATION ───────────────────────────────── */}
             {stage === 3 && (
               <div className="text-center">
-                <div className="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-black px-3 py-1 rounded-full border border-indigo-100 mb-5">
+                <div className="inline-flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-black px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-800/60 mb-5">
                   <span>🔊</span>
                   <span>المرحلة 3: إتقان النطق الصحيح</span>
                 </div>
 
-                <div className="text-4xl md:text-5xl font-black text-slate-800 mb-2 ltr">{word.word}</div>
-                <div className="font-mono text-xl text-slate-500 bg-slate-50 px-4 py-1.5 rounded-xl border border-slate-200 inline-block mb-6 ltr">
+                <div className="text-4xl md:text-5xl font-black text-slate-800 dark:text-white mb-2 ltr">{word.word}</div>
+                <div className="font-mono text-xl text-slate-500 dark:text-indigo-300 bg-slate-50 dark:bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 inline-block mb-6 ltr">
                   {word.phonetic}
                 </div>
 
@@ -420,15 +420,15 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                 <button
                   onClick={speakWord}
                   title="انقر للاستماع للنطق الصحيح"
-                  className="w-20 h-20 bg-gradient-to-tr from-indigo-500 to-purple-600 text-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-indigo-300 hover:scale-105 active:scale-95 transition-all"
+                  className="w-20 h-20 bg-gradient-to-tr from-indigo-500 to-purple-600 text-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-indigo-300 dark:shadow-indigo-950 hover:scale-105 active:scale-95 transition-all"
                 >
                   <Volume2 size={36} />
                 </button>
 
                 {/* Speech Recording Section */}
-                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 mb-6 text-center">
-                  <div className="text-xs font-bold text-slate-600 mb-3 flex items-center justify-center gap-1.5">
-                    <Mic size={14} className="text-indigo-600" />
+                <div className="bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700 rounded-2xl p-5 mb-6 text-center">
+                  <div className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-3 flex items-center justify-center gap-1.5">
+                    <Mic size={14} className="text-indigo-600 dark:text-indigo-400" />
                     <span>جرّب نطق الكلمة بصوتك عبر الميكروفون</span>
                   </div>
 
@@ -436,8 +436,8 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                     onClick={isRecording ? undefined : startRecording}
                     className={`w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 ${
                       isRecording
-                        ? 'bg-rose-100 text-rose-700 border border-rose-300 animate-pulse'
-                        : 'bg-white text-indigo-700 border-2 border-indigo-200 hover:border-indigo-400 shadow-xs'
+                        ? 'bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-700 animate-pulse'
+                        : 'bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 border-2 border-indigo-200 dark:border-indigo-800/80 hover:border-indigo-400 dark:hover:border-indigo-600 shadow-xs'
                     }`}
                   >
                     {isRecording ? (
@@ -455,10 +455,10 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
 
                   {recordingScore !== null && (
                     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
-                      <div className={`font-black text-sm ${recordingScore >= 80 ? 'text-emerald-600' : 'text-amber-600'}`}>
+                      <div className={`font-black text-sm ${recordingScore >= 80 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
                         {recordingScore >= 80 ? '✅ نطق ممتاز ومتقن!' : '🔄 نطق جيد، حاول مرة أخرى للتحسين'}
                       </div>
-                      <div className="h-2.5 bg-slate-200 rounded-full mt-2 overflow-hidden">
+                      <div className="h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full mt-2 overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-500 ${
                             recordingScore >= 80 ? 'bg-emerald-500' : 'bg-amber-500'
@@ -485,32 +485,68 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
             {stage === 4 && (
               <div>
                 <div className="text-center mb-5">
-                  <div className="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-black px-3 py-1 rounded-full border border-indigo-100">
+                  <div className="inline-flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-black px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-800/60">
                     <span>✍️</span>
                     <span>المرحلة 4: توظيف الكلمة في جملة</span>
                   </div>
                 </div>
 
-                <div className="text-2xl font-black text-center text-slate-800 mb-1 ltr">
+                <div className="text-2xl font-black text-center text-slate-800 dark:text-white mb-1 ltr">
                   {word.word}
                 </div>
-                <div className="text-center text-xs text-indigo-600 font-bold mb-4">
+                <div className="text-center text-xs text-indigo-600 dark:text-indigo-400 font-bold mb-4">
                   {word.meaningAr}
                 </div>
 
-                <div className="text-xs font-bold text-slate-500 mb-2">أكمل الفراغ بالكلمة المناسبة:</div>
-                <div className="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-4 text-base md:text-lg ltr text-center font-bold text-slate-800 mb-4 leading-relaxed">
-                  {word.examples[0]?.replace(new RegExp(word.word, 'gi'), '______')}
+                <div className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">أكمل الفراغ بالكلمة المناسبة:</div>
+                
+                {/* Enhanced Sentence Container with styled blank slot & real-time preview */}
+                <div className="bg-slate-50/90 dark:bg-slate-800/85 border-2 border-indigo-100 dark:border-indigo-500/30 rounded-2xl p-5 text-base md:text-xl ltr text-center font-bold text-slate-800 dark:text-slate-100 mb-4 leading-relaxed shadow-sm dark:shadow-indigo-950/40">
+                  {(() => {
+                    const rawExample = word.examples[0] || '';
+                    const escaped = word.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const regex = new RegExp(`(${escaped})`, 'gi');
+                    const parts = rawExample.split(regex);
+
+                    if (parts.length > 1) {
+                      return (
+                        <span>
+                          {parts.map((part, i) => {
+                            if (part.toLowerCase() === word.word.toLowerCase()) {
+                              return (
+                                <span
+                                  key={i}
+                                  className="inline-flex items-center justify-center min-w-[100px] px-3 py-0.5 mx-1.5 rounded-xl border-2 border-dashed border-indigo-400 dark:border-indigo-400 bg-indigo-100/70 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 font-extrabold text-sm md:text-base tracking-wider shadow-inner select-none transition-all align-middle"
+                                >
+                                  {sentenceAnswer.trim() ? (
+                                    <span className="text-indigo-700 dark:text-indigo-200 font-black">{sentenceAnswer}</span>
+                                  ) : (
+                                    <span className="tracking-[0.2em] font-mono text-indigo-500 dark:text-indigo-400 font-black">______</span>
+                                  )}
+                                </span>
+                              );
+                            }
+                            return <span key={i}>{part}</span>;
+                          })}
+                        </span>
+                      );
+                    }
+
+                    return <span>{rawExample.replace(new RegExp(escaped, 'gi'), '______')}</span>;
+                  })()}
                 </div>
 
                 <input
-                  className="w-full border-2 border-slate-200 focus:border-indigo-500 rounded-2xl px-4 py-3.5 text-base md:text-lg ltr outline-none mb-3 text-center shadow-xs font-bold transition-all"
+                  className="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-indigo-500 dark:focus:border-indigo-400 bg-white dark:bg-slate-800 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-2xl px-4 py-3.5 text-base md:text-lg ltr outline-none mb-3 text-center shadow-xs dark:shadow-inner font-bold transition-all"
                   placeholder="اكتب الكلمة الناقصة هنا..."
                   value={sentenceAnswer}
                   onChange={e => setSentenceAnswer(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && !isAdvancingRef.current && checkSentence()}
                   dir="ltr"
                   disabled={sentenceFeedback !== null}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck={false}
                 />
 
                 {sentenceFeedback !== null && (
@@ -519,8 +555,8 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                     animate={{ opacity: 1, scale: 1 }}
                     className={`text-center font-black text-sm mb-3 py-2 px-3 rounded-xl border ${
                       sentenceFeedback
-                        ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                        : 'bg-rose-50 text-rose-800 border-rose-200'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60'
+                        : 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-800/60'
                     }`}
                   >
                     {sentenceFeedback ? '✅ إجابة صحيحة ومتقنة!' : `❌ الكلمة الصحيحة هي: "${word.word}"`}
@@ -528,8 +564,8 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                 )}
 
                 {word.examples[1] && (
-                  <div className="bg-slate-50 border border-slate-200/70 rounded-xl p-3 mb-5 text-xs ltr text-slate-600 font-medium">
-                    <span className="font-bold text-slate-400 block mb-0.5">مثال إضافي:</span>
+                  <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 rounded-xl p-3 mb-5 text-xs ltr text-slate-600 dark:text-slate-300 font-medium">
+                    <span className="font-bold text-slate-400 dark:text-slate-400 block mb-0.5">مثال إضافي:</span>
                     <span>{word.examples[1]}</span>
                   </div>
                 )}
@@ -549,16 +585,16 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
             {stage === 5 && (
               <div>
                 <div className="text-center mb-5">
-                  <div className="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-black px-3 py-1 rounded-full border border-indigo-100">
+                  <div className="inline-flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-black px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-800/60">
                     <span>🧪</span>
                     <span>المرحلة 5: اختبار التثبيت النهائي</span>
                   </div>
                 </div>
 
-                <div className="text-4xl md:text-5xl font-black text-center text-slate-800 mb-1 ltr">
+                <div className="text-4xl md:text-5xl font-black text-center text-slate-800 dark:text-white mb-1 ltr">
                   {word.word}
                 </div>
-                <div className="text-center text-slate-400 text-xs mb-6 font-semibold">
+                <div className="text-center text-slate-400 dark:text-slate-400 text-xs mb-6 font-semibold">
                   اختر المعنى العربي الدقيق للكلمة أعلاه:
                 </div>
 
@@ -567,19 +603,19 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                     const isCorrect = opt === word.meaningAr;
                     const isSelected = opt === selectedOption;
 
-                    let btnStyle = 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-800';
-                    let badgeStyle = 'bg-slate-100 text-slate-600';
+                    let btnStyle = 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/40 text-slate-800 dark:text-slate-100';
+                    let badgeStyle = 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300';
 
                     if (selectedOption) {
                       if (isCorrect) {
-                        btnStyle = 'border-emerald-500 bg-emerald-50 text-emerald-900 shadow-sm';
+                        btnStyle = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 shadow-sm';
                         badgeStyle = 'bg-emerald-500 text-white';
                       } else if (isSelected) {
-                        btnStyle = 'border-rose-500 bg-rose-50 text-rose-900 shadow-sm';
+                        btnStyle = 'border-rose-500 bg-rose-50 dark:bg-rose-950/60 text-rose-900 dark:text-rose-200 shadow-sm';
                         badgeStyle = 'bg-rose-500 text-white';
                       } else {
-                        btnStyle = 'border-slate-100 bg-slate-50/50 text-slate-400 opacity-40';
-                        badgeStyle = 'bg-slate-200 text-slate-400';
+                        btnStyle = 'border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 text-slate-400 dark:text-slate-500 opacity-40';
+                        badgeStyle = 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500';
                       }
                     }
 
@@ -598,10 +634,10 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                         </div>
 
                         {selectedOption && isCorrect && (
-                          <CheckCircle size={22} className="text-emerald-600 flex-none" />
+                          <CheckCircle size={22} className="text-emerald-600 dark:text-emerald-400 flex-none" />
                         )}
                         {selectedOption && isSelected && !isCorrect && (
-                          <XCircle size={22} className="text-rose-500 flex-none" />
+                          <XCircle size={22} className="text-rose-500 dark:text-rose-400 flex-none" />
                         )}
                       </button>
                     );
@@ -614,8 +650,8 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                     animate={{ opacity: 1, y: 0 }}
                     className={`mt-4 text-center text-sm font-black py-2.5 px-4 rounded-xl border ${
                       selectedOption === word.meaningAr
-                        ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                        : 'bg-rose-50 text-rose-800 border-rose-200'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60'
+                        : 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-800/60'
                     }`}
                   >
                     {selectedOption === word.meaningAr
@@ -633,7 +669,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                 initial={{ opacity: 0, scale: 0.7 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 flex items-center justify-center rounded-3xl bg-white/85 backdrop-blur-xs pointer-events-none z-30"
+                className="absolute inset-0 flex items-center justify-center rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xs pointer-events-none z-30"
               >
                 {showResult ? (
                   <div className="flex flex-col items-center">
