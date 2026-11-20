@@ -19,8 +19,8 @@ export async function POST(req: Request) {
 
     // Use adaptive scoring if detailed answers are provided
     const level = determineLevelFromScore(score, total, answers);
-    savePlacementResult(score, total, level, userId);
-    addXP(50, userId);
+    await savePlacementResult(score, total, level, userId);
+    await addXP(50, userId);
 
     // Auto-mark all words BELOW the user's level as known (stage=5)
     // so the user doesn't waste time on "Yes", "Hello" if they're B1+
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     const wordsToMark = allUnits.flatMap(u =>
       u.words.map(w => ({ id: w.id, word: w.word, unitId: u.id, level: u.level ?? 'A1' }))
     );
-    markLowerLevelWordsAsKnown(level, wordsToMark, userId);
+    await markLowerLevelWordsAsKnown(level, wordsToMark, userId);
 
     return NextResponse.json({ success: true, data: { level } });
   } catch (e) {

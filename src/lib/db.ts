@@ -673,6 +673,153 @@ export async function getAllCompletedStoryUnits(userId = 1): Promise<string[]> {
   return rows.map(r => r.unit_id);
 }
 
+// ============ Unit & Bulk Progress Operations ============
+export async function getUnitWordProgress(unitId: string, userId = 1) {
+  if (isSupabaseConfigured && supabase) {
+    const { data } = await supabase
+      .from('word_progress')
+      .select('word_id, stage, is_learned, total_attempts, correct_attempts, next_review_date, updated_at')
+      .eq('user_id', userId)
+      .eq('unit_id', unitId)
+      .order('updated_at', { ascending: false });
+    return data || [];
+  }
+  return getDb()
+    .prepare(
+      `SELECT word_id, stage, is_learned, total_attempts, correct_attempts,
+              next_review_date, updated_at
+       FROM word_progress
+       WHERE user_id = ? AND unit_id = ?
+       ORDER BY updated_at DESC`
+    )
+    .all(userId, unitId);
+}
+
+export async function bulkMarkWordsKnown(
+  words: Array<{ wordId: string; word: string; unitId: string; level: string }>,
+  userId = 1
+) {
+  if (isSupabaseConfigured && supabase) {
+    if (words.length > 0) {
+      const records = words.map(item => ({
+        user_id: userId,
+        word_id: item.wordId,
+        word: item.word,
+        unit_id: item.unitId,
+        level: item.level || 'A1',
+        stage: 5,
+        is_learned: 1,
+        total_attempts: 1,
+        correct_attempts: 1,
+        last_reviewed_date: new Date().toISOString().split('T')[0],
+        next_review_date: new Date(Date.now() + 3 * 86400000).toISOString().split('T')[0],
+        updated_at: new Date().toISOString(),
+      }));
+      await supabase.from('word_progress').upsert(records, { onConflict: 'user_id,word_id' });
+    }
+    await addXP(words.length * 10, userId);
+    return;
+  }
+
+  const db = getDb();
+  const insertOrUpdate = db.prepare(`
+    INSERT INTO word_progress (
+      user_id, word_id, word, unit_id, level, stage,
+      is_learned, total_attempts, correct_attempts,
+      last_reviewed_date, next_review_date, updated_at
+    )
+    VALUES (
+      ?, ?, ?, ?, ?, 5,
+      1, 1, 1,
+      date('now'), date('now', '+3 days'), datetime('now')
+    )
+    ON CONFLICT(user_id, word_id) DO UPDATE SET
+      stage = 5,
+      is_learned = 1,
+      total_attempts = total_attempts + 1,
+      correct_attempts = correct_attempts + 1,
+      last_reviewed_date = date('now'),
+      next_review_date = date('now', '+3 days'),
+      updated_at = datetime('now')
+  `);
+
+  const run = db.transaction(() => {
+    for (const item of words) {
+      insertOrUpdate.run(userId, item.wordId, item.word, item.unitId, item.level || 'A1');
+    }
+  });
+  run();
+  await addXP(words.length * 10, userId);
+}
+
+export async function resetUnitProgress(unitId: string, userId = 1) {
+  if (isSupabaseConfigured && supabase) {
+    await supabase
+      .from('word_progress')
+      .update({
+        stage: 0,
+        is_learned: 0,
+        is_mastered: 0,
+        next_review_date: null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('user_id', userId)
+      .eq('unit_id', unitId);
+    return;
+  }
+  getDb().prepare(`
+    UPDATE word_progress
+    SET stage = 0,
+        is_learned = 0,
+        is_mastered = 0,
+        next_review_date = NULL,
+        updated_at = datetime('now')
+    WHERE user_id = ? AND unit_id = ?
+  `).run(userId, unitId);
+}
+
+export async function resetWordProgress(wordId: string, userId = 1) {
+  if (isSupabaseConfigured && supabase) {
+    await supabase
+      .from('word_progress')
+      .update({
+        stage: 0,
+        is_learned: 0,
+        is_mastered: 0,
+        next_review_date: null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('user_id', userId)
+      .eq('word_id', wordId);
+    return;
+  }
+  getDb().prepare(`
+    UPDATE word_progress
+    SET stage = 0,
+        is_learned = 0,
+        is_mastered = 0,
+        next_review_date = NULL,
+        updated_at = datetime('now')
+    WHERE user_id = ? AND word_id = ?
+  `).run(userId, wordId);
+}
+
+export async function resetPlacement(userId = 1) {
+  if (isSupabaseConfigured && supabase) {
+    await supabase
+      .from('app_users')
+      .update({ placement_completed: 0, level: 'A1' })
+      .eq('id', userId);
+    await supabase.from('placement_results').delete().eq('user_id', userId);
+    await supabase.from('word_progress').delete().eq('user_id', userId);
+    return;
+  }
+  const db = getDb();
+  db.prepare('UPDATE users SET placement_completed = 0, level = ? WHERE id = ?').run('A1', userId);
+  db.prepare('DELETE FROM placement_results WHERE user_id = ?').run(userId);
+  db.prepare('DELETE FROM word_progress WHERE user_id = ?').run(userId);
+}
+
 export interface User {
   id: number;
   name: string;

@@ -16,7 +16,7 @@ export async function GET(
     }
 
     const userId = await getGuestUserId();
-    const progress = getStoryProgress(unitId, userId);
+    const progress = await getStoryProgress(unitId, userId);
 
     return NextResponse.json({
       success: true,
@@ -43,7 +43,7 @@ export async function POST(
     const { score = 2, xp = 20 } = body;
 
     const userId = await getGuestUserId();
-    saveStoryProgress(unitId, score, xp, userId);
+    await saveStoryProgress(unitId, score, xp, userId);
 
     return NextResponse.json({
       success: true,

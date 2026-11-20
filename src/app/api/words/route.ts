@@ -6,7 +6,7 @@ import { getGuestUserId } from '@/lib/session';
 export async function GET() {
   try {
     const userId = await getGuestUserId();
-    const progress = getAllWordProgress(userId);
+    const progress = await getAllWordProgress(userId);
     
     // Enrich word progress with full word details from words data
     const enriched = progress.map(p => {

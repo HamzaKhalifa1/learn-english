@@ -105,12 +105,12 @@ export async function GET(req: Request) {
     const found = curriculumMap.get(clean)!;
     const res = { ...found, isUnitWord: true };
     memoryCache.set(clean, res);
-    saveDictionaryCache(clean, found.meaningAr, found.phonetic, found.partOfSpeechAr);
+    await saveDictionaryCache(clean, found.meaningAr, found.phonetic, found.partOfSpeechAr);
     return NextResponse.json({ success: true, data: res });
   }
 
-  // 3. SQLite Database cache
-  const dbCached = getDictionaryCache(clean);
+  // 3. Database cache
+  const dbCached = await getDictionaryCache(clean);
   if (dbCached) {
     const res = {
       word: rawWord,
@@ -134,7 +134,7 @@ export async function GET(req: Request) {
       isUnitWord: false,
     };
     memoryCache.set(clean, res);
-    saveDictionaryCache(clean, storyEntry.meaningAr, storyEntry.phonetic, storyEntry.partOfSpeechAr);
+    await saveDictionaryCache(clean, storyEntry.meaningAr, storyEntry.phonetic, storyEntry.partOfSpeechAr);
     return NextResponse.json({ success: true, data: res });
   }
 
@@ -149,7 +149,7 @@ export async function GET(req: Request) {
       isUnitWord: false,
     };
     memoryCache.set(clean, res);
-    saveDictionaryCache(clean, online.meaningAr, online.phonetic);
+    await saveDictionaryCache(clean, online.meaningAr, online.phonetic);
     return NextResponse.json({ success: true, data: res });
   }
 

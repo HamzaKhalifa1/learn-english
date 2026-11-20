@@ -22,8 +22,8 @@ export async function POST(req: Request) {
     const unitId = scenario?.unitId || null;
     const xp = 30;
 
-    saveRoleplaySession(scenarioId, unitId, level, turnsCount || 4, targetWordsUsed || 0, xp, userId);
-    const user = getUser(userId);
+    await saveRoleplaySession(scenarioId, unitId, level, turnsCount || 4, targetWordsUsed || 0, xp, userId);
+    const user = await getUser(userId);
 
     return NextResponse.json({
       success: true,

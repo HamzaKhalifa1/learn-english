@@ -6,7 +6,7 @@ import { getGuestUserId } from '@/lib/session';
 export async function GET() {
   try {
     const userId = await getGuestUserId();
-    const completedScenarios = getCompletedRoleplayScenarios(userId);
+    const completedScenarios = await getCompletedRoleplayScenarios(userId);
     return NextResponse.json({
       success: true,
       data: {
