@@ -48,8 +48,8 @@ export default function Home() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/stats').then(r => r.json()),
-      fetch('/api/user').then(r => r.json()),
+      fetch('/api/stats', { cache: 'no-store' }).then(r => r.json()),
+      fetch('/api/user', { cache: 'no-store' }).then(r => r.json()),
     ]).then(([s, u]) => {
       setStats(s.data);
       setUser(u.data);

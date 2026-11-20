@@ -5,7 +5,14 @@ import { getOrCreateGuestUser, getGuestUserId } from '@/lib/session';
 export async function GET() {
   try {
     const user = await getOrCreateGuestUser();
-    return NextResponse.json({ success: true, data: user });
+    return NextResponse.json(
+      { success: true, data: user },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        },
+      }
+    );
   } catch (e) {
     return NextResponse.json({ success: false, error: String(e) }, { status: 500 });
   }

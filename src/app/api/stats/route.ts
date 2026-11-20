@@ -6,7 +6,14 @@ export async function GET() {
   try {
     const userId = await getGuestUserId();
     const stats = await getStats(userId);
-    return NextResponse.json({ success: true, data: stats });
+    return NextResponse.json(
+      { success: true, data: stats },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        },
+      }
+    );
   } catch (e) {
     return NextResponse.json({ success: false, error: String(e) }, { status: 500 });
   }
