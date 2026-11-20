@@ -1,0 +1,341 @@
+@import "tailwindcss";
+
+/* ── Custom Properties ─────────────────────────────────── */
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --border: rgba(0,0,0,0.07);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 12px 40px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.10), 0 24px 64px rgba(0,0,0,0.08);
+  --shadow-colored: 0 8px 32px rgba(99, 102, 241, 0.25);
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --indigo: #5c6ef8;
+  --indigo-dark: #4a5cf0;
+  --purple: #8b5cf6;
+  --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset & Base ─────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  background: var(--bg);
+  color: #1e293b;
+  font-family: var(--font-cairo), 'Cairo', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* ── Utility Classes ──────────────────────────────────── */
+.rtl { direction: rtl; }
+.ltr { direction: ltr; font-family: var(--font-inter), 'Inter', system-ui, sans-serif; }
+
+/* ── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ── Animations ───────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(92, 110, 248, 0.4); }
+  70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(92, 110, 248, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(92, 110, 248, 0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(92, 110, 248, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(92, 110, 248, 0.6); }
+}
+
+.animate-float { animation: float 3.5s ease-in-out infinite; }
+.animate-pulse-ring { animation: pulse-ring 2s infinite; }
+.animate-shimmer { animation: shimmer 2.5s linear infinite; }
+.animate-slide-up { animation: slide-up 0.4s ease-out; }
+.animate-bounce-gentle { animation: bounce-gentle 2s ease-in-out infinite; }
+.animate-glow { animation: glow-pulse 2s ease-in-out infinite; }
+
+/* ── Card Base ────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* ── Word Card ────────────────────────────────────────── */
+.word-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  position: relative;
+}
+
+.word-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(92, 110, 248, 0.2);
+}
+
+/* ── Option Buttons ───────────────────────────────────── */
+.option-btn {
+  transition: var(--transition);
+  cursor: pointer;
+  border: 2px solid #e8eaf0;
+  border-radius: var(--radius-md);
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.option-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(92,110,248,0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.option-btn:hover::before { opacity: 1; }
+
+.option-btn:hover {
+  transform: translateY(-1px) scale(1.01);
+  border-color: rgba(92, 110, 248, 0.4);
+  box-shadow: 0 4px 16px rgba(92, 110, 248, 0.15);
+}
+
+.option-btn.correct {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+  border-color: #22c55e !important;
+  color: #166534 !important;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.2) !important;
+}
+
+.option-btn.incorrect {
+  background: linear-gradient(135deg, #fff1f2 0%, #fee2e2 100%) !important;
+  border-color: #ef4444 !important;
+  color: #991b1b !important;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* ── Phonetic ─────────────────────────────────────────── */
+.phonetic {
+  font-family: 'Inter', 'Courier New', monospace;
+  color: #6b7280;
+  letter-spacing: 0.03em;
+}
+
+/* ── Glass Effect ─────────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ── Gradient Text ────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #5c6ef8 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Loading Skeleton ─────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #f0f2f8 0%, #e8eaf4 50%, #f0f2f8 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+  border-radius: 8px;
+}
+
+/* ── Level Badge Colors ───────────────────────────────── */
+.level-a1 { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+.level-a2 { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.level-b1 { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.level-b2 { background: #ede9fe; color: #5b21b6; border: 1px solid #ddd6fe; }
+.level-c1 { background: #fce7f3; color: #9d174d; border: 1px solid #fbcfe8; }
+.level-c2 { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+/* ── Progress Bar ─────────────────────────────────────── */
+.progress-bar {
+  background: #eef0f8;
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  animation: shimmer 2s linear infinite;
+}
+
+/* ── Navbar Active Tab ────────────────────────────────── */
+.nav-active {
+  background: linear-gradient(135deg, rgba(92, 110, 248, 0.12) 0%, rgba(139, 92, 246, 0.08) 100%);
+  color: var(--indigo);
+}
+
+/* ── Page Background Pattern ──────────────────────────── */
+.page-bg {
+  background-color: #f5f6fa;
+  background-image: radial-gradient(circle at 20% 20%, rgba(92, 110, 248, 0.04) 0%, transparent 60%),
+                    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.04) 0%, transparent 60%);
+  min-height: 100vh;
+}
+
+/* ── Buttons ──────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #5c6ef8 0%, #7c3aed 100%);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 14px 28px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(92, 110, 248, 0.35);
+  transition: var(--transition);
+  letter-spacing: 0.01em;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(92, 110, 248, 0.45);
+}
+
+.btn-primary:active { transform: scale(0.97); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: white;
+  color: var(--indigo);
+  border: 1.5px solid rgba(92, 110, 248, 0.25);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  background: rgba(92, 110, 248, 0.05);
+  border-color: rgba(92, 110, 248, 0.4);
+  transform: translateY(-1px);
+}
+
+/* ── XP Bar Styles ────────────────────────────────────── */
+.xp-bar-container {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+/* ── Word Visual ──────────────────────────────────────── */
+.word-visual {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Stage Indicators ─────────────────────────────────── */
+.stage-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: var(--transition);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.stage-dot.active {
+  background: linear-gradient(135deg, #5c6ef8, #8b5cf6);
+  box-shadow: 0 4px 16px rgba(92, 110, 248, 0.4);
+  color: white;
+}
+
+.stage-dot.done {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.stage-dot.pending {
+  background: #f0f2f8;
+  color: #94a3b8;
+  border: 2px solid #e2e8f0;
+}
+
+/* ── Focus styles ─────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--indigo);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ── Selection ────────────────────────────────────────── */
+::selection {
+  background: rgba(92, 110, 248, 0.2);
+  color: inherit;
+}
