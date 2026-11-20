@@ -1,6 +1,7 @@
 'use client';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { playTTS, stopTTS } from '@/lib/tts';
 import {
   X,
   Volume2,
@@ -68,15 +69,34 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
     scrollToBottom();
   }, [messages, isTyping]);
 
-  // SpeechSynthesis voice output
+  // Character Neural Voice based on persona / gender
+  const characterVoice = useMemo(() => {
+    const avatar = scenario.character.avatar || '';
+    const name = scenario.character.name.toLowerCase();
+    const isMale =
+      avatar.includes('👨') ||
+      avatar.includes('👦') ||
+      avatar.includes('‍♂️') ||
+      name.includes('adam') ||
+      name.includes('tariq') ||
+      name.includes('zaid') ||
+      name.includes('marco') ||
+      name.includes('leo');
+    return isMale ? 'en-US-GuyNeural' : 'en-US-JennyNeural';
+  }, [scenario]);
+
+  // Voice output using Microsoft Edge Natural Neural TTS
   const speakText = useCallback((text: string) => {
-    if (isMuted || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.95;
-    window.speechSynthesis.speak(utterance);
-  }, [isMuted]);
+    if (isMuted) return;
+    playTTS(text, { voice: characterVoice });
+  }, [isMuted, characterVoice]);
+
+  // Stop audio on unmount
+  useEffect(() => {
+    return () => {
+      stopTTS();
+    };
+  }, []);
 
   // Auto-speak initial greeting
   useEffect(() => {
@@ -264,14 +284,22 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
 
           <div className="flex items-center gap-1.5">
             <button
-              onClick={() => setIsMuted(prev => !prev)}
+              onClick={() => {
+                setIsMuted(prev => {
+                  if (!prev) stopTTS();
+                  return !prev;
+                });
+              }}
               title={isMuted ? 'تشغيل الصوت' : 'كتم الصوت'}
               className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
             >
               {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
             </button>
             <button
-              onClick={onClose}
+              onClick={() => {
+                stopTTS();
+                onClose();
+              }}
               className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
             >
               <X size={20} />

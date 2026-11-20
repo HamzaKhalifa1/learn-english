@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import { getLevelColor } from '@/lib/words';
+import { playTTS } from '@/lib/tts';
 
 interface WordProg {
   id: number;
@@ -144,13 +145,7 @@ export default function VocabularyPage() {
 
   const speakWord = (word: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utt = new SpeechSynthesisUtterance(word);
-      utt.lang = 'en-US';
-      utt.rate = 0.85;
-      window.speechSynthesis.speak(utt);
-    }
+    playTTS(word, { voice: 'en-US-JennyNeural' });
   };
 
   const getAccuracy = (w: WordProg) => {

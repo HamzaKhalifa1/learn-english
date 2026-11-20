@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import type { UnitStory, StoryQuestion } from '@/data/unitStories';
 import { getUnit } from '@/lib/words';
+import { playTTS, stopTTS } from '@/lib/tts';
 
 interface Props {
   unitId: string;
@@ -124,23 +125,17 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
       });
   }, [unitId]);
 
-  // Audio Playback
+  // Audio Playback using Microsoft Edge Natural Neural TTS
   const speakText = useCallback((text: string, onEnd?: () => void) => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const clean = text.replace(/["'()]/g, '');
-      const utt = new SpeechSynthesisUtterance(clean);
-      utt.lang = 'en-US';
-      utt.rate = 0.88;
-      if (onEnd) utt.onend = onEnd;
-      window.speechSynthesis.speak(utt);
-    }
+    const clean = text.replace(/["'()]/g, '');
+    playTTS(clean, {
+      voice: 'en-US-JennyNeural',
+      onEnd,
+    });
   }, []);
 
   const stopAudio = useCallback(() => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopTTS();
     setIsPlayingAudio(false);
     setActiveParagraphIdx(null);
   }, []);
@@ -148,9 +143,7 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
   // Cleanup audio on unmount
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopTTS();
     };
   }, []);
 

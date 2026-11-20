@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, CheckCircle2, XCircle, ArrowRight, Sparkles, Zap, Award, SkipForward } from 'lucide-react';
 import type { WordData } from '@/lib/words';
+import { playTTS } from '@/lib/tts';
 
 interface Props {
   unitTitle: string;
@@ -74,13 +75,7 @@ export default function UnitFastTrackQuiz({
   }, [currentWord, allUnitWords]);
 
   const speakWord = (text: string) => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = 'en-US';
-      utt.rate = 0.85;
-      window.speechSynthesis.speak(utt);
-    }
+    playTTS(text, { voice: 'en-US-JennyNeural' });
   };
 
   const handleSelect = (opt: string) => {

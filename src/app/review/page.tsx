@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Volume2, CheckCircle2, XCircle, ArrowRight, RotateCcw, Sparkles, BookOpen } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import { getWord, getLevelColor } from '@/lib/words';
+import { playTTS } from '@/lib/tts';
 
 interface WordProg {
   word_id: string;
@@ -47,13 +48,7 @@ function ReviewContent() {
   }, [customWordsParam]);
 
   const speakWord = (word: string) => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utt = new SpeechSynthesisUtterance(word);
-      utt.lang = 'en-US';
-      utt.rate = 0.85;
-      window.speechSynthesis.speak(utt);
-    }
+    playTTS(word, { voice: 'en-US-JennyNeural' });
   };
 
   const handleResult = async (correct: boolean) => {

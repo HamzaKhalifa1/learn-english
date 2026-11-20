@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, Mic, MicOff, ChevronRight, CheckCircle, XCircle, Sparkles, Check, ArrowRight } from 'lucide-react';
 import type { WordData } from '@/lib/words';
 import WordVisualCard from '@/components/WordVisualCard';
+import { playTTS } from '@/lib/tts';
 
 interface Props {
   word: WordData;
@@ -103,13 +104,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
   }, [stage, word, unitWords]);
 
   const speakText = useCallback((text: string) => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = 'en-US';
-      utt.rate = 0.85;
-      window.speechSynthesis.speak(utt);
-    }
+    playTTS(text, { voice: 'en-US-JennyNeural' });
   }, []);
 
   const speakWord = useCallback(() => {
