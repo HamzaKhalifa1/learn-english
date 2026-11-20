@@ -115,12 +115,15 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
     if (stage === 3) speakWord();
   }, [stage, speakWord]);
 
-  const advanceStage = async (correct = true) => {
+  const advanceStage = (correct = true, showOverlay = false) => {
     if (isAdvancingRef.current) return;
     isAdvancingRef.current = true;
-    setShowResult(correct);
+    if (showOverlay) {
+      setShowResult(correct);
+    }
 
-    await fetch('/api/words/progress', {
+    // Fire progress update optimistically in background (zero UI latency)
+    fetch('/api/words/progress', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -132,7 +135,9 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
         stage: stageRef.current,
         correct,
       }),
-    });
+    }).catch(console.error);
+
+    const delay = showOverlay ? 350 : 180;
 
     setTimeout(() => {
       setShowResult(null);
@@ -150,9 +155,9 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
         setWordCompleted(true);
         setTimeout(() => {
           onComplete(correct);
-        }, 1200);
+        }, 400);
       }
-    }, 900);
+    }, delay);
   };
 
   const startRecording = () => {
@@ -181,14 +186,14 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
     if (isAdvancingRef.current) return;
     const correct = sentenceAnswer.trim().toLowerCase().includes(word.word.toLowerCase());
     setSentenceFeedback(correct);
-    setTimeout(() => advanceStage(correct), 800);
+    setTimeout(() => advanceStage(correct, true), 300);
   };
 
   const handleQuizAnswer = (opt: string) => {
     if (selectedOption || isAdvancingRef.current) return;
     setSelectedOption(opt);
     const correct = opt === word.meaningAr;
-    setTimeout(() => advanceStage(correct), 1200);
+    setTimeout(() => advanceStage(correct, true), 380);
   };
 
   return (
@@ -260,10 +265,10 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
         ) : (
           <motion.div
             key={stage}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.25 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.15 }}
             className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
           >
 

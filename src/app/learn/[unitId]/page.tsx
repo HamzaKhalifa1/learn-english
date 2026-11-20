@@ -7,6 +7,7 @@ import UnitFastTrackQuiz from '@/components/UnitFastTrackQuiz';
 import InteractiveUnitStory from '@/components/InteractiveUnitStory';
 import Navbar from '@/components/Navbar';
 import type { Unit, WordData } from '@/lib/words';
+import { getCuratedWordVisual } from '@/lib/wordVisuals';
 import {
   RefreshCw,
   ChevronLeft,
@@ -43,6 +44,23 @@ function UnitContent() {
   const [showFastTrackQuiz, setShowFastTrackQuiz] = useState(false);
   const [showEntryGateModal, setShowEntryGateModal] = useState(false);
   const [showStoryModal, setShowStoryModal] = useState(false);
+
+  // Preload next word images in background for zero-latency instant transitions
+  useEffect(() => {
+    if (!unit?.words) return;
+    const candidates = [
+      unit.words[currentWordIdx + 1],
+      unit.words[currentWordIdx + 2],
+    ].filter(Boolean);
+
+    candidates.forEach(w => {
+      const curated = getCuratedWordVisual(w.word.trim().toLowerCase());
+      if (curated?.imageUrl) {
+        const img = new Image();
+        img.src = curated.imageUrl;
+      }
+    });
+  }, [currentWordIdx, unit]);
 
   useEffect(() => {
     Promise.all([
