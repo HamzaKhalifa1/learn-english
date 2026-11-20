@@ -26,6 +26,7 @@ export default function PlacementTest() {
   const [finished, setFinished] = useState(false);
   const [result, setResult] = useState<{ level: string } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   const [answers, setAnswers] = useState<{ questionId: string; correct: boolean; level: string }[]>([]);
   const [consecutiveWrong, setConsecutiveWrong] = useState(0);
@@ -73,6 +74,7 @@ export default function PlacementTest() {
       setShowExplanation(false);
 
       if (current + 1 >= questions.length || shouldStopEarly) {
+        setSubmitting(true);
         try {
           const res = await fetch('/api/placement', {
             method: 'POST',
@@ -87,23 +89,30 @@ export default function PlacementTest() {
           setResult(data.data ?? { level: 'A1' });
         } catch {
           setResult({ level: 'A1' });
+        } finally {
+          setSubmitting(false);
+          setFinished(true);
         }
-        setFinished(true);
       } else {
         setCurrent(c => c + 1);
         setSelected(null);
       }
-    }, 1200);
+    }, 500);
   };
 
-  if (loading) {
+  if (loading || submitting) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8fafc]">
-        <div className="text-center">
+        <div className="text-center p-6 max-w-sm mx-auto">
           <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-            🧠
+            {submitting ? '🎯' : '🧠'}
           </div>
-          <div className="text-slate-500 font-bold text-sm">جاري تحميل الاختبار...</div>
+          <div className="text-slate-800 font-bold text-base mb-1">
+            {submitting ? 'جاري تحليل إجاباتك وتحديد مستواك...' : 'جاري تحميل الاختبار...'}
+          </div>
+          {submitting && (
+            <p className="text-xs text-slate-400">نقوم بتجهيز وحدات التعلم المناسبة لمستواك بدقة</p>
+          )}
         </div>
       </div>
     );

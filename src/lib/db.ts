@@ -331,7 +331,17 @@ export async function markLowerLevelWordsAsKnown(
       total_attempts: 1,
     }));
     if (records.length > 0) {
-      await supabase.from('word_progress').upsert(records, { onConflict: 'user_id,word_id' });
+      // Chunk into batches of 100 for fast parallel execution
+      const CHUNK_SIZE = 100;
+      const chunks = [];
+      for (let i = 0; i < records.length; i += CHUNK_SIZE) {
+        chunks.push(records.slice(i, i + CHUNK_SIZE));
+      }
+      await Promise.all(
+        chunks.map(chunk =>
+          supabase!.from('word_progress').upsert(chunk, { onConflict: 'user_id,word_id' })
+        )
+      );
     }
     return;
   }
