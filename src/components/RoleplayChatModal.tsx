@@ -82,7 +82,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
       name.includes('zaid') ||
       name.includes('marco') ||
       name.includes('leo');
-    return isMale ? 'en-US-GuyNeural' : 'en-US-JennyNeural';
+    return isMale ? 'en-US-ChristopherNeural' : 'en-US-AriaNeural';
   }, [scenario]);
 
   // Voice output using Microsoft Edge Natural Neural TTS

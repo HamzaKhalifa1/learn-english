@@ -104,7 +104,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
   }, [stage, word, unitWords]);
 
   const speakText = useCallback((text: string) => {
-    playTTS(text, { voice: 'en-US-JennyNeural' });
+    playTTS(text, { voice: 'en-US-AriaNeural' });
   }, []);
 
   const speakWord = useCallback(() => {

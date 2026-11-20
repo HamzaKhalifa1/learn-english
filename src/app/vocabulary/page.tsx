@@ -145,7 +145,7 @@ export default function VocabularyPage() {
 
   const speakWord = (word: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    playTTS(word, { voice: 'en-US-JennyNeural' });
+    playTTS(word, { voice: 'en-US-AriaNeural' });
   };
 
   const getAccuracy = (w: WordProg) => {

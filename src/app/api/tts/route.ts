@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const rawText = searchParams.get('text') || '';
     const text = rawText.trim().slice(0, 500); // Limit length to 500 characters
-    const voice = searchParams.get('voice') || 'en-US-JennyNeural';
+    const voice = searchParams.get('voice') || 'en-US-AriaNeural';
 
     if (!text) {
       return NextResponse.json({ error: 'Text parameter is required' }, { status: 400 });
@@ -30,7 +30,8 @@ export async function GET(req: NextRequest) {
     }
 
     const tts = new MsEdgeTTS();
-    await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
+    // High-definition 96kbps 24kHz audio format (crystal clear studio fidelity)
+    await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
     const { audioStream } = tts.toStream(text);
 
     const buffer = await new Promise<Buffer>((resolve, reject) => {

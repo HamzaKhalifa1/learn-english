@@ -75,7 +75,7 @@ export default function UnitFastTrackQuiz({
   }, [currentWord, allUnitWords]);
 
   const speakWord = (text: string) => {
-    playTTS(text, { voice: 'en-US-JennyNeural' });
+    playTTS(text, { voice: 'en-US-AriaNeural' });
   };
 
   const handleSelect = (opt: string) => {

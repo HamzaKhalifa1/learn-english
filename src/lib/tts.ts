@@ -2,7 +2,7 @@
 let activeAudio: HTMLAudioElement | null = null;
 
 export interface TTSOptions {
-  voice?: 'en-US-JennyNeural' | 'en-US-GuyNeural' | string;
+  voice?: 'en-US-AriaNeural' | 'en-US-JennyNeural' | 'en-US-GuyNeural' | 'en-US-ChristopherNeural' | string;
   onStart?: () => void;
   onEnd?: () => void;
 }
@@ -20,7 +20,7 @@ export function playTTS(text: string, options?: TTSOptions) {
   // Stop any ongoing playback
   stopTTS();
 
-  const voice = options?.voice || 'en-US-JennyNeural';
+  const voice = options?.voice || 'en-US-AriaNeural';
   const url = `/api/tts?text=${encodeURIComponent(cleanText)}&voice=${encodeURIComponent(voice)}`;
 
   try {

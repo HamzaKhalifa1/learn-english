@@ -48,7 +48,7 @@ function ReviewContent() {
   }, [customWordsParam]);
 
   const speakWord = (word: string) => {
-    playTTS(word, { voice: 'en-US-JennyNeural' });
+    playTTS(word, { voice: 'en-US-AriaNeural' });
   };
 
   const handleResult = async (correct: boolean) => {

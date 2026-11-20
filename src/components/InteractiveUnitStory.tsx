@@ -129,7 +129,7 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
   const speakText = useCallback((text: string, onEnd?: () => void) => {
     const clean = text.replace(/["'()]/g, '');
     playTTS(clean, {
-      voice: 'en-US-JennyNeural',
+      voice: 'en-US-AriaNeural',
       onEnd,
     });
   }, []);
