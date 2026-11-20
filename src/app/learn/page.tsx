@@ -147,7 +147,7 @@ export default function LearnPage() {
   return (
     <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <div className="w-full max-w-2xl px-4 py-5">
+      <div className="w-full max-w-2xl lg:max-w-5xl px-4 lg:px-6 py-5">
         
         {/* Header with Level & Retake Button */}
         <div className="mb-6 flex items-center justify-between">
@@ -235,7 +235,7 @@ export default function LearnPage() {
                 </div>
 
                 {/* Units List */}
-                <div className="space-y-2.5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
                   {units.map((unit, unitIdx) => {
                     const { done, total, pct } = getUnitProgress(unit);
                     const isCompleted = done === total && total > 0;

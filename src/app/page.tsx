@@ -123,7 +123,7 @@ export default function Home() {
   return (
     <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <main className="w-full max-w-2xl px-4 py-5">
+      <main className="w-full max-w-2xl lg:max-w-5xl px-4 lg:px-6 py-5">
         
         {/* Top Header Card */}
         <div className="flex items-center justify-between mb-5">
@@ -199,7 +199,7 @@ export default function Home() {
 
         {/* 4 Stats Cards */}
         {stats && (
-          <div className="grid grid-cols-2 gap-3.5 mb-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-6">
             {[
               {
                 label: 'كلمة تعلمتها',
@@ -261,125 +261,126 @@ export default function Home() {
             <span className="text-xs text-slate-400 dark:text-slate-500">اختر وجهتك</span>
           </div>
 
-          {/* Primary Action: Learn */}
-          <Link
-            href="/learn"
-            className="flex items-center gap-3.5 bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-all group active:scale-[0.99]"
-          >
-            <div className="w-12 h-12 bg-gradient-to-tr from-indigo-500 to-indigo-600 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-indigo-100 dark:shadow-indigo-950 group-hover:scale-105 transition-transform flex-none">
-              <BookOpen size={22} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-1.5">
-                <span>وحدات الدروس والكلمات</span>
-                <span className="text-[10px] bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-300 px-2 py-0.2 rounded-full font-bold">الرئيسي</span>
-              </div>
-              <div className="text-xs text-slate-400 dark:text-slate-400 truncate mt-0.5">وحدات مرتبة حسب مستواك مع اختبارات سريعة</div>
-            </div>
-            <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors flex-none" size={18} />
-          </Link>
-
-          {/* Interactive Unit Stories */}
-          <Link
-            href="/learn"
-            className="flex items-center gap-3.5 bg-gradient-to-r from-teal-500/10 via-emerald-500/10 to-transparent bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-teal-100 dark:border-teal-900/50 hover:border-teal-300 dark:hover:border-teal-700 transition-all group active:scale-[0.99]"
-          >
-            <div className="w-12 h-12 bg-gradient-to-tr from-teal-500 to-emerald-500 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-teal-100 dark:shadow-teal-950 group-hover:scale-105 transition-transform flex-none">
-              <Sparkles size={22} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-1.5">
-                <span>قصص الوحدات التفاعلية</span>
-                <span className="text-[10px] bg-teal-100 dark:bg-teal-950/80 text-teal-800 dark:text-teal-300 px-2 py-0.2 rounded-full font-bold">جديد ✨ (+20 XP)</span>
-              </div>
-              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">قصص واقعية لترسيخ الكلمات مع قراءة صوتية وأسئلة فهم</div>
-            </div>
-            <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors flex-none" size={18} />
-          </Link>
-
-          {/* AI Roleplay Chat */}
-          <Link
-            href="/roleplay"
-            className="flex items-center gap-3.5 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-transparent bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-purple-100 dark:border-purple-900/50 hover:border-purple-300 dark:hover:border-purple-700 transition-all group active:scale-[0.99]"
-          >
-            <div className="w-12 h-12 bg-gradient-to-tr from-purple-500 to-pink-600 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-purple-100 dark:shadow-purple-950 group-hover:scale-105 transition-transform flex-none">
-              <MessageSquare size={22} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-1.5">
-                <span>المحادثات التفاعلية الموجهة</span>
-                <span className="text-[10px] bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 px-2 py-0.2 rounded-full font-bold">AI Chat 🤖 (+30 XP)</span>
-              </div>
-              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">تحدث مع شخصيات ذكية بالصوت والنص ومارس كلماتك في سيناريوهات واقعية</div>
-            </div>
-            <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex-none" size={18} />
-          </Link>
-
-          {/* Review Due Action (conditional or persistent) */}
-          {stats && stats.reviewDue > 0 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             <Link
-              href="/review"
-              className="flex items-center gap-3.5 bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-transparent bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-amber-200 dark:border-amber-900/50 hover:border-amber-300 dark:hover:border-amber-700 transition-all group active:scale-[0.99]"
+              href="/learn"
+              className="flex items-center gap-3.5 bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-all group active:scale-[0.99]"
             >
-              <div className="w-12 h-12 bg-gradient-to-tr from-amber-500 to-orange-500 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-amber-100 dark:shadow-amber-950 group-hover:scale-105 transition-transform flex-none">
-                <RotateCcw size={22} />
+              <div className="w-12 h-12 bg-gradient-to-tr from-indigo-500 to-indigo-600 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-indigo-100 dark:shadow-indigo-950 group-hover:scale-105 transition-transform flex-none">
+                <BookOpen size={22} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-1.5">
-                  <span>مراجعة اليوم المجدولة</span>
-                  <span className="text-[10px] bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 px-2 py-0.2 rounded-full font-bold">هام</span>
+                  <span>وحدات الدروس والكلمات</span>
+                  <span className="text-[10px] bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-300 px-2 py-0.2 rounded-full font-bold">الرئيسي</span>
                 </div>
-                <div className="text-xs text-amber-600 dark:text-amber-400 font-semibold mt-0.5">
-                  لديك {stats.reviewDue} كلمة تتطلب مراجعة لترسيخ الحفظ
-                </div>
+                <div className="text-xs text-slate-400 dark:text-slate-400 truncate mt-0.5">وحدات مرتبة حسب مستواك مع اختبارات سريعة</div>
               </div>
-              <ChevronRight className="text-amber-400 dark:text-amber-500 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors flex-none" size={18} />
+              <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors flex-none" size={18} />
             </Link>
-          ) : (
+
+            {/* Interactive Unit Stories */}
             <Link
-              href="/review"
-              className="flex items-center gap-3.5 bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-800 hover:border-amber-200 dark:hover:border-amber-700 transition-all group active:scale-[0.99]"
+              href="/learn"
+              className="flex items-center gap-3.5 bg-gradient-to-r from-teal-500/10 via-emerald-500/10 to-transparent bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-teal-100 dark:border-teal-900/50 hover:border-teal-300 dark:hover:border-teal-700 transition-all group active:scale-[0.99]"
             >
-              <div className="w-12 h-12 bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform flex-none">
-                <RotateCcw size={22} />
+              <div className="w-12 h-12 bg-gradient-to-tr from-teal-500 to-emerald-500 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-teal-100 dark:shadow-teal-950 group-hover:scale-105 transition-transform flex-none">
+                <Sparkles size={22} />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-bold text-slate-800 dark:text-white text-sm">مراجعة عامة</div>
-                <div className="text-xs text-slate-400 dark:text-slate-400 mt-0.5">تدرب على كلماتك السابقة بأسلوب البطاقات الذكية</div>
+                <div className="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-1.5">
+                  <span>قصص الوحدات التفاعلية</span>
+                  <span className="text-[10px] bg-teal-100 dark:bg-teal-950/80 text-teal-800 dark:text-teal-300 px-2 py-0.2 rounded-full font-bold">جديد ✨ (+20 XP)</span>
+                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">قصص واقعية لترسيخ الكلمات مع قراءة صوتية وأسئلة فهم</div>
               </div>
-              <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors flex-none" size={18} />
+              <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors flex-none" size={18} />
             </Link>
-          )}
 
-          {/* Vocabulary Bank */}
-          <Link
-            href="/vocabulary"
-            className="flex items-center gap-3.5 bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-800 hover:border-purple-200 dark:hover:border-purple-700 transition-all group active:scale-[0.99]"
-          >
-            <div className="w-12 h-12 bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform flex-none">
-              <Archive size={22} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="font-bold text-slate-800 dark:text-white text-sm">بنك المفردات</div>
-              <div className="text-xs text-slate-400 dark:text-slate-400 mt-0.5">تصفح وفلترة كل الكلمات المخزنة مع إظهار وإخفاء المعاني</div>
-            </div>
-            <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex-none" size={18} />
-          </Link>
+            {/* AI Roleplay Chat */}
+            <Link
+              href="/roleplay"
+              className="flex items-center gap-3.5 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-transparent bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-purple-100 dark:border-purple-900/50 hover:border-purple-300 dark:hover:border-purple-700 transition-all group active:scale-[0.99]"
+            >
+              <div className="w-12 h-12 bg-gradient-to-tr from-purple-500 to-pink-600 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-purple-100 dark:shadow-purple-950 group-hover:scale-105 transition-transform flex-none">
+                <MessageSquare size={22} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-1.5">
+                  <span>المحادثات التفاعلية الموجهة</span>
+                  <span className="text-[10px] bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 px-2 py-0.2 rounded-full font-bold">AI Chat 🤖 (+30 XP)</span>
+                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">تحدث مع شخصيات ذكية بالصوت والنص ومارس كلماتك في سيناريوهات واقعية</div>
+              </div>
+              <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex-none" size={18} />
+            </Link>
 
-          {/* Statistics */}
-          <Link
-            href="/stats"
-            className="flex items-center gap-3.5 bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-800 hover:border-emerald-200 dark:hover:border-emerald-700 transition-all group active:scale-[0.99]"
-          >
-            <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform flex-none">
-              <BarChart2 size={22} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="font-bold text-slate-800 dark:text-white text-sm">الإحصائيات والتحليلات</div>
-              <div className="text-xs text-slate-400 dark:text-slate-400 mt-0.5">معدل الدقة، تدرج المستويات، وتفاصيل أدائك</div>
-            </div>
-            <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors flex-none" size={18} />
-          </Link>
+            {/* Review Due Action (conditional or persistent) */}
+            {stats && stats.reviewDue > 0 ? (
+              <Link
+                href="/review"
+                className="flex items-center gap-3.5 bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-transparent bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-amber-200 dark:border-amber-900/50 hover:border-amber-300 dark:hover:border-amber-700 transition-all group active:scale-[0.99]"
+              >
+                <div className="w-12 h-12 bg-gradient-to-tr from-amber-500 to-orange-500 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-amber-100 dark:shadow-amber-950 group-hover:scale-105 transition-transform flex-none">
+                  <RotateCcw size={22} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-1.5">
+                    <span>مراجعة اليوم المجدولة</span>
+                    <span className="text-[10px] bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 px-2 py-0.2 rounded-full font-bold">هام</span>
+                  </div>
+                  <div className="text-xs text-amber-600 dark:text-amber-400 font-semibold mt-0.5">
+                    لديك {stats.reviewDue} كلمة تتطلب مراجعة لترسيخ الحفظ
+                  </div>
+                </div>
+                <ChevronRight className="text-amber-400 dark:text-amber-500 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors flex-none" size={18} />
+              </Link>
+            ) : (
+              <Link
+                href="/review"
+                className="flex items-center gap-3.5 bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-800 hover:border-amber-200 dark:hover:border-amber-700 transition-all group active:scale-[0.99]"
+              >
+                <div className="w-12 h-12 bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform flex-none">
+                  <RotateCcw size={22} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-slate-800 dark:text-white text-sm">مراجعة عامة</div>
+                  <div className="text-xs text-slate-400 dark:text-slate-400 mt-0.5">تدرب على كلماتك السابقة بأسلوب البطاقات الذكية</div>
+                </div>
+                <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors flex-none" size={18} />
+              </Link>
+            )}
+
+            {/* Vocabulary Bank */}
+            <Link
+              href="/vocabulary"
+              className="flex items-center gap-3.5 bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-800 hover:border-purple-200 dark:hover:border-purple-700 transition-all group active:scale-[0.99]"
+            >
+              <div className="w-12 h-12 bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform flex-none">
+                <Archive size={22} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-slate-800 dark:text-white text-sm">بنك المفردات</div>
+                <div className="text-xs text-slate-400 dark:text-slate-400 mt-0.5">تصفح وفلترة كل الكلمات المخزنة مع إظهار وإخفاء المعاني</div>
+              </div>
+              <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex-none" size={18} />
+            </Link>
+
+            {/* Statistics */}
+            <Link
+              href="/stats"
+              className="flex items-center gap-3.5 bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-800 hover:border-emerald-200 dark:hover:border-emerald-700 transition-all group active:scale-[0.99]"
+            >
+              <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform flex-none">
+                <BarChart2 size={22} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-slate-800 dark:text-white text-sm">الإحصائيات والتحليلات</div>
+                <div className="text-xs text-slate-400 dark:text-slate-400 mt-0.5">معدل الدقة، تدرج المستويات، وتفاصيل أدائك</div>
+              </div>
+              <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors flex-none" size={18} />
+            </Link>
+          </div>
         </div>
 
       </main>

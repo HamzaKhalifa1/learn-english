@@ -51,7 +51,7 @@ export default function Navbar() {
       {/* Desktop Top Nav */}
       <nav className="hidden md:block fixed top-0 left-0 right-0 z-50">
         <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex justify-center">
-          <div className="w-full max-w-2xl flex items-center justify-between px-4 h-16">
+          <div className="w-full max-w-5xl flex items-center justify-between px-6 h-16">
             
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
