@@ -26,6 +26,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
   const [stage, setStage] = useState(1);
   const [showResult, setShowResult] = useState<boolean | null>(null);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [wrongOptions, setWrongOptions] = useState<string[]>([]);
   const [isRecording, setIsRecording] = useState(false);
   const [recordingScore, setRecordingScore] = useState<number | null>(null);
   const [quizOptions, setQuizOptions] = useState<string[]>([]);
@@ -37,6 +38,15 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
   const isAdvancingRef = useRef(false);
   const stageRef = useRef(stage);
   useEffect(() => { stageRef.current = stage; }, [stage]);
+
+  // Reset stage-specific feedback & wrong options when word or stage changes
+  useEffect(() => {
+    setWrongOptions([]);
+    setSentenceFeedback(null);
+    setSelectedOption(null);
+    setShowResult(null);
+    isAdvancingRef.current = false;
+  }, [word.id, stage]);
 
   // Register word in DB on mount
   useEffect(() => {
@@ -137,11 +147,12 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
       }),
     }).catch(console.error);
 
-    const delay = showOverlay ? 350 : 180;
+    const delay = showOverlay ? 750 : 180;
 
     setTimeout(() => {
       setShowResult(null);
       setSelectedOption(null);
+      setWrongOptions([]);
       setSentenceAnswer('');
       setSentenceFeedback(null);
       setRecordingScore(null);
@@ -155,7 +166,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
         setWordCompleted(true);
         setTimeout(() => {
           onComplete(correct);
-        }, 400);
+        }, 450);
       }
     }, delay);
   };
@@ -184,16 +195,52 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
 
   const checkSentence = () => {
     if (isAdvancingRef.current) return;
-    const correct = sentenceAnswer.trim().toLowerCase().includes(word.word.toLowerCase());
+    const cleaned = sentenceAnswer.trim().toLowerCase();
+    const target = word.word.trim().toLowerCase();
+    const correct = cleaned === target || cleaned.includes(target);
+
+    isAdvancingRef.current = true;
     setSentenceFeedback(correct);
-    setTimeout(() => advanceStage(correct, true), 300);
+
+    if (correct) {
+      // CORRECT: Show rewarding checkmark for 750ms, then advance
+      setShowResult(true);
+      setTimeout(() => {
+        advanceStage(true, false);
+      }, 750);
+    } else {
+      // WRONG: Show brief retry animation for 650ms, then let learner retry (DO NOT ADVANCE)
+      setShowResult(false);
+      setTimeout(() => {
+        setShowResult(null);
+        isAdvancingRef.current = false;
+      }, 650);
+    }
   };
 
   const handleQuizAnswer = (opt: string) => {
-    if (selectedOption || isAdvancingRef.current) return;
+    if (selectedOption || isAdvancingRef.current || wrongOptions.includes(opt)) return;
+
+    isAdvancingRef.current = true;
     setSelectedOption(opt);
     const correct = opt === word.meaningAr;
-    setTimeout(() => advanceStage(correct, true), 380);
+
+    if (correct) {
+      // CORRECT: Show rewarding checkmark for 750ms, then advance
+      setShowResult(true);
+      setTimeout(() => {
+        advanceStage(true, false);
+      }, 750);
+    } else {
+      // WRONG: Mark option as wrong, show brief cross for 650ms, then allow retry (DO NOT ADVANCE)
+      setShowResult(false);
+      setWrongOptions(prev => [...prev, opt]);
+      setTimeout(() => {
+        setShowResult(null);
+        setSelectedOption(null);
+        isAdvancingRef.current = false;
+      }, 650);
+    }
   };
 
   return (
@@ -545,10 +592,13 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                   className="w-full border-2 border-slate-200 dark:border-slate-700 focus:border-indigo-500 dark:focus:border-indigo-400 bg-white dark:bg-slate-800 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-2xl px-4 py-3.5 text-base md:text-lg ltr outline-none mb-3 text-center shadow-xs dark:shadow-inner font-bold transition-all"
                   placeholder="اكتب الكلمة الناقصة هنا..."
                   value={sentenceAnswer}
-                  onChange={e => setSentenceAnswer(e.target.value)}
+                  onChange={e => {
+                    setSentenceAnswer(e.target.value);
+                    if (sentenceFeedback !== null) setSentenceFeedback(null);
+                  }}
                   onKeyDown={e => e.key === 'Enter' && !isAdvancingRef.current && checkSentence()}
                   dir="ltr"
-                  disabled={sentenceFeedback !== null}
+                  disabled={sentenceFeedback === true || (isAdvancingRef.current && showResult === true)}
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck={false}
@@ -564,7 +614,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                         : 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-800/60'
                     }`}
                   >
-                    {sentenceFeedback ? '✅ إجابة صحيحة ومتقنة!' : `❌ الكلمة الصحيحة هي: "${word.word}"`}
+                    {sentenceFeedback ? '✅ إجابة صحيحة ومتقنة!' : '❌ الكلمة غير صحيحة، حاول كتابتها مرة أخرى'}
                   </motion.div>
                 )}
 
@@ -607,11 +657,15 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                   {quizOptions.map((opt, i) => {
                     const isCorrect = opt === word.meaningAr;
                     const isSelected = opt === selectedOption;
+                    const isPreviouslyWrong = wrongOptions.includes(opt);
 
                     let btnStyle = 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/40 text-slate-800 dark:text-slate-100';
                     let badgeStyle = 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300';
 
-                    if (selectedOption) {
+                    if (isPreviouslyWrong) {
+                      btnStyle = 'border-rose-200 dark:border-rose-900/60 bg-rose-50/50 dark:bg-rose-950/20 text-rose-400 dark:text-rose-400 opacity-50 cursor-not-allowed';
+                      badgeStyle = 'bg-rose-100 dark:bg-rose-900/80 text-rose-600 dark:text-rose-300';
+                    } else if (selectedOption) {
                       if (isCorrect) {
                         btnStyle = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 shadow-sm';
                         badgeStyle = 'bg-emerald-500 text-white';
@@ -628,7 +682,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                       <button
                         key={opt}
                         onClick={() => handleQuizAnswer(opt)}
-                        disabled={!!selectedOption}
+                        disabled={!!selectedOption || isAdvancingRef.current || isPreviouslyWrong}
                         className={`w-full text-right px-4 py-3.5 rounded-2xl border-2 font-bold flex items-center justify-between transition-all duration-200 active:scale-[0.99] ${btnStyle}`}
                       >
                         <div className="flex items-center gap-3">
@@ -643,6 +697,9 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                         )}
                         {selectedOption && isSelected && !isCorrect && (
                           <XCircle size={22} className="text-rose-500 dark:text-rose-400 flex-none" />
+                        )}
+                        {isPreviouslyWrong && (
+                          <XCircle size={18} className="text-rose-400 flex-none" />
                         )}
                       </button>
                     );
@@ -661,9 +718,15 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                   >
                     {selectedOption === word.meaningAr
                       ? '🎉 ممتاز! إجابة صحيحة'
-                      : `❌ الإجابة الصحيحة: ${word.meaningAr}`
+                      : '❌ إجابة غير صحيحة، حاول اختيار معنى آخر'
                     }
                   </motion.div>
+                )}
+
+                {!selectedOption && wrongOptions.length > 0 && (
+                  <div className="mt-3 text-center text-xs text-rose-500 dark:text-rose-400 font-bold flex items-center justify-center gap-1">
+                    <span>حاول مجدداً باختيار المعنى الصحيح من الخيارات المتبقية 👆</span>
+                  </div>
                 )}
               </div>
             )}
@@ -671,21 +734,36 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
             {/* ── Overlay animation for correct/wrong flash ──────────────────── */}
             {showResult !== null && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.7 }}
+                initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 flex items-center justify-center rounded-3xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-xs pointer-events-none z-30"
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.18 }}
+                className="absolute inset-0 flex items-center justify-center rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs pointer-events-none z-30"
               >
                 {showResult ? (
-                  <div className="flex flex-col items-center">
-                    <CheckCircle className="text-emerald-500 drop-shadow-lg" size={80} />
-                    <span className="text-emerald-700 font-black text-lg mt-2">ممتاز!</span>
-                  </div>
+                  <motion.div
+                    initial={{ scale: 0.75 }}
+                    animate={{ scale: [0.75, 1.15, 1] }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    className="flex flex-col items-center"
+                  >
+                    <CheckCircle className="text-emerald-500 drop-shadow-lg" size={84} />
+                    <span className="text-emerald-700 dark:text-emerald-400 font-black text-2xl mt-3 tracking-wide">
+                      ممتاز!
+                    </span>
+                  </motion.div>
                 ) : (
-                  <div className="flex flex-col items-center">
-                    <XCircle className="text-rose-500 drop-shadow-lg" size={80} />
-                    <span className="text-rose-700 font-black text-lg mt-2">حاول ثانية</span>
-                  </div>
+                  <motion.div
+                    initial={{ x: 0 }}
+                    animate={{ x: [-10, 10, -8, 8, -4, 4, 0] }}
+                    transition={{ duration: 0.4 }}
+                    className="flex flex-col items-center"
+                  >
+                    <XCircle className="text-rose-500 drop-shadow-lg" size={84} />
+                    <span className="text-rose-600 dark:text-rose-400 font-black text-2xl mt-3 tracking-wide">
+                      حاول ثانية
+                    </span>
+                  </motion.div>
                 )}
               </motion.div>
             )}
