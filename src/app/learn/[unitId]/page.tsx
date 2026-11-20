@@ -177,18 +177,18 @@ function UnitContent() {
   };
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc]">
+    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
       <div className="text-center">
-        <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
+        <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
           📖
         </div>
-        <div className="text-slate-500 font-bold text-sm">جاري التحميل...</div>
+        <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري التحميل...</div>
       </div>
     </div>
   );
 
   if (!unit) return (
-    <div className="min-h-screen flex items-center justify-center text-slate-400 bg-[#f8fafc]">
+    <div className="min-h-screen flex items-center justify-center text-slate-400 dark:text-slate-500 bg-[#f8fafc] dark:bg-[#0b0f19]">
       الوحدة المطلوبة غير موجودة
     </div>
   );
@@ -208,19 +208,19 @@ function UnitContent() {
 
   if (unitDone) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-indigo-50/60 via-white to-purple-50/60">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-indigo-50/60 via-white to-purple-50/60 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="max-w-md w-full text-center bg-white rounded-3xl p-8 shadow-xl border border-slate-100"
+          className="max-w-md w-full text-center bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border border-slate-100 dark:border-slate-800"
         >
-          <div className="w-20 h-20 mx-auto mb-4 bg-emerald-50 rounded-3xl flex items-center justify-center text-4xl shadow-inner border border-emerald-100">
+          <div className="w-20 h-20 mx-auto mb-4 bg-emerald-50 dark:bg-emerald-950/60 rounded-3xl flex items-center justify-center text-4xl shadow-inner border border-emerald-100 dark:border-emerald-800/60">
             🎉
           </div>
-          <h2 className="text-2xl font-black text-slate-800 mb-1">أحسنت صنعاً!</h2>
-          <p className="text-slate-500 text-sm mb-1">أكملت جميع كلمات وحدة</p>
-          <p className="text-indigo-600 font-black text-xl mb-2">&quot;{unit.titleAr}&quot;</p>
-          <p className="text-slate-400 mb-6 text-xs">
+          <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-1">أحسنت صنعاً!</h2>
+          <p className="text-slate-500 dark:text-slate-400 text-sm mb-1">أكملت جميع كلمات وحدة</p>
+          <p className="text-indigo-600 dark:text-indigo-400 font-black text-xl mb-2">&quot;{unit.titleAr}&quot;</p>
+          <p className="text-slate-400 dark:text-slate-400 mb-6 text-xs">
             أتقنت جميع الـ {unit.words.length} كلمات بنجاح 🌟
           </p>
 
@@ -228,7 +228,7 @@ function UnitContent() {
             {/* Primary Action: Read Interactive Story */}
             <button
               onClick={() => setShowStoryModal(true)}
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-3.5 rounded-2xl font-black text-sm shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2 active:scale-95"
+              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-3.5 rounded-2xl font-black text-sm shadow-lg shadow-indigo-200 dark:shadow-indigo-950 transition-all flex items-center justify-center gap-2 active:scale-95"
             >
               <BookOpen size={18} />
               <span>اقرأ قصة الوحدة التفاعلية 📖 (+20 XP)</span>
@@ -237,7 +237,7 @@ function UnitContent() {
             {/* AI Roleplay Chat for Unit */}
             <button
               onClick={() => router.push(`/roleplay?unit=${unit.id}`)}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3.5 rounded-2xl font-black text-sm shadow-lg shadow-purple-200 transition-all flex items-center justify-center gap-2 active:scale-95"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3.5 rounded-2xl font-black text-sm shadow-lg shadow-purple-200 dark:shadow-purple-950 transition-all flex items-center justify-center gap-2 active:scale-95"
             >
               <MessageSquare size={18} />
               <span>خوض محادثة AI حول الوحدة 💬 (+30 XP)</span>
@@ -248,14 +248,14 @@ function UnitContent() {
                 setUnitDone(false);
                 setCurrentWordIdx(0);
               }}
-              className="w-full bg-indigo-50 border border-indigo-200 text-indigo-700 py-3 rounded-2xl font-bold text-xs hover:bg-indigo-100 transition-all flex items-center justify-center gap-2 active:scale-95"
+              className="w-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 py-3 rounded-2xl font-bold text-xs hover:bg-indigo-100 dark:hover:bg-indigo-900 transition-all flex items-center justify-center gap-2 active:scale-95"
             >
               <span>تصفح ومراجعة كلمات الوحدة</span>
             </button>
 
             <button
               onClick={handleReStudy}
-              className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3.5 rounded-2xl font-bold text-sm hover:from-amber-600 hover:to-orange-600 transition-all shadow-md shadow-amber-200 flex items-center justify-center gap-2 active:scale-95"
+              className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3.5 rounded-2xl font-bold text-sm hover:from-amber-600 hover:to-orange-600 transition-all shadow-md shadow-amber-200 dark:shadow-amber-950 flex items-center justify-center gap-2 active:scale-95"
             >
               <RefreshCw size={17} />
               <span>إعادة دراسة واختبار الوحدة من الصفر</span>
@@ -264,13 +264,13 @@ function UnitContent() {
             <div className="flex gap-2.5 mt-1">
               <button
                 onClick={() => router.push('/vocabulary')}
-                className="flex-1 bg-purple-50 text-purple-700 border border-purple-200 py-3 rounded-2xl font-bold hover:bg-purple-100 transition-colors text-xs active:scale-95"
+                className="flex-1 bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 py-3 rounded-2xl font-bold hover:bg-purple-100 transition-colors text-xs active:scale-95"
               >
                 بنك المفردات
               </button>
               <button
                 onClick={() => router.push('/learn')}
-                className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-2xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-colors text-xs shadow-md shadow-indigo-100 active:scale-95"
+                className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-2xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-colors text-xs shadow-md shadow-indigo-100 dark:shadow-indigo-950 active:scale-95"
               >
                 الوحدات الأخرى 🚀
               </button>
@@ -300,7 +300,7 @@ function UnitContent() {
   const nextWord = currentWordIdx + 1 < unit.words.length ? unit.words[currentWordIdx + 1] : null;
 
   return (
-    <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] flex flex-col items-center">
+    <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
       <div className="w-full max-w-2xl px-4 py-5">
 
@@ -317,7 +317,7 @@ function UnitContent() {
                 initial={{ scale: 0.9, opacity: 0, y: 16 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 16 }}
-                className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center relative"
+                className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-100 dark:border-slate-800 text-center relative"
               >
                 <button
                   onClick={() => setShowEntryGateModal(false)}

@@ -268,11 +268,11 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
   if (loading) {
     return (
       <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl">
-          <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-100 dark:border-slate-800">
+          <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
             📖
           </div>
-          <div className="text-slate-600 font-bold text-sm">جاري تحضير القصة التفاعلية...</div>
+          <div className="text-slate-600 dark:text-slate-300 font-bold text-sm">جاري تحضير القصة التفاعلية...</div>
         </div>
       </div>
     );
@@ -281,12 +281,12 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
   if (error || !story) {
     return (
       <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl border border-slate-100 dark:border-slate-800">
           <div className="text-4xl mb-3">⚠️</div>
-          <div className="text-slate-700 font-bold text-sm mb-4">{error || 'تعذر تحميل القصة'}</div>
+          <div className="text-slate-700 dark:text-slate-200 font-bold text-sm mb-4">{error || 'تعذر تحميل القصة'}</div>
           <button
             onClick={onClose}
-            className="w-full bg-slate-100 text-slate-700 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-200"
+            className="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700"
           >
             إغلاق
           </button>
@@ -301,26 +301,26 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
         initial={{ opacity: 0, scale: 0.95, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 my-auto overflow-hidden relative flex flex-col max-h-[92vh]"
+        className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 dark:border-slate-800 my-auto overflow-hidden relative flex flex-col max-h-[92vh]"
       >
         
         {/* ── Top Header ────────────────────────────────────────────── */}
-        <div className="p-4 md:p-5 border-b border-slate-100 flex items-center justify-between flex-none bg-slate-50/70">
+        <div className="p-4 md:p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between flex-none bg-slate-50/70 dark:bg-slate-950/70">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-md shadow-indigo-200 flex-none text-lg">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-md shadow-indigo-200 dark:shadow-indigo-950 flex-none text-lg">
               📖
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
+                <span className="text-xs font-black text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/80 px-2 py-0.5 rounded-md border border-indigo-100 dark:border-indigo-800/60">
                   قصة الوحدة
                 </span>
-                <span className="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 flex items-center gap-1">
+                <span className="text-[11px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/80 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800/60 flex items-center gap-1">
                   <Sparkles size={11} className="fill-amber-500" />
                   <span>+20 XP</span>
                 </span>
               </div>
-              <h2 className="text-sm md:text-base font-black text-slate-800 mt-0.5">
+              <h2 className="text-sm md:text-base font-black text-slate-800 dark:text-white mt-0.5">
                 {story.titleAr}
               </h2>
             </div>
@@ -331,7 +331,7 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
               stopAudio();
               onClose();
             }}
-            className="w-8 h-8 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors flex items-center justify-center flex-none"
+            className="w-8 h-8 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors flex items-center justify-center flex-none"
             title="إغلاق"
           >
             <X size={18} />
@@ -339,14 +339,14 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
         </div>
 
         {/* ── Toolbar: Audio Narration & Translation Toggle ─────────── */}
-        <div className="px-5 py-3 bg-white border-b border-slate-100 flex items-center justify-between gap-2 flex-wrap flex-none">
+        <div className="px-5 py-3 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 flex-wrap flex-none">
           {/* Audio narration button */}
           <button
             onClick={playStoryNarration}
             className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 shadow-xs ${
               isPlayingAudio
-                ? 'bg-rose-50 text-rose-700 border border-rose-200 animate-pulse'
-                : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-100'
+                ? 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 animate-pulse'
+                : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-100 dark:shadow-indigo-950'
             }`}
           >
             {isPlayingAudio ? (
@@ -367,8 +367,8 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
             onClick={() => setShowAllTranslations(!showAllTranslations)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${
               showAllTranslations
-                ? 'bg-amber-50 text-amber-800 border-amber-300'
-                : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-700'
+                : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
             }`}
           >
             {showAllTranslations ? (
@@ -390,12 +390,12 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
           
           {/* English story title banner */}
           <div className="text-center pb-2">
-            <h1 className="text-2xl md:text-3xl font-black text-slate-800 ltr tracking-tight mb-1">
+            <h1 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white ltr tracking-tight mb-1">
               {story.title}
             </h1>
-            <p className="text-xs text-slate-500 font-semibold flex items-center justify-center gap-1.5 flex-wrap">
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold flex items-center justify-center gap-1.5 flex-wrap">
               <span>انقر على أي كلمة في القصة للاستماع لنطقها ورؤية معناها العربي 💡</span>
-              <span className="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-bold">
+              <span className="text-[10px] bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full font-bold border border-indigo-200/50 dark:border-indigo-800/50">
                 البنفسجي: كلمات وحدتك
               </span>
             </p>
@@ -415,12 +415,12 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
                   key={pIdx}
                   className={`p-4 md:p-5 rounded-2xl transition-all duration-300 border ${
                     isCurrentPlaying
-                      ? 'bg-indigo-50/70 border-indigo-200 ring-2 ring-indigo-300/60 shadow-sm'
-                      : 'bg-slate-50/50 border-slate-100 hover:border-slate-200'
+                      ? 'bg-indigo-50/70 dark:bg-indigo-950/60 border-indigo-200 dark:border-indigo-700 ring-2 ring-indigo-300/60 shadow-sm'
+                      : 'bg-slate-50/50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700'
                   }`}
                 >
                   {/* English paragraph */}
-                  <div className="text-base md:text-lg ltr leading-relaxed text-slate-800 font-medium">
+                  <div className="text-base md:text-lg ltr leading-relaxed text-slate-800 dark:text-slate-100 font-medium">
                     {words.map((w, wIdx) => {
                       const clean = w.toLowerCase().replace(/[^a-z0-9]/g, '');
                       if (!clean) return <span key={wIdx}>{w} </span>;
@@ -435,7 +435,7 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
                               setSelectedWord({ ...found, isUnitWord: true });
                               speakText(found.word);
                             }}
-                            className="inline-block cursor-pointer font-bold text-indigo-700 bg-indigo-100/70 hover:bg-indigo-200 px-1.5 py-0.5 rounded-md transition-all mx-0.5 shadow-2xs hover:scale-105 active:scale-95"
+                            className="inline-block cursor-pointer font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-100/70 dark:bg-indigo-950/80 hover:bg-indigo-200 dark:hover:bg-indigo-900 px-1.5 py-0.5 rounded-md transition-all mx-0.5 shadow-2xs hover:scale-105 active:scale-95 border border-indigo-200/50 dark:border-indigo-800/50"
                             title="كلمة من الوحدة - انقر لمعرفة المعنى والنطق"
                           >
                             {w}{' '}
@@ -447,7 +447,7 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
                         <span
                           key={wIdx}
                           onClick={() => handleGeneralWordClick(w)}
-                          className="inline-block cursor-pointer hover:text-indigo-600 hover:bg-indigo-50/70 px-1 py-0.2 rounded transition-all hover:scale-105 active:scale-95"
+                          className="inline-block cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50/70 dark:hover:bg-indigo-950/60 px-1 py-0.2 rounded transition-all hover:scale-105 active:scale-95"
                           title="انقر للاستماع للنطق ورؤية المعنى"
                         >
                           {w}{' '}
@@ -457,17 +457,17 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
                   </div>
 
                   {/* Paragraph audio playback mini-button */}
-                  <div className="mt-2.5 pt-2 border-t border-slate-200/50 flex items-center justify-between text-xs">
+                  <div className="mt-2.5 pt-2 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between text-xs">
                     <button
                       onClick={() => speakText(pText)}
-                      className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-indigo-600 transition-colors"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-400 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                     >
                       <Volume2 size={13} />
                       <span>استمع للفقرة</span>
                     </button>
 
                     {showAllTranslations && pArabic && (
-                      <span className="text-[10px] text-slate-400 font-bold">عربي</span>
+                      <span className="text-[10px] text-slate-400 dark:text-slate-400 font-bold">عربي</span>
                     )}
                   </div>
 
@@ -476,7 +476,7 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
-                      className="mt-2 text-xs md:text-sm text-slate-600 font-medium leading-relaxed bg-white/80 p-3 rounded-xl border border-slate-100"
+                      className="mt-2 text-xs md:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed bg-white/80 dark:bg-slate-900/80 p-3 rounded-xl border border-slate-100 dark:border-slate-800"
                     >
                       {pArabic}
                     </motion.div>
@@ -488,16 +488,16 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
 
           {/* ── Comprehension Questions Section ────────────────────── */}
           {story.questions && story.questions.length > 0 && (
-            <div className="mt-8 pt-6 border-t border-slate-200">
+            <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-black border border-amber-200">
+                <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 flex items-center justify-center font-black border border-amber-200 dark:border-amber-800/60">
                   ❓
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-slate-800">
+                  <h3 className="text-base font-black text-slate-800 dark:text-white">
                     أسئلة الفهم والاستيعاب
                   </h3>
-                  <p className="text-xs text-slate-400 font-semibold">
+                  <p className="text-xs text-slate-400 dark:text-slate-400 font-semibold">
                     أجب على السؤالين لتأكيد فهمك للقصة ونيل نقاط الـ XP
                   </p>
                 </div>
@@ -511,12 +511,12 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
                   return (
                     <div
                       key={q.id}
-                      className="bg-white rounded-2xl p-4 md:p-5 border border-slate-200 shadow-xs"
+                      className="bg-white dark:bg-slate-900 rounded-2xl p-4 md:p-5 border border-slate-200 dark:border-slate-800 shadow-xs"
                     >
-                      <div className="flex items-center gap-2 text-xs font-black text-indigo-600 mb-1">
+                      <div className="flex items-center gap-2 text-xs font-black text-indigo-600 dark:text-indigo-400 mb-1">
                         <span>السؤال {qIdx + 1}</span>
                       </div>
-                      <div className="text-sm md:text-base font-bold text-slate-800 mb-1 ltr">
+                      <div className="text-sm md:text-base font-bold text-slate-800 dark:text-white mb-1 ltr">
                         {q.question}
                       </div>
                       <div className="text-xs text-slate-500 font-medium mb-3">

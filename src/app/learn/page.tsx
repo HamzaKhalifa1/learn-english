@@ -124,12 +124,12 @@ export default function LearnPage() {
   const userLevelIndex = LEVEL_ORDER.indexOf(userLevel.substring(0, 2).toUpperCase());
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc]">
+    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
       <div className="text-center">
-        <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
+        <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
           📚
         </div>
-        <div className="text-slate-500 font-bold text-sm">جاري تحميل الوحدات...</div>
+        <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري تحميل الوحدات...</div>
       </div>
     </div>
   );
@@ -145,19 +145,19 @@ export default function LearnPage() {
     }));
 
   return (
-    <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] flex flex-col items-center">
+    <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
       <div className="w-full max-w-2xl px-4 py-5">
         
         {/* Header with Level & Retake Button */}
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-black text-slate-800 flex items-center gap-2">
+            <h1 className="text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2">
               <span>📖</span>
               <span>وحدات التعلم</span>
             </h1>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-slate-400 text-xs font-semibold">مستواك الحالي:</span>
+              <span className="text-slate-400 dark:text-slate-400 text-xs font-semibold">مستواك الحالي:</span>
               <span className={`text-xs font-black px-2.5 py-0.5 rounded-full ${getLevelColor(userLevel)}`}>
                 {userLevel} • {LEVEL_LABELS[userLevel] || userLevel}
               </span>
@@ -168,7 +168,7 @@ export default function LearnPage() {
             onClick={handleRetakePlacement}
             disabled={retakingTest}
             title="إعادة اختبار تحديد المستوى"
-            className="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-600 hover:text-indigo-600 border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
           >
             <RefreshCw size={13} className={retakingTest ? 'animate-spin' : ''} />
             <span>إعادة الامتحان</span>
@@ -211,22 +211,22 @@ export default function LearnPage() {
                     <span className={`text-xs font-black px-2.5 py-0.5 rounded-lg ${getLevelColor(level)}`}>
                       {level}
                     </span>
-                    <span className="text-sm font-bold text-slate-700">{label}</span>
+                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{label}</span>
                   </div>
 
                   <div>
                     {isLevelLocked ? (
-                      <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full flex items-center gap-1 border border-slate-200">
+                      <span className="text-[11px] font-bold text-slate-400 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full flex items-center gap-1 border border-slate-200 dark:border-slate-700">
                         <Lock size={11} />
                         <span>أكمل المستوى السابق</span>
                       </span>
                     ) : levelPct === 100 ? (
-                      <span className="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full flex items-center gap-1 border border-emerald-200">
-                        <CheckCircle2 size={12} className="text-emerald-600" />
+                      <span className="text-[11px] font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-full flex items-center gap-1 border border-emerald-200 dark:border-emerald-800/60">
+                        <CheckCircle2 size={12} className="text-emerald-600 dark:text-emerald-400" />
                         <span>مكتمل بالكامل 100%</span>
                       </span>
                     ) : (
-                      <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full flex items-center gap-1 border border-indigo-100">
+                      <span className="text-[11px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 rounded-full flex items-center gap-1 border border-indigo-100 dark:border-indigo-800/60">
                         <span>{doneWordsInLevel}/{totalWordsInLevel} كلمة</span>
                         <span>({levelPct}%)</span>
                       </span>
@@ -260,12 +260,12 @@ export default function LearnPage() {
                           }}
                           role="button"
                           tabIndex={isLocked ? -1 : 0}
-                          className={`block bg-white rounded-2xl p-4 border transition-all cursor-pointer ${
+                          className={`block bg-white dark:bg-slate-900 rounded-2xl p-4 border transition-all cursor-pointer ${
                             isLocked
-                              ? 'opacity-55 cursor-not-allowed pointer-events-none border-slate-100 bg-slate-50/50'
+                              ? 'opacity-55 cursor-not-allowed pointer-events-none border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50'
                               : isCompleted
-                              ? 'border-emerald-100 hover:border-emerald-300 hover:shadow-md'
-                              : 'border-slate-100 hover:border-indigo-300 hover:shadow-md active:scale-[0.99]'
+                              ? 'border-emerald-100 dark:border-emerald-900/50 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md'
+                              : 'border-slate-100 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-md active:scale-[0.99]'
                           }`}
                         >
                           <div className="flex items-center gap-3.5">
@@ -273,19 +273,19 @@ export default function LearnPage() {
                             {/* Unit Status Icon */}
                             <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-none shadow-xs transition-colors ${
                               isCompleted
-                                ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                                ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/60'
                                 : isLocked
-                                ? 'bg-slate-100 text-slate-400 border border-slate-200'
+                                ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700'
                                 : done > 0
-                                ? 'bg-indigo-50 text-indigo-600 border border-indigo-100'
-                                : 'bg-slate-50 text-slate-500 border border-slate-100'
+                                ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800/60'
+                                : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-100 dark:border-slate-700'
                             }`}>
                               {isCompleted ? (
-                                <CheckCircle2 size={24} className="text-emerald-500 fill-emerald-50" />
+                                <CheckCircle2 size={24} className="text-emerald-500 fill-emerald-50 dark:fill-emerald-950" />
                               ) : isLocked ? (
                                 <Lock size={18} className="text-slate-400" />
                               ) : done > 0 ? (
-                                <BookOpen size={20} className="text-indigo-600" />
+                                <BookOpen size={20} className="text-indigo-600 dark:text-indigo-400" />
                               ) : (
                                 <span>📖</span>
                               )}
@@ -294,26 +294,26 @@ export default function LearnPage() {
                             {/* Unit Info & Clean Progress Bar */}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-2">
-                                <div className="font-bold text-slate-800 text-sm truncate">
+                                <div className="font-bold text-slate-800 dark:text-white text-sm truncate">
                                   {unit.titleAr}
                                 </div>
                                 <div className="text-xs font-bold flex-none">
                                   {isCompleted ? (
-                                    <span className="text-emerald-600 font-black">100%</span>
+                                    <span className="text-emerald-600 dark:text-emerald-400 font-black">100%</span>
                                   ) : done > 0 ? (
-                                    <span className="text-indigo-600 font-bold">{done}/{total}</span>
+                                    <span className="text-indigo-600 dark:text-indigo-400 font-bold">{done}/{total}</span>
                                   ) : (
-                                    <span className="text-slate-400 font-medium">{total} كلمات</span>
+                                    <span className="text-slate-400 dark:text-slate-400 font-medium">{total} كلمات</span>
                                   )}
                                 </div>
                               </div>
 
-                              <div className="text-xs text-slate-400 ltr truncate mt-0.5">
+                              <div className="text-xs text-slate-400 dark:text-slate-400 ltr truncate mt-0.5">
                                 {unit.title}
                               </div>
 
                               {/* Progress Track */}
-                              <div className="mt-2 h-2 bg-slate-100 rounded-full overflow-hidden relative">
+                              <div className="mt-2 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
                                 <div
                                   className={`h-full rounded-full transition-all duration-500 ${
                                     isCompleted

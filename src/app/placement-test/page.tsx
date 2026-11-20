@@ -135,7 +135,7 @@ export default function PlacementTest() {
     }).filter(s => s.total > 0);
 
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-[#f8fafc]">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-[#f8fafc] dark:bg-[#0b0f19]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -148,12 +148,12 @@ export default function PlacementTest() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-              className="w-20 h-20 mx-auto mb-3 bg-gradient-to-tr from-amber-400 to-orange-500 text-white rounded-3xl flex items-center justify-center text-4xl shadow-xl shadow-orange-200"
+              className="w-20 h-20 mx-auto mb-3 bg-gradient-to-tr from-amber-400 to-orange-500 text-white rounded-3xl flex items-center justify-center text-4xl shadow-xl shadow-orange-200 dark:shadow-orange-950"
             >
               🏆
             </motion.div>
-            <h1 className="text-2xl font-black text-slate-800 mb-1">اكتمل الاختبار بنجاح!</h1>
-            <p className="text-slate-400 text-xs font-semibold">
+            <h1 className="text-2xl font-black text-slate-800 dark:text-white mb-1">اكتمل الاختبار بنجاح!</h1>
+            <p className="text-slate-400 dark:text-slate-400 text-xs font-semibold">
               أجبت على {score} من {answers.length} سؤال بشكل صحيح
             </p>
           </div>
@@ -163,13 +163,13 @@ export default function PlacementTest() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
-            className="bg-white rounded-3xl p-6 mb-4 text-center border border-slate-100 shadow-md"
+            className="bg-white dark:bg-slate-900 rounded-3xl p-6 mb-4 text-center border border-slate-100 dark:border-slate-800 shadow-md"
           >
-            <div className="text-xs font-bold text-slate-400 mb-2">مستواك المحدد بناءً على إجاباتك:</div>
+            <div className="text-xs font-bold text-slate-400 dark:text-slate-400 mb-2">مستواك المحدد بناءً على إجاباتك:</div>
             <div className={`inline-block px-7 py-2.5 rounded-2xl text-3xl font-black mb-2 ${color}`}>
               {result.level}
             </div>
-            <div className="text-lg font-bold text-slate-700">{label}</div>
+            <div className="text-lg font-bold text-slate-700 dark:text-slate-200">{label}</div>
           </motion.div>
 
           {/* Per-level breakdown */}
@@ -177,11 +177,11 @@ export default function PlacementTest() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-white rounded-3xl p-5 mb-5 border border-slate-100 shadow-sm"
+            className="bg-white dark:bg-slate-900 rounded-3xl p-5 mb-5 border border-slate-100 dark:border-slate-800 shadow-sm"
           >
             <div className="flex items-center gap-2 mb-3.5">
-              <BarChart3 size={17} className="text-indigo-600" />
-              <span className="text-xs font-bold text-slate-700">تفاصيل الأداء حسب المستوى</span>
+              <BarChart3 size={17} className="text-indigo-600 dark:text-indigo-400" />
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-200">تفاصيل الأداء حسب المستوى</span>
             </div>
             <div className="space-y-2.5">
               {levelStats.map(s => (
@@ -190,7 +190,7 @@ export default function PlacementTest() {
                     {s.level}
                   </span>
                   <div className="flex-1">
-                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${s.pct}%` }}
@@ -199,7 +199,7 @@ export default function PlacementTest() {
                       />
                     </div>
                   </div>
-                  <span className={`text-xs font-bold min-w-[48px] text-left ${s.passed ? 'text-emerald-600' : 'text-rose-500'}`}>
+                  <span className={`text-xs font-bold min-w-[48px] text-left ${s.passed ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500'}`}>
                     {s.correct}/{s.total}
                     {s.passed ? ' ✓' : ' ✗'}
                   </span>
@@ -209,7 +209,7 @@ export default function PlacementTest() {
           </motion.div>
 
           {/* Description */}
-          <p className="text-slate-400 text-center mb-5 text-xs font-medium leading-relaxed">
+          <p className="text-slate-400 dark:text-slate-400 text-center mb-5 text-xs font-medium leading-relaxed">
             تم فتح الوحدات المناسبة لمستواك، واحتساب المستويات السابقة كمكتملة تلقائياً لتوفير وقتك.
           </p>
 
@@ -218,7 +218,7 @@ export default function PlacementTest() {
             onClick={() => {
               window.location.href = '/';
             }}
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3.5 rounded-2xl font-bold text-base hover:from-indigo-700 hover:to-purple-700 active:scale-95 transition-all shadow-lg shadow-indigo-200 flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3.5 rounded-2xl font-bold text-base hover:from-indigo-700 hover:to-purple-700 active:scale-95 transition-all shadow-lg shadow-indigo-200 dark:shadow-indigo-950 flex items-center justify-center gap-2"
           >
             <span>ابدأ مسار التعلم الآن</span>
             <ArrowRight size={18} />
@@ -236,23 +236,23 @@ export default function PlacementTest() {
   const currentLevelIdx = LEVEL_ORDER.indexOf(q.level);
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] p-4 flex flex-col justify-center">
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0b0f19] p-4 flex flex-col justify-center">
       <div className="max-w-2xl mx-auto w-full">
         
         {/* Top header */}
         <div className="mb-5">
           <div className="flex justify-between items-center mb-2 text-xs">
-            <div className="flex items-center gap-1.5 font-bold text-slate-700">
-              <Brain size={16} className="text-indigo-600" />
+            <div className="flex items-center gap-1.5 font-bold text-slate-700 dark:text-slate-200">
+              <Brain size={16} className="text-indigo-600 dark:text-indigo-400" />
               <span>اختبار تحديد المستوى التفاعلي</span>
             </div>
-            <span className="text-slate-400 font-bold">
+            <span className="text-slate-400 dark:text-slate-400 font-bold">
               السؤال {current + 1} من {questions.length}
             </span>
           </div>
 
           {/* Progress bar */}
-          <div className="h-2 bg-slate-100 rounded-full overflow-hidden mb-3">
+          <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mb-3">
             <motion.div
               className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
               initial={{ width: 0 }}
@@ -302,11 +302,11 @@ export default function PlacementTest() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25 }}
-            className="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-xl relative overflow-hidden"
+            className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800 shadow-xl relative overflow-hidden"
           >
             {/* Type & Level badge */}
             <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1 rounded-xl text-xs font-bold text-slate-600">
+              <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300">
                 <span>{typeInfo.emoji}</span>
                 <span>{typeInfo.label}</span>
               </div>
@@ -316,10 +316,10 @@ export default function PlacementTest() {
             </div>
 
             {/* Question text */}
-            <h2 className="text-xl md:text-2xl font-black text-slate-800 mb-1.5 ltr leading-relaxed">
+            <h2 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white mb-1.5 ltr leading-relaxed">
               {q.question}
             </h2>
-            <p className="text-slate-400 text-xs md:text-sm mb-6 leading-relaxed font-medium">
+            <p className="text-slate-400 dark:text-slate-400 text-xs md:text-sm mb-6 leading-relaxed font-medium">
               {q.questionAr}
             </p>
 
@@ -331,19 +331,19 @@ export default function PlacementTest() {
                 const hasAnswered = selected !== null;
                 const optionLetter = ['A', 'B', 'C', 'D'][i] ?? `${i + 1}`;
 
-                let btnStyle = 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-800';
-                let badgeStyle = 'bg-slate-100 text-slate-600';
+                let btnStyle = 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/90 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/50 dark:hover:bg-slate-700/60 text-slate-800 dark:text-white';
+                let badgeStyle = 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300';
 
                 if (hasAnswered) {
                   if (isCorrect) {
-                    btnStyle = 'border-emerald-500 bg-emerald-50 text-emerald-900 shadow-sm';
+                    btnStyle = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 shadow-sm';
                     badgeStyle = 'bg-emerald-500 text-white';
                   } else if (isSelected) {
-                    btnStyle = 'border-rose-500 bg-rose-50 text-rose-900 shadow-sm';
+                    btnStyle = 'border-rose-500 bg-rose-50 dark:bg-rose-950/60 text-rose-900 dark:text-rose-200 shadow-sm';
                     badgeStyle = 'bg-rose-500 text-white';
                   } else {
-                    btnStyle = 'border-slate-100 bg-slate-50/50 text-slate-400 opacity-40';
-                    badgeStyle = 'bg-slate-200 text-slate-400';
+                    btnStyle = 'border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 text-slate-400 opacity-40';
+                    badgeStyle = 'bg-slate-200 dark:bg-slate-800 text-slate-400';
                   }
                 }
 

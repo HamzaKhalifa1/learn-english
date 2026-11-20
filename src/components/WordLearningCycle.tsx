@@ -210,14 +210,14 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                     isDone
                       ? 'bg-emerald-500 text-white shadow-sm'
                       : isCurrent
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white scale-110 shadow-md shadow-indigo-300 ring-4 ring-indigo-100'
-                      : 'bg-white text-slate-400 border border-slate-200'
+                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white scale-110 shadow-md shadow-indigo-300 dark:shadow-indigo-950 ring-4 ring-indigo-100 dark:ring-indigo-900/60'
+                      : 'bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
                   }`}
                 >
                   {isDone ? <Check size={16} strokeWidth={3} /> : <span>{s.emoji}</span>}
                 </button>
                 <span className={`text-[10px] font-bold mt-1 transition-colors ${
-                  isCurrent ? 'text-indigo-600' : isDone ? 'text-emerald-600' : 'text-slate-400'
+                  isCurrent ? 'text-indigo-600 dark:text-indigo-400' : isDone ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-400'
                 }`}>
                   {s.label}
                 </span>
@@ -225,7 +225,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
 
               {idx < STAGES.length - 1 && (
                 <div className={`h-1 flex-1 mx-1.5 -mt-3.5 rounded-full transition-colors duration-300 ${
-                  s.id < stage || wordCompleted ? 'bg-emerald-400' : 'bg-slate-200'
+                  s.id < stage || wordCompleted ? 'bg-emerald-400' : 'bg-slate-200 dark:bg-slate-700'
                 }`} />
               )}
             </div>
@@ -242,17 +242,17 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-3xl p-8 text-center border border-slate-100 shadow-xl"
+            className="bg-white dark:bg-slate-900 rounded-3xl p-8 text-center border border-slate-100 dark:border-slate-800 shadow-xl"
           >
-            <div className="w-20 h-20 mx-auto mb-4 bg-emerald-50 rounded-full flex items-center justify-center text-4xl shadow-inner border border-emerald-100 animate-bounce-gentle">
+            <div className="w-20 h-20 mx-auto mb-4 bg-emerald-50 dark:bg-emerald-950/60 rounded-full flex items-center justify-center text-4xl shadow-inner border border-emerald-100 dark:border-emerald-800/60 animate-bounce-gentle">
               {lastCorrect ? '🎉' : '👏'}
             </div>
-            <div className="text-3xl font-black text-slate-800 mb-1 ltr">{word.word}</div>
-            <div className="text-indigo-600 text-lg font-bold mb-4">{word.meaningAr}</div>
-            <div className="text-emerald-600 font-black text-xl mb-1">
+            <div className="text-3xl font-black text-slate-800 dark:text-white mb-1 ltr">{word.word}</div>
+            <div className="text-indigo-600 dark:text-indigo-400 text-lg font-bold mb-4">{word.meaningAr}</div>
+            <div className="text-emerald-600 dark:text-emerald-400 font-black text-xl mb-1">
               {lastCorrect ? 'أحسنت! تم إتقان الكلمة بنجاح ✓' : 'عمل رائع! استمر في التقدم 💪'}
             </div>
-            <div className="text-slate-400 text-xs mt-2 flex items-center justify-center gap-1.5">
+            <div className="text-slate-400 dark:text-slate-400 text-xs mt-2 flex items-center justify-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
               <span>جاري الانتقال للكلمة التالية...</span>
             </div>
@@ -264,7 +264,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25 }}
-            className="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
+            className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
           >
 
             {/* ── STAGE 1 — RECOGNITION ──────────────────────────────────── */}

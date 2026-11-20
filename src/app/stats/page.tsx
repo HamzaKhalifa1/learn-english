@@ -39,12 +39,12 @@ export default function StatsPage() {
 
   if (!stats) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8fafc]">
+      <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
         <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
+          <div className="w-16 h-16 mx-auto mb-4 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-100 dark:border-emerald-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
             📊
           </div>
-          <div className="text-slate-500 font-bold text-sm">جاري تحميل الإحصائيات...</div>
+          <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري تحميل الإحصائيات...</div>
         </div>
       </div>
     );
@@ -60,13 +60,13 @@ export default function StatsPage() {
   ];
 
   return (
-    <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] flex flex-col items-center">
+    <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
       <div className="w-full max-w-2xl px-4 py-5">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
-          <h1 className="text-2xl font-black text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2">
             <span>📊</span>
             <span>لوحة الإحصائيات والتحليلات</span>
           </h1>
@@ -75,7 +75,7 @@ export default function StatsPage() {
             onClick={handleRetakeTest}
             disabled={resetting}
             title="إعادة اختبار تحديد المستوى"
-            className="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-600 hover:text-indigo-600 border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
           >
             <RefreshCw size={13} className={resetting ? 'animate-spin' : ''} />
             <span>إعادة الامتحان</span>
@@ -95,25 +95,25 @@ export default function StatsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
-              className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm transition-all hover:shadow-md"
+              className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-100 dark:border-slate-800 shadow-sm transition-all hover:shadow-md"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-2xl">{c.icon}</span>
-                <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
+                <span className="text-[10px] font-bold text-slate-400 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-slate-100 dark:border-slate-700">
                   {c.badge}
                 </span>
               </div>
-              <div className="text-xl font-black text-slate-800 mb-0.5">{c.value}</div>
-              <div className="text-xs font-bold text-slate-600">{c.label}</div>
-              <div className="text-[10px] text-slate-400 mt-0.5">{c.sub}</div>
+              <div className="text-xl font-black text-slate-800 dark:text-white mb-0.5">{c.value}</div>
+              <div className="text-xs font-bold text-slate-600 dark:text-slate-300">{c.label}</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-400 mt-0.5">{c.sub}</div>
             </motion.div>
           ))}
         </div>
 
         {/* Progress Breakdown */}
-        <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm mb-6">
-          <h2 className="font-black text-sm text-slate-800 mb-4 flex items-center gap-2">
-            <Target size={16} className="text-indigo-600" />
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-100 dark:border-slate-800 shadow-sm mb-6">
+          <h2 className="font-black text-sm text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+            <Target size={16} className="text-indigo-600 dark:text-indigo-400" />
             <span>تقدم إتقان المفردات</span>
           </h2>
           <div className="space-y-4">
@@ -135,10 +135,10 @@ export default function StatsPage() {
               return (
                 <div key={item.label}>
                   <div className="flex justify-between text-xs mb-1.5 font-bold">
-                    <span className="text-slate-600">{item.label}</span>
-                    <span className="text-slate-800">{item.value} / {item.max} ({pct}%)</span>
+                    <span className="text-slate-600 dark:text-slate-300">{item.label}</span>
+                    <span className="text-slate-800 dark:text-white">{item.value} / {item.max} ({pct}%)</span>
                   </div>
-                  <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <motion.div
                       className={`h-full bg-gradient-to-r ${item.gradient} rounded-full`}
                       initial={{ width: 0 }}

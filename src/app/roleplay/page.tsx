@@ -104,7 +104,7 @@ function RoleplayContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-800 pb-28 md:pt-20">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-[#0b0f19] dark:via-[#0b0f19] dark:to-[#0b0f19] text-slate-800 dark:text-slate-100 pb-28 md:pt-20">
       <Navbar />
 
       <main className="w-full max-w-2xl mx-auto px-4 pt-6 md:pt-4">
@@ -139,18 +139,18 @@ function RoleplayContent() {
 
         {/* ── Search Input ────────────────────────────────────────────── */}
         <div className="relative mb-4">
-          <Search size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="ابحث عن وحدة، موضوع، أو كلمة مستهدفة (مثال: Health, Food, Success)..."
-            className="w-full bg-white border border-slate-200/90 rounded-2xl py-3 pr-11 pl-10 text-xs md:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 shadow-2xs transition-all"
+            className="w-full bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-2xl py-3 pr-11 pl-10 text-xs md:text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-950 shadow-2xs transition-all"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 p-1"
             >
               <X size={15} />
             </button>
@@ -159,7 +159,7 @@ function RoleplayContent() {
 
         {/* ── Level Filter Tabs ───────────────────────────────────────── */}
         <div className="flex items-center justify-between gap-2 mb-5 overflow-x-auto pb-1 no-scrollbar">
-          <div className="flex items-center gap-1.5 bg-white p-1 rounded-2xl border border-slate-200/80 shadow-2xs flex-none">
+          <div className="flex items-center gap-1.5 bg-white dark:bg-slate-900 p-1 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs flex-none">
             {LEVEL_TABS.map(tab => {
               const active = selectedLevel === tab;
               const count = levelCounts[tab] || 0;
@@ -170,13 +170,13 @@ function RoleplayContent() {
                   className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1 ${
                     active
                       ? 'bg-indigo-600 text-white shadow-xs'
-                      : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
                   }`}
                 >
                   <span>{tab}</span>
                   <span
                     className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                      active ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-400'
+                      active ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-300'
                     }`}
                   >
                     {count}
@@ -186,7 +186,7 @@ function RoleplayContent() {
             })}
           </div>
 
-          <div className="text-xs font-bold text-slate-400 flex-none hidden sm:block">
+          <div className="text-xs font-bold text-slate-400 dark:text-slate-400 flex-none hidden sm:block">
             {completedScenarios.length} من {ROLEPLAY_SCENARIOS.length} مكتمل
           </div>
         </div>
@@ -194,10 +194,10 @@ function RoleplayContent() {
         {/* ── Scenarios List ─────────────────────────────────────────── */}
         <div className="space-y-3.5">
           {filteredScenarios.length === 0 ? (
-            <div className="bg-white rounded-3xl p-10 text-center border border-slate-200/80 shadow-xs">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-10 text-center border border-slate-200/80 dark:border-slate-800 shadow-xs">
               <div className="text-4xl mb-3">🔍</div>
-              <h3 className="font-black text-slate-800 text-base mb-1">لم نجد محادثة مطابقة</h3>
-              <p className="text-xs text-slate-400">
+              <h3 className="font-black text-slate-800 dark:text-white text-base mb-1">لم نجد محادثة مطابقة</h3>
+              <p className="text-xs text-slate-400 dark:text-slate-400">
                 جرّب البحث بكلمة أخرى أو اختر تبويباً مختلفاً للمستوى.
               </p>
             </div>
@@ -214,56 +214,56 @@ function RoleplayContent() {
                   onClick={() => setActiveScenario(scenario)}
                   role="button"
                   tabIndex={0}
-                  className="w-full bg-white rounded-3xl p-4 md:p-5 border border-slate-200/80 shadow-xs hover:shadow-md hover:border-indigo-200 transition-all cursor-pointer group active:scale-[0.99] text-right relative overflow-hidden"
+                  className="w-full bg-white dark:bg-slate-900 rounded-3xl p-4 md:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-700 transition-all cursor-pointer group active:scale-[0.99] text-right relative overflow-hidden"
                 >
                   <div className="flex items-start gap-4">
                     {/* Character Avatar */}
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-slate-100 to-indigo-50 border border-slate-200 flex items-center justify-center text-3xl shadow-2xs group-hover:scale-105 transition-transform flex-none">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-slate-100 to-indigo-50 dark:from-slate-800 dark:to-indigo-950/60 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-3xl shadow-2xs group-hover:scale-105 transition-transform flex-none">
                       {scenario.character.avatar}
                     </div>
 
                     {/* Scenario Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
-                        <span className="text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">
+                        <span className="text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/80 px-2 py-0.5 rounded-lg border border-indigo-100 dark:border-indigo-800/60">
                           {scenario.level}
                         </span>
-                        <h3 className="font-extrabold text-slate-800 text-base">
+                        <h3 className="font-extrabold text-slate-800 dark:text-white text-base">
                           {scenario.titleAr}
                         </h3>
                         {isCompleted && (
-                          <span className="text-[10px] bg-emerald-50 text-emerald-700 font-black px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
-                            <CheckCircle2 size={11} className="text-emerald-600" />
+                          <span className="text-[10px] bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 font-black px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/60 flex items-center gap-1">
+                            <CheckCircle2 size={11} className="text-emerald-600 dark:text-emerald-400" />
                             <span>مكتملة (+30 XP)</span>
                           </span>
                         )}
                       </div>
 
-                      <div className="text-xs text-slate-400 font-medium ltr mb-2">
+                      <div className="text-xs text-slate-400 dark:text-slate-400 font-medium ltr mb-2">
                         {scenario.title} · with {scenario.character.name} (
                         {scenario.character.roleAr || scenario.character.role})
                       </div>
 
-                      <div className="text-xs text-slate-500 font-semibold line-clamp-1 mb-2.5">
+                      <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold line-clamp-1 mb-2.5">
                         {scenario.descriptionAr}
                       </div>
 
                       {/* Target words preview chips */}
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1">
-                          <Target size={11} className="text-indigo-500" />
+                        <span className="text-[10px] text-slate-400 dark:text-slate-400 font-bold flex items-center gap-1">
+                          <Target size={11} className="text-indigo-500 dark:text-indigo-400" />
                           <span>الكلمات المستهدفة ({scenario.targetWords.length}):</span>
                         </span>
                         {scenario.targetWords.slice(0, 5).map(w => (
                           <span
                             key={w}
-                            className="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-md"
+                            className="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded-md"
                           >
                             {w}
                           </span>
                         ))}
                         {scenario.targetWords.length > 5 && (
-                          <span className="text-[10px] text-slate-400 font-bold">
+                          <span className="text-[10px] text-slate-400 dark:text-slate-400 font-bold">
                             +{scenario.targetWords.length - 5}
                           </span>
                         )}

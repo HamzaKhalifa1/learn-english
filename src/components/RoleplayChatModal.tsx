@@ -255,28 +255,28 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col h-[92vh] max-h-[820px] overflow-hidden relative"
+        className="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 flex flex-col h-[92vh] max-h-[820px] overflow-hidden relative"
       >
         {/* ── Top Bar Header ─────────────────────────────────────────── */}
-        <div className="p-4 border-b border-slate-100 bg-white/95 backdrop-blur-sm flex items-center justify-between flex-none z-10 shadow-2xs">
+        <div className="p-4 border-b border-slate-100 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm flex items-center justify-between flex-none z-10 shadow-2xs">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-100 to-purple-100 border border-indigo-200/60 flex items-center justify-center text-2xl shadow-inner flex-none">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-100 to-purple-100 dark:from-indigo-950 dark:to-purple-950 border border-indigo-200/60 dark:border-indigo-800/60 flex items-center justify-center text-2xl shadow-inner flex-none">
               {scenario.character.avatar}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="font-black text-slate-800 text-sm md:text-base">
+                <h2 className="font-black text-slate-800 dark:text-white text-sm md:text-base">
                   {scenario.character.name}
                 </h2>
-                <span className="text-[10px] bg-indigo-50 text-indigo-700 font-bold px-2 py-0.5 rounded-full border border-indigo-100">
+                <span className="text-[10px] bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 font-bold px-2 py-0.5 rounded-full border border-indigo-100 dark:border-indigo-800/60">
                   {scenario.level}
                 </span>
-                <span className="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                <span className="text-[10px] bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-full flex items-center gap-1 border border-emerald-200/60 dark:border-emerald-800/60">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   مباشر
                 </span>
               </div>
-              <div className="text-xs text-slate-400 font-semibold mt-0.5">
+              <div className="text-xs text-slate-400 dark:text-slate-400 font-semibold mt-0.5">
                 {scenario.character.role} · {scenario.titleAr}
               </div>
             </div>
@@ -291,7 +291,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                 });
               }}
               title={isMuted ? 'تشغيل الصوت' : 'كتم الصوت'}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+              className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
             </button>
@@ -300,7 +300,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                 stopTTS();
                 onClose();
               }}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               <X size={20} />
             </button>
@@ -308,18 +308,18 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
         </div>
 
         {/* ── Vocabulary Mission Progress Bar ────────────────────────── */}
-        <div className="bg-slate-50/90 border-b border-slate-150 px-4 py-2.5 flex-none">
+        <div className="bg-slate-50/90 dark:bg-slate-950/80 border-b border-slate-150 dark:border-slate-800 px-4 py-2.5 flex-none">
           <div className="flex items-center justify-between text-xs mb-1.5">
-            <span className="font-extrabold text-slate-700 flex items-center gap-1.5">
+            <span className="font-extrabold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
               <span>🎯 مهام الكلمات المستهدفة:</span>
-              <span className="text-indigo-600 font-black">
+              <span className="text-indigo-600 dark:text-indigo-400 font-black">
                 {allUsedTargetWords.length} من {scenario.targetWords.length}
               </span>
-              <span className="text-[10px] text-slate-400 font-normal hidden sm:inline">
+              <span className="text-[10px] text-slate-400 dark:text-slate-400 font-normal hidden sm:inline">
                 (انقر على أي كلمة لمعرفة معناها ونطقها 💡)
               </span>
             </span>
-            <span className="text-[11px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">
+            <span className="text-[11px] bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 font-bold px-2 py-0.5 rounded-full border border-amber-200/60 dark:border-amber-800/60">
               +30 XP عند الإكمال
             </span>
           </div>
@@ -348,17 +348,17 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                   }}
                   className={`flex-none text-[11px] font-bold px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 border active:scale-95 cursor-pointer ${
                     isUsed
-                      ? 'bg-emerald-50 text-emerald-700 border-emerald-300 shadow-2xs'
+                      ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700 shadow-2xs'
                       : isSelected
-                      ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs ring-2 ring-indigo-200'
-                      : 'bg-white text-slate-600 hover:text-indigo-600 hover:border-indigo-200 border-slate-200 shadow-2xs'
+                      ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs ring-2 ring-indigo-200 dark:ring-indigo-800'
+                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-700 border-slate-200 dark:border-slate-700 shadow-2xs'
                   }`}
                   title={`${word} - انقر للاستماع والمعنى`}
                 >
                   {isUsed && (
                     <CheckCircle2
                       size={12}
-                      className={isSelected ? 'text-white' : 'text-emerald-600'}
+                      className={isSelected ? 'text-white' : 'text-emerald-600 dark:text-emerald-400'}
                     />
                   )}
                   <span>{word}</span>
@@ -451,7 +451,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
         </AnimatePresence>
 
         {/* ── Chat Messages Stream ───────────────────────────────────── */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-5 space-y-4 bg-gradient-to-b from-white to-slate-50/50">
+        <div className="flex-1 overflow-y-auto p-4 md:p-5 space-y-4 bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950">
           {messages.map(msg => {
             const isUser = msg.sender === 'user';
 
@@ -464,7 +464,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
               >
                 <div className={`flex gap-2.5 max-w-[85%] ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
                   {!isUser && (
-                    <div className="w-8 h-8 rounded-xl bg-indigo-100 flex items-center justify-center text-lg flex-none mt-1 shadow-2xs">
+                    <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 flex items-center justify-center text-lg flex-none mt-1 shadow-2xs">
                       {scenario.character.avatar}
                     </div>
                   )}
@@ -475,7 +475,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                       className={`p-3.5 md:p-4 rounded-2xl shadow-2xs text-sm md:text-base leading-relaxed ${
                         isUser
                           ? 'bg-indigo-600 text-white rounded-br-xs font-medium ltr'
-                          : 'bg-white text-slate-800 border border-slate-200/80 rounded-bl-xs font-medium ltr'
+                          : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200/80 dark:border-slate-700 rounded-bl-xs font-medium ltr'
                       }`}
                     >
                       {msg.text}
@@ -487,7 +487,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                         <button
                           onClick={() => speakText(msg.text)}
                           title="استمع للنطق"
-                          className="text-slate-400 hover:text-indigo-600 flex items-center gap-1 text-[11px] font-bold transition-colors"
+                          className="text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1 text-[11px] font-bold transition-colors"
                         >
                           <Volume2 size={13} />
                           <span>استمع</span>
@@ -502,7 +502,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                                 )
                               );
                             }}
-                            className="text-slate-400 hover:text-indigo-600 flex items-center gap-1 text-[11px] font-bold transition-colors"
+                            className="text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1 text-[11px] font-bold transition-colors"
                           >
                             <Languages size={13} />
                             <span>{msg.showTranslation ? 'إخفاء الترجمة' : 'ترجمة للعربية'}</span>
@@ -516,7 +516,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
-                        className="mt-1.5 p-2.5 bg-indigo-50/70 border border-indigo-100 rounded-xl text-xs text-indigo-900 font-semibold"
+                        className="mt-1.5 p-2.5 bg-indigo-50/70 dark:bg-indigo-950/50 border border-indigo-100 dark:border-indigo-800/60 rounded-xl text-xs text-indigo-900 dark:text-indigo-200 font-semibold"
                       >
                         {msg.textAr}
                       </motion.div>
@@ -527,9 +527,9 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                       <motion.div
                         initial={{ opacity: 0, y: 4 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="mt-2 p-2.5 bg-amber-50 border border-amber-200/70 rounded-xl text-xs text-amber-900 font-bold flex items-start gap-1.5 shadow-2xs"
+                        className="mt-2 p-2.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/70 dark:border-amber-800/60 rounded-xl text-xs text-amber-900 dark:text-amber-200 font-bold flex items-start gap-1.5 shadow-2xs"
                       >
-                        <Lightbulb size={15} className="text-amber-600 flex-none mt-0.5" />
+                        <Lightbulb size={15} className="text-amber-600 dark:text-amber-400 flex-none mt-0.5" />
                         <span>{msg.tip}</span>
                       </motion.div>
                     )}
@@ -542,10 +542,10 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
           {/* Typing Indicator */}
           {isTyping && (
             <div className="flex items-center gap-2 text-slate-400 text-xs">
-              <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-lg">
+              <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-lg">
                 {scenario.character.avatar}
               </div>
-              <div className="bg-white border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-1 shadow-2xs">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl px-3.5 py-2 flex items-center gap-1 shadow-2xs">
                 <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
                 <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
                 <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" />
@@ -574,8 +574,8 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
 
         {/* ── Quick Reply Suggestions ─────────────────────────────────── */}
         {suggestions.length > 0 && !isTyping && (
-          <div className="px-4 py-2 bg-slate-50/80 border-t border-slate-100 flex-none">
-            <div className="text-[11px] font-bold text-slate-400 mb-1.5 flex items-center gap-1">
+          <div className="px-4 py-2 bg-slate-50/80 dark:bg-slate-950/80 border-t border-slate-100 dark:border-slate-800 flex-none">
+            <div className="text-[11px] font-bold text-slate-400 dark:text-slate-400 mb-1.5 flex items-center gap-1">
               <Sparkles size={12} className="text-amber-500" />
               <span>اقتراحات رد سريعة (انقر للإرسال):</span>
             </div>
@@ -584,12 +584,12 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                 <button
                   key={idx}
                   onClick={() => handleSendMessage(hint.text)}
-                  className="flex-none bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-slate-700 hover:text-indigo-700 px-3 py-1.5 rounded-xl text-xs font-semibold shadow-2xs transition-all text-right group active:scale-95"
+                  className="flex-none bg-white dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 hover:border-indigo-300 text-slate-700 dark:text-slate-200 hover:text-indigo-700 dark:hover:text-white px-3 py-1.5 rounded-xl text-xs font-semibold shadow-2xs transition-all text-right group active:scale-95"
                 >
-                  <div className="font-bold text-slate-800 group-hover:text-indigo-700 ltr">
+                  <div className="font-bold text-slate-800 dark:text-white group-hover:text-indigo-700 dark:group-hover:text-indigo-300 ltr">
                     {hint.text}
                   </div>
-                  <div className="text-[10px] text-slate-400 group-hover:text-indigo-500 mt-0.5">
+                  <div className="text-[10px] text-slate-400 dark:text-slate-400 group-hover:text-indigo-500 mt-0.5">
                     {hint.translationAr}
                   </div>
                 </button>
@@ -599,7 +599,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
         )}
 
         {/* ── Input Bar ──────────────────────────────────────────────── */}
-        <div className="p-3 md:p-4 bg-white border-t border-slate-100 flex items-center gap-2 flex-none">
+        <div className="p-3 md:p-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2 flex-none">
           {/* Voice Microphone Toggle */}
           <button
             onClick={toggleListening}
@@ -607,7 +607,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
             className={`w-11 h-11 rounded-2xl flex items-center justify-center flex-none transition-all ${
               isListening
                 ? 'bg-rose-500 text-white animate-pulse ring-4 ring-rose-200'
-                : 'bg-slate-100 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-700 hover:text-indigo-600 dark:hover:text-white'
             }`}
           >
             {isListening ? <MicOff size={20} /> : <Mic size={20} />}
@@ -623,7 +623,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
                 if (e.key === 'Enter') handleSendMessage();
               }}
               placeholder={isListening ? 'جارٍ الاستماع إليك... تحدث الآن بالإنجليزية' : 'اكتب أو تحدث بالإنجليزية...'}
-              className="w-full bg-slate-100/90 border border-slate-200/80 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all ltr text-slate-800 font-medium"
+              className="w-full bg-slate-100/90 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 transition-all ltr font-medium"
             />
           </div>
 
@@ -631,7 +631,7 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
           <button
             onClick={() => handleSendMessage()}
             disabled={!inputText.trim() || isTyping}
-            className="w-11 h-11 bg-gradient-to-tr from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:opacity-40 text-white rounded-2xl flex items-center justify-center flex-none shadow-md shadow-indigo-200 transition-all active:scale-95"
+            className="w-11 h-11 bg-gradient-to-tr from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:opacity-40 text-white rounded-2xl flex items-center justify-center flex-none shadow-md shadow-indigo-200 dark:shadow-indigo-950 transition-all active:scale-95"
           >
             <Send size={18} className="transform rotate-180" />
           </button>

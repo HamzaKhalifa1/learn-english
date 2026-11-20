@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
-/* ── Custom Properties ─────────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Custom Properties (Light Mode Default) ──────────────── */
 :root {
   --bg: #f5f6fa;
   --surface: #ffffff;
   --surface-raised: #ffffff;
-  --border: rgba(0,0,0,0.07);
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 12px 40px rgba(0,0,0,0.06);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.10), 0 24px 64px rgba(0,0,0,0.08);
+  --border: rgba(0, 0, 0, 0.07);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 40px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.10), 0 24px 64px rgba(0, 0, 0, 0.08);
   --shadow-colored: 0 8px 32px rgba(99, 102, 241, 0.25);
   --radius-sm: 12px;
   --radius-md: 18px;
@@ -18,12 +20,29 @@
   --indigo-dark: #4a5cf0;
   --purple: #8b5cf6;
   --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  color-scheme: light;
+}
+
+/* ── Custom Properties (Dark Mode) ───────────────────────── */
+.dark, [data-theme="dark"] {
+  --bg: #0b0f19;
+  --surface: #131b2e;
+  --surface-raised: #1c2640;
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5), 0 12px 40px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6), 0 24px 64px rgba(0, 0, 0, 0.5);
+  --shadow-colored: 0 8px 32px rgba(99, 102, 241, 0.35);
+  color-scheme: dark;
 }
 
 /* ── Reset & Base ─────────────────────────────────────── */
 * { box-sizing: border-box; }
 
-html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 body {
   background: var(--bg);
@@ -33,6 +52,12 @@ body {
   margin: 0;
   padding: 0;
   line-height: 1.6;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.dark body {
+  background: #0b0f19;
+  color: #f1f5f9;
 }
 
 /* ── Utility Classes ──────────────────────────────────── */
@@ -44,6 +69,9 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+.dark ::-webkit-scrollbar-thumb { background: #334155; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
 /* ── Animations ───────────────────────────────────────── */
 @keyframes float {
@@ -98,6 +126,11 @@ body {
   transform: translateY(-2px);
 }
 
+.dark .card {
+  background: #131b2e;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
 /* ── Word Card ────────────────────────────────────────── */
 .word-card {
   background: var(--surface);
@@ -114,6 +147,15 @@ body {
   border-color: rgba(92, 110, 248, 0.2);
 }
 
+.dark .word-card {
+  background: #131b2e;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .word-card:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
 /* ── Option Buttons ───────────────────────────────────── */
 .option-btn {
   transition: var(--transition);
@@ -125,6 +167,12 @@ body {
   overflow: hidden;
 }
 
+.dark .option-btn {
+  background: #172036;
+  border-color: #273452;
+  color: #f1f5f9;
+}
+
 .option-btn::before {
   content: '';
   position: absolute;
@@ -132,6 +180,10 @@ body {
   background: linear-gradient(135deg, rgba(92,110,248,0.05) 0%, transparent 100%);
   opacity: 0;
   transition: opacity 0.2s ease;
+}
+
+.dark .option-btn::before {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, transparent 100%);
 }
 
 .option-btn:hover::before { opacity: 1; }
@@ -142,11 +194,24 @@ body {
   box-shadow: 0 4px 16px rgba(92, 110, 248, 0.15);
 }
 
+.dark .option-btn:hover {
+  background: #1f2c4a;
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
+}
+
 .option-btn.correct {
   background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
   border-color: #22c55e !important;
   color: #166534 !important;
   box-shadow: 0 4px 16px rgba(34, 197, 94, 0.2) !important;
+}
+
+.dark .option-btn.correct {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.22) 0%, rgba(20, 83, 45, 0.35) 100%) !important;
+  border-color: #22c55e !important;
+  color: #4ade80 !important;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3) !important;
 }
 
 .option-btn.incorrect {
@@ -156,11 +221,22 @@ body {
   box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2) !important;
 }
 
+.dark .option-btn.incorrect {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.22) 0%, rgba(127, 29, 29, 0.35) 100%) !important;
+  border-color: #ef4444 !important;
+  color: #f87171 !important;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3) !important;
+}
+
 /* ── Phonetic ─────────────────────────────────────────── */
 .phonetic {
   font-family: 'Inter', 'Courier New', monospace;
   color: #6b7280;
   letter-spacing: 0.03em;
+}
+
+.dark .phonetic {
+  color: #94a3b8;
 }
 
 /* ── Glass Effect ─────────────────────────────────────── */
@@ -169,6 +245,13 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dark .glass {
+  background: rgba(19, 27, 46, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* ── Gradient Text ────────────────────────────────────── */
@@ -187,6 +270,10 @@ body {
   border-radius: 8px;
 }
 
+.dark .skeleton {
+  background: linear-gradient(90deg, #172036 0%, #243252 50%, #172036 100%);
+}
+
 /* ── Level Badge Colors ───────────────────────────────── */
 .level-a1 { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
 .level-a2 { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
@@ -195,12 +282,23 @@ body {
 .level-c1 { background: #fce7f3; color: #9d174d; border: 1px solid #fbcfe8; }
 .level-c2 { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
 
+.dark .level-a1 { background: rgba(3, 105, 161, 0.25); color: #7dd3fc; border-color: rgba(186, 230, 253, 0.3); }
+.dark .level-a2 { background: rgba(22, 101, 52, 0.25); color: #86efac; border-color: rgba(187, 247, 208, 0.3); }
+.dark .level-b1 { background: rgba(146, 64, 14, 0.25); color: #fde047; border-color: rgba(253, 230, 138, 0.3); }
+.dark .level-b2 { background: rgba(91, 33, 182, 0.25); color: #c4b5fd; border-color: rgba(221, 214, 254, 0.3); }
+.dark .level-c1 { background: rgba(157, 23, 77, 0.25); color: #f472b6; border-color: rgba(251, 207, 232, 0.3); }
+.dark .level-c2 { background: rgba(153, 27, 27, 0.25); color: #fca5a5; border-color: rgba(254, 202, 202, 0.3); }
+
 /* ── Progress Bar ─────────────────────────────────────── */
 .progress-bar {
   background: #eef0f8;
   border-radius: 99px;
   overflow: hidden;
   position: relative;
+}
+
+.dark .progress-bar {
+  background: #1e293b;
 }
 
 .progress-fill {
@@ -225,12 +323,23 @@ body {
   color: var(--indigo);
 }
 
+.dark .nav-active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.18) 100%);
+  color: #818cf8;
+}
+
 /* ── Page Background Pattern ──────────────────────────── */
 .page-bg {
   background-color: #f5f6fa;
   background-image: radial-gradient(circle at 20% 20%, rgba(92, 110, 248, 0.04) 0%, transparent 60%),
                     radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.04) 0%, transparent 60%);
   min-height: 100vh;
+}
+
+.dark .page-bg {
+  background-color: #0b0f19;
+  background-image: radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
+                    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
 }
 
 /* ── Buttons ──────────────────────────────────────────── */
@@ -280,6 +389,17 @@ body {
   transform: translateY(-1px);
 }
 
+.dark .btn-secondary {
+  background: #172036;
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+.dark .btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.6);
+}
+
 /* ── XP Bar Styles ────────────────────────────────────── */
 .xp-bar-container {
   background: white;
@@ -287,6 +407,11 @@ body {
   padding: 16px 20px;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border);
+}
+
+.dark .xp-bar-container {
+  background: #131b2e;
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 /* ── Word Visual ──────────────────────────────────────── */
@@ -325,6 +450,101 @@ body {
   background: #f0f2f8;
   color: #94a3b8;
   border: 2px solid #e2e8f0;
+}
+
+.dark .stage-dot.pending {
+  background: #1a243b;
+  color: #64748b;
+  border-color: #273452;
+}
+
+/* ── Global Dark Mode Utilities & Surface Mappings ───────── */
+.dark body,
+.dark .bg-\[\#f8fafc\],
+.dark [class*="bg-[#f8fafc]"] {
+  background-color: #0b0f19 !important;
+}
+
+/* Dark mode surface elevations */
+.dark .bg-white:not([data-keep-light]) {
+  background-color: #131b2e;
+}
+
+.dark .bg-white\/90 {
+  background-color: rgba(19, 27, 46, 0.90) !important;
+}
+
+.dark .bg-white\/95 {
+  background-color: rgba(19, 27, 46, 0.95) !important;
+}
+
+.dark .bg-white\/80 {
+  background-color: rgba(19, 27, 46, 0.80) !important;
+}
+
+.dark .bg-slate-50,
+.dark .bg-slate-50\/70,
+.dark .bg-slate-50\/80 {
+  background-color: #182239;
+}
+
+.dark .bg-slate-100,
+.dark .bg-slate-100\/80 {
+  background-color: #1e2a44;
+}
+
+/* Dark text contrast */
+.dark .text-slate-800,
+.dark .text-slate-900 {
+  color: #f8fafc;
+}
+
+.dark .text-slate-700 {
+  color: #e2e8f0;
+}
+
+.dark .text-slate-600 {
+  color: #cbd5e1;
+}
+
+.dark .text-slate-500 {
+  color: #94a3b8;
+}
+
+.dark .text-slate-400 {
+  color: #7888a2;
+}
+
+/* Borders in dark mode */
+.dark .border-slate-100,
+.dark .border-slate-100\/80 {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .border-slate-200,
+.dark .border-slate-200\/60,
+.dark .border-slate-200\/80 {
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+/* Form inputs & textareas in dark mode */
+.dark input[type="text"],
+.dark input[type="search"],
+.dark textarea,
+.dark select {
+  background-color: #172036;
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b;
+}
+
+/* Modal backgrounds */
+.dark .shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
 }
 
 /* ── Focus styles ─────────────────────────────────────── */
