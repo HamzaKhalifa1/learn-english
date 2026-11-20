@@ -199,17 +199,14 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
     const target = word.word.trim().toLowerCase();
     const correct = cleaned === target || cleaned.includes(target);
 
-    isAdvancingRef.current = true;
     setSentenceFeedback(correct);
 
     if (correct) {
-      // CORRECT: Show rewarding checkmark for 750ms, then advance
-      setShowResult(true);
-      setTimeout(() => {
-        advanceStage(true, false);
-      }, 750);
+      // CORRECT: Advance with brief rewarding 750ms overlay
+      advanceStage(true, true);
     } else {
       // WRONG: Show brief retry animation for 650ms, then let learner retry (DO NOT ADVANCE)
+      isAdvancingRef.current = true;
       setShowResult(false);
       setTimeout(() => {
         setShowResult(null);
@@ -221,18 +218,15 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
   const handleQuizAnswer = (opt: string) => {
     if (selectedOption || isAdvancingRef.current || wrongOptions.includes(opt)) return;
 
-    isAdvancingRef.current = true;
     setSelectedOption(opt);
     const correct = opt === word.meaningAr;
 
     if (correct) {
-      // CORRECT: Show rewarding checkmark for 750ms, then advance
-      setShowResult(true);
-      setTimeout(() => {
-        advanceStage(true, false);
-      }, 750);
+      // CORRECT: Advance & complete with brief rewarding 750ms overlay
+      advanceStage(true, true);
     } else {
       // WRONG: Mark option as wrong, show brief cross for 650ms, then allow retry (DO NOT ADVANCE)
+      isAdvancingRef.current = true;
       setShowResult(false);
       setWrongOptions(prev => [...prev, opt]);
       setTimeout(() => {
