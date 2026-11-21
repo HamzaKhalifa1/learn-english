@@ -178,16 +178,16 @@ export default function VocabularyPage() {
   return (
     <div className="min-h-screen pb-32 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <div className="w-full max-w-2xl px-4 py-5">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-5 lg:py-8">
         
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 lg:mb-6">
           <div>
-            <h1 className="text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2">
-              <span>📦</span>
+            <h1 className="text-2xl lg:text-4xl font-black text-slate-800 dark:text-white flex items-center gap-2 lg:gap-3">
+              <span className="text-2xl lg:text-4xl">📦</span>
               <span>بنك المفردات</span>
             </h1>
-            <p className="text-slate-400 dark:text-slate-400 text-xs font-semibold mt-0.5">
+            <p className="text-slate-400 dark:text-slate-400 text-xs lg:text-sm font-semibold mt-0.5">
               {words.length} كلمة مسجلة في مكتبتك التعليمية
             </p>
           </div>
@@ -195,7 +195,7 @@ export default function VocabularyPage() {
           {/* Toggle All Meanings Single-click Button */}
           <button
             onClick={handleToggleAllMeanings}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-xs active:scale-95 border ${
+            className={`flex items-center gap-1.5 px-3.5 py-2 lg:px-4 lg:py-2.5 rounded-xl lg:rounded-2xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 border ${
               showAllMeanings
                 ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-700 hover:bg-amber-100'
                 : 'bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-500 hover:bg-indigo-50/50'

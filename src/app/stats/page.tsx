@@ -62,12 +62,12 @@ export default function StatsPage() {
   return (
     <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <div className="w-full max-w-2xl px-4 py-5">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-5 lg:py-8">
         
         {/* Header */}
-        <div className="flex items-center justify-between mb-5">
-          <h1 className="text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2">
-            <span>📊</span>
+        <div className="flex items-center justify-between mb-5 lg:mb-7">
+          <h1 className="text-2xl lg:text-4xl font-black text-slate-800 dark:text-white flex items-center gap-2 lg:gap-3">
+            <span className="text-2xl lg:text-4xl">📊</span>
             <span>لوحة الإحصائيات والتحليلات</span>
           </h1>
 
@@ -75,7 +75,7 @@ export default function StatsPage() {
             onClick={handleRetakeTest}
             disabled={resetting}
             title="إعادة اختبار تحديد المستوى"
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
           >
             <RefreshCw size={13} className={resetting ? 'animate-spin' : ''} />
             <span>إعادة الامتحان</span>
@@ -83,12 +83,12 @@ export default function StatsPage() {
         </div>
 
         {/* XP Bar */}
-        <div className="mb-5">
+        <div className="mb-5 lg:mb-7">
           <XPBar xp={stats.xp} streak={stats.streak} level={stats.level} />
         </div>
 
         {/* 6 Stats Cards Grid */}
-        <div className="grid grid-cols-2 gap-3.5 mb-6">
+        <div className="grid grid-cols-2 gap-3.5 lg:gap-5 mb-6 lg:mb-8">
           {cards.map((c, i) => (
             <motion.div
               key={c.label}

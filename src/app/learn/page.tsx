@@ -147,18 +147,18 @@ export default function LearnPage() {
   return (
     <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <div className="w-full max-w-2xl lg:max-w-5xl px-4 lg:px-6 py-5">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-5 lg:py-8">
         
         {/* Header with Level & Retake Button */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 lg:mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-black text-slate-800 dark:text-white flex items-center gap-2">
-              <span>📖</span>
+            <h1 className="text-2xl lg:text-4xl font-black text-slate-800 dark:text-white flex items-center gap-2 lg:gap-3">
+              <span className="text-2xl lg:text-4xl">📖</span>
               <span>وحدات التعلم</span>
             </h1>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-slate-400 dark:text-slate-400 text-xs font-semibold">مستواك الحالي:</span>
-              <span className={`text-xs font-black px-2.5 py-0.5 rounded-full ${getLevelColor(userLevel)}`}>
+            <div className="flex items-center gap-2 mt-1.5">
+              <span className="text-slate-400 dark:text-slate-400 text-xs lg:text-base font-semibold">مستواك الحالي:</span>
+              <span className={`text-xs lg:text-sm font-black px-2.5 py-0.5 lg:px-3.5 lg:py-1 rounded-full ${getLevelColor(userLevel)}`}>
                 {userLevel} • {LEVEL_LABELS[userLevel] || userLevel}
               </span>
             </div>
@@ -168,14 +168,14 @@ export default function LearnPage() {
             onClick={handleRetakePlacement}
             disabled={retakingTest}
             title="إعادة اختبار تحديد المستوى"
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
           >
             <RefreshCw size={13} className={retakingTest ? 'animate-spin' : ''} />
             <span>إعادة الامتحان</span>
           </button>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-8 lg:space-y-10">
           {grouped.map(({ level, label, icon, units }) => {
             const lvlIndex = LEVEL_ORDER.indexOf(level);
             
@@ -202,31 +202,31 @@ export default function LearnPage() {
             const levelPct = totalWordsInLevel > 0 ? Math.round((doneWordsInLevel / totalWordsInLevel) * 100) : 0;
 
             return (
-              <div key={level} className="space-y-3">
+              <div key={level} className="space-y-3 lg:space-y-4">
                 
                 {/* Level header bar */}
                 <div className="flex items-center justify-between px-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">{icon}</span>
-                    <span className={`text-xs font-black px-2.5 py-0.5 rounded-lg ${getLevelColor(level)}`}>
+                  <div className="flex items-center gap-2 lg:gap-3">
+                    <span className="text-xl lg:text-3xl">{icon}</span>
+                    <span className={`text-xs lg:text-sm font-black px-2.5 py-0.5 lg:px-3 lg:py-1 rounded-lg ${getLevelColor(level)}`}>
                       {level}
                     </span>
-                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{label}</span>
+                    <span className="text-sm lg:text-xl font-bold text-slate-700 dark:text-slate-200">{label}</span>
                   </div>
 
                   <div>
                     {isLevelLocked ? (
-                      <span className="text-[11px] font-bold text-slate-400 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full flex items-center gap-1 border border-slate-200 dark:border-slate-700">
-                        <Lock size={11} />
+                      <span className="text-[11px] lg:text-sm font-bold text-slate-400 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 lg:px-3.5 lg:py-1.5 rounded-full flex items-center gap-1.5 border border-slate-200 dark:border-slate-700">
+                        <Lock size={12} />
                         <span>أكمل المستوى السابق</span>
                       </span>
                     ) : levelPct === 100 ? (
-                      <span className="text-[11px] font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-full flex items-center gap-1 border border-emerald-200 dark:border-emerald-800/60">
-                        <CheckCircle2 size={12} className="text-emerald-600 dark:text-emerald-400" />
+                      <span className="text-[11px] lg:text-sm font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 lg:px-3.5 lg:py-1.5 rounded-full flex items-center gap-1.5 border border-emerald-200 dark:border-emerald-800/60">
+                        <CheckCircle2 size={14} className="text-emerald-600 dark:text-emerald-400" />
                         <span>مكتمل بالكامل 100%</span>
                       </span>
                     ) : (
-                      <span className="text-[11px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 rounded-full flex items-center gap-1 border border-indigo-100 dark:border-indigo-800/60">
+                      <span className="text-[11px] lg:text-sm font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 lg:px-3.5 lg:py-1.5 rounded-full flex items-center gap-1.5 border border-indigo-100 dark:border-indigo-800/60">
                         <span>{doneWordsInLevel}/{totalWordsInLevel} كلمة</span>
                         <span>({levelPct}%)</span>
                       </span>
@@ -234,8 +234,8 @@ export default function LearnPage() {
                   </div>
                 </div>
 
-                {/* Units List */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
+                {/* Units List - single column, comfortable reading */}
+                <div className="space-y-3 lg:space-y-4">
                   {units.map((unit, unitIdx) => {
                     const { done, total, pct } = getUnitProgress(unit);
                     const isCompleted = done === total && total > 0;
@@ -260,7 +260,7 @@ export default function LearnPage() {
                           }}
                           role="button"
                           tabIndex={isLocked ? -1 : 0}
-                          className={`block bg-white dark:bg-slate-900 rounded-2xl p-4 border transition-all cursor-pointer ${
+                          className={`block bg-white dark:bg-slate-900 rounded-2xl lg:rounded-3xl p-4 lg:p-6 border transition-all cursor-pointer ${
                             isLocked
                               ? 'opacity-55 cursor-not-allowed pointer-events-none border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50'
                               : isCompleted
@@ -268,10 +268,10 @@ export default function LearnPage() {
                               : 'border-slate-100 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-md active:scale-[0.99]'
                           }`}
                         >
-                          <div className="flex items-center gap-3.5">
+                          <div className="flex items-center gap-3.5 lg:gap-5">
                             
                             {/* Unit Status Icon */}
-                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-none shadow-xs transition-colors ${
+                            <div className={`w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl flex items-center justify-center text-xl lg:text-3xl flex-none shadow-xs transition-colors ${
                               isCompleted
                                 ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/60'
                                 : isLocked
@@ -281,11 +281,11 @@ export default function LearnPage() {
                                 : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-100 dark:border-slate-700'
                             }`}>
                               {isCompleted ? (
-                                <CheckCircle2 size={24} className="text-emerald-500 fill-emerald-50 dark:fill-emerald-950" />
+                                <CheckCircle2 size={24} className="lg:w-8 lg:h-8 text-emerald-500 fill-emerald-50 dark:fill-emerald-950" />
                               ) : isLocked ? (
-                                <Lock size={18} className="text-slate-400" />
+                                <Lock size={18} className="lg:w-6 lg:h-6 text-slate-400" />
                               ) : done > 0 ? (
-                                <BookOpen size={20} className="text-indigo-600 dark:text-indigo-400" />
+                                <BookOpen size={20} className="lg:w-7 lg:h-7 text-indigo-600 dark:text-indigo-400" />
                               ) : (
                                 <span>📖</span>
                               )}
@@ -294,10 +294,10 @@ export default function LearnPage() {
                             {/* Unit Info & Clean Progress Bar */}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-2">
-                                <div className="font-bold text-slate-800 dark:text-white text-sm truncate">
+                                <div className="font-bold text-slate-800 dark:text-white text-sm lg:text-xl truncate">
                                   {unit.titleAr}
                                 </div>
-                                <div className="text-xs font-bold flex-none">
+                                <div className="text-xs lg:text-base font-bold flex-none">
                                   {isCompleted ? (
                                     <span className="text-emerald-600 dark:text-emerald-400 font-black">100%</span>
                                   ) : done > 0 ? (
@@ -308,12 +308,12 @@ export default function LearnPage() {
                                 </div>
                               </div>
 
-                              <div className="text-xs text-slate-400 dark:text-slate-400 ltr truncate mt-0.5">
+                              <div className="text-xs lg:text-base text-slate-400 dark:text-slate-400 ltr truncate mt-0.5">
                                 {unit.title}
                               </div>
 
                               {/* Progress Track */}
-                              <div className="mt-2 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
+                              <div className="mt-2.5 h-2 lg:h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
                                 <div
                                   className={`h-full rounded-full transition-all duration-500 ${
                                     isCompleted
@@ -330,13 +330,13 @@ export default function LearnPage() {
                               <button
                                 type="button"
                                 title="إجراء فحص سريع لتخطي الكلمات المعروفة مسبقاً"
-                                className="flex items-center gap-1 text-[11px] font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-300 px-2.5 py-1.5 rounded-xl transition-all shadow-xs flex-none active:scale-95"
+                                className="flex items-center gap-1.5 text-[11px] lg:text-sm font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-300 dark:border-amber-800/80 px-2.5 py-1.5 lg:px-3.5 lg:py-2 rounded-xl transition-all shadow-xs flex-none active:scale-95"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   router.push(`/learn/${unit.id}?quiz=1`);
                                 }}
                               >
-                                <Zap size={13} className="fill-amber-500 text-amber-500" />
+                                <Zap size={14} className="fill-amber-500 text-amber-500" />
                                 <span>فحص سريع</span>
                               </button>
                             )}
@@ -346,13 +346,13 @@ export default function LearnPage() {
                               <button
                                 type="button"
                                 title="قراءة واستماع قصة الوحدة التفاعلية (+20 XP)"
-                                className="flex items-center gap-1 text-[11px] font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1.5 rounded-xl transition-all shadow-xs flex-none active:scale-95"
+                                className="flex items-center gap-1.5 text-[11px] lg:text-sm font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800/80 px-2.5 py-1.5 lg:px-3.5 lg:py-2 rounded-xl transition-all shadow-xs flex-none active:scale-95"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedStoryUnit(unit.id);
                                 }}
                               >
-                                <BookOpen size={13} className="text-indigo-600" />
+                                <BookOpen size={14} className="text-indigo-600 dark:text-indigo-400" />
                                 <span>قصة الوحدة</span>
                               </button>
                             )}
@@ -362,13 +362,13 @@ export default function LearnPage() {
                               <button
                                 type="button"
                                 title="خوض محادثة تفاعلية موجهة مع الذكاء الاصطناعي (+30 XP)"
-                                className="flex items-center gap-1 text-[11px] font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1.5 rounded-xl transition-all shadow-xs flex-none active:scale-95"
+                                className="flex items-center gap-1.5 text-[11px] lg:text-sm font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/80 px-2.5 py-1.5 lg:px-3.5 lg:py-2 rounded-xl transition-all shadow-xs flex-none active:scale-95"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   router.push(`/roleplay?unit=${unit.id}`);
                                 }}
                               >
-                                <MessageSquare size={13} className="text-purple-600" />
+                                <MessageSquare size={14} className="text-purple-600 dark:text-purple-400" />
                                 <span>محادثة AI</span>
                               </button>
                             )}
@@ -378,10 +378,10 @@ export default function LearnPage() {
                                 isCompleted
                                   ? 'text-emerald-300'
                                   : isLocked
-                                  ? 'text-slate-200'
-                                  : 'text-slate-300 group-hover:text-indigo-500'
+                                  ? 'text-slate-200 dark:text-slate-700'
+                                  : 'text-slate-300 dark:text-slate-600 group-hover:text-indigo-500'
                               }`}
-                              size={18}
+                              size={20}
                             />
                           </div>
                         </div>

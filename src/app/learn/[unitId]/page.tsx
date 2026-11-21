@@ -320,7 +320,7 @@ function UnitContent() {
   return (
     <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <div className="w-full max-w-2xl px-4 py-5">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-5 lg:py-8">
 
         {/* ── Entry Gate Modal ────────────────────────────────────────── */}
         <AnimatePresence>
@@ -392,23 +392,23 @@ function UnitContent() {
         </AnimatePresence>
         
         {/* Top Header Actions */}
-        <div className="mb-4 flex items-center justify-between flex-wrap gap-2">
+        <div className="mb-5 lg:mb-7 flex items-center justify-between flex-wrap gap-2.5">
           <Link
             href="/learn"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors bg-white dark:bg-slate-800 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs active:scale-95"
+            className="inline-flex items-center gap-1.5 text-xs lg:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors bg-white dark:bg-slate-800 px-3.5 py-2 lg:px-4 lg:py-2.5 rounded-xl lg:rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xs active:scale-95"
           >
-            <ChevronRight size={16} />
+            <ChevronRight size={18} />
             <span>العودة للوحدات</span>
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 lg:gap-3 flex-wrap">
             {/* Interactive Story Button */}
             <button
               onClick={() => setShowStoryModal(true)}
               title="قراءة قصة الوحدة التفاعلية والاستماع لها"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-2 rounded-xl border border-indigo-200 dark:border-indigo-800/80 transition-all shadow-xs active:scale-95"
+              className="inline-flex items-center gap-1.5 text-xs lg:text-sm font-bold text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl lg:rounded-2xl border border-indigo-200 dark:border-indigo-800/80 transition-all shadow-xs active:scale-95"
             >
-              <BookOpen size={14} className="text-indigo-600 dark:text-indigo-400" />
+              <BookOpen size={16} className="text-indigo-600 dark:text-indigo-400" />
               <span>قصة الوحدة</span>
             </button>
 
@@ -416,9 +416,9 @@ function UnitContent() {
             <Link
               href="/roleplay"
               title="محادثة تفاعلية موجهة مع الذكاء الاصطناعي (+30 XP)"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 bg-purple-50 dark:bg-purple-950/60 px-3 py-2 rounded-xl border border-purple-200 dark:border-purple-800/80 transition-all shadow-xs active:scale-95"
+              className="inline-flex items-center gap-1.5 text-xs lg:text-sm font-bold text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 bg-purple-50 dark:bg-purple-950/60 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl lg:rounded-2xl border border-purple-200 dark:border-purple-800/80 transition-all shadow-xs active:scale-95"
             >
-              <MessageSquare size={14} className="text-purple-600 dark:text-purple-400" />
+              <MessageSquare size={16} className="text-purple-600 dark:text-purple-400" />
               <span>محادثة AI</span>
             </Link>
 
@@ -426,9 +426,9 @@ function UnitContent() {
               <button
                 onClick={() => setShowFastTrackQuiz(true)}
                 title="فحص سريع لاختبار معلوماتك وتخطي الكلمات المعروفة"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60 bg-amber-50 dark:bg-amber-950/60 px-3 py-2 rounded-xl border border-amber-300 dark:border-amber-800/80 transition-all shadow-xs active:scale-95"
+                className="inline-flex items-center gap-1.5 text-xs lg:text-sm font-bold text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60 bg-amber-50 dark:bg-amber-950/60 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl lg:rounded-2xl border border-amber-300 dark:border-amber-800/80 transition-all shadow-xs active:scale-95"
               >
-                <Zap size={14} className="fill-amber-500 text-amber-500" />
+                <Zap size={16} className="fill-amber-500 text-amber-500" />
                 <span>فحص التخطي ({uncompletedWords.length})</span>
               </button>
             )}
@@ -436,33 +436,33 @@ function UnitContent() {
             <button
               onClick={handleReStudy}
               title="إعادة دراسة هذه الوحدة من البداية"
-              className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 bg-white dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-orange-950/40 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-orange-200 dark:hover:border-orange-800/60 transition-all shadow-xs active:scale-95"
+              className="inline-flex items-center gap-1.5 text-xs lg:text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 bg-white dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-orange-950/40 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl lg:rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-orange-200 dark:hover:border-orange-800/60 transition-all shadow-xs active:scale-95"
             >
-              <RotateCcw size={13} />
+              <RotateCcw size={15} />
               <span>إعادة التعيين</span>
             </button>
           </div>
         </div>
 
         {/* Unit Info & Interactive Strip Card */}
-        <div className="mb-5 bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-sm border border-slate-100 dark:border-slate-800">
-          <div className="flex justify-between items-center mb-2.5">
+        <div className="mb-6 lg:mb-8 bg-white dark:bg-slate-900 rounded-3xl p-5 lg:p-7 shadow-sm border border-slate-100 dark:border-slate-800">
+          <div className="flex justify-between items-center mb-3">
             <div>
-              <h1 className="text-lg font-black text-slate-800 dark:text-white">{unit.titleAr}</h1>
-              <div className="text-xs text-slate-400 dark:text-slate-500 ltr">{unit.title}</div>
+              <h1 className="text-lg lg:text-2xl font-black text-slate-800 dark:text-white">{unit.titleAr}</h1>
+              <div className="text-xs lg:text-sm text-slate-400 dark:text-slate-500 ltr mt-0.5">{unit.title}</div>
             </div>
             <div className="text-left">
-              <div className="text-xs font-black text-indigo-600 dark:text-indigo-400">
+              <div className="text-xs lg:text-base font-black text-indigo-600 dark:text-indigo-400">
                 الكلمة {currentWordIdx + 1} من {totalWords}
               </div>
-              <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+              <div className="text-[10px] lg:text-xs text-slate-400 dark:text-slate-500 mt-0.5">
                 {doneCount} من {totalWords} مكتملة ({Math.round(progress)}%)
               </div>
             </div>
           </div>
 
           {/* Unit Progress Bar */}
-          <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
+          <div className="h-2 lg:h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
             <motion.div
               className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
               animate={{ width: `${progress}%` }}
@@ -471,13 +471,13 @@ function UnitContent() {
           </div>
 
           {/* ── Word Numbers Strip (1..10) ────────────────────────── */}
-          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
-            <div className="text-[11px] font-bold text-slate-400 dark:text-slate-500 mb-2 flex items-center justify-between">
+          <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800">
+            <div className="text-[11px] lg:text-sm font-bold text-slate-400 dark:text-slate-500 mb-2.5 flex items-center justify-between">
               <span>انقر على رقم الكلمة للتنقل المباشر:</span>
-              <span className="text-indigo-600 dark:text-indigo-400">{currentWordIdx + 1}/{totalWords}</span>
+              <span className="text-indigo-600 dark:text-indigo-400 font-black">{currentWordIdx + 1}/{totalWords}</span>
             </div>
             
-            <div className="grid grid-cols-10 gap-1.5" dir="ltr">
+            <div className="grid grid-cols-10 gap-1.5 lg:gap-2.5" dir="ltr">
               {unit.words.map((w, idx) => {
                 const isDone = completedWords.includes(w.id);
                 const isCurrent = idx === currentWordIdx;
@@ -487,7 +487,7 @@ function UnitContent() {
                     key={w.id}
                     onClick={() => handleSelectWord(idx)}
                     title={`${idx + 1}. ${w.word} - ${w.meaningAr} ${isDone ? '(مكتملة ✓)' : ''}`}
-                    className={`h-9 rounded-xl text-xs font-bold transition-all relative flex items-center justify-center ${
+                    className={`h-9 lg:h-12 rounded-xl lg:rounded-2xl text-xs lg:text-base font-bold transition-all relative flex items-center justify-center ${
                       isCurrent
                         ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-300 dark:shadow-indigo-950 scale-105 ring-2 ring-indigo-200 dark:ring-indigo-500/40'
                         : isDone
@@ -497,7 +497,7 @@ function UnitContent() {
                   >
                     <span>{idx + 1}</span>
                     {isDone && !isCurrent && (
-                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full flex items-center justify-center text-[7px] text-white">
+                      <span className="absolute -top-1 -right-1 w-3.5 h-3.5 lg:w-4 lg:h-4 bg-emerald-500 rounded-full flex items-center justify-center text-[8px] lg:text-[10px] text-white">
                         ✓
                       </span>
                     )}
@@ -519,18 +519,18 @@ function UnitContent() {
         />
 
         {/* ── Bottom Previous / Next Navigation Controls ─────────────────────── */}
-        <div className="flex items-center justify-between gap-3 mt-6 pt-4 border-t border-slate-200/60 dark:border-slate-800">
+        <div className="flex items-center justify-between gap-3 lg:gap-4 mt-6 lg:mt-8 pt-4 lg:pt-6 border-t border-slate-200/60 dark:border-slate-800">
           
           {/* Previous word (moves backwards in unit) */}
           <button
             onClick={() => handleSelectWord(currentWordIdx - 1)}
             disabled={currentWordIdx === 0}
-            className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-bold text-xs md:text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 active:scale-95 transition-all disabled:opacity-30 disabled:pointer-events-none shadow-xs"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 px-4 lg:py-4 lg:px-6 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-bold text-xs md:text-sm lg:text-base text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 active:scale-95 transition-all disabled:opacity-30 disabled:pointer-events-none shadow-xs"
           >
-            <ChevronRight size={18} />
+            <ChevronRight size={18} className="lg:w-5 lg:h-5" />
             <span>الكلمة السابقة</span>
             {prevWord && (
-              <span className="text-[11px] text-slate-400 dark:text-slate-500 font-semibold ltr hidden sm:inline">
+              <span className="text-[11px] lg:text-xs text-slate-400 dark:text-slate-500 font-semibold ltr hidden sm:inline">
                 ({prevWord.word})
               </span>
             )}
@@ -538,7 +538,7 @@ function UnitContent() {
 
           {/* Word position indicator */}
           <div className="text-center px-2 flex-none">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-300 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs">
+            <span className="text-xs lg:text-sm font-bold text-slate-500 dark:text-slate-300 bg-white dark:bg-slate-800 px-3.5 py-2 lg:px-4 lg:py-2.5 rounded-xl lg:rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xs">
               الكلمة {currentWordIdx + 1} من {totalWords}
             </span>
           </div>
@@ -547,15 +547,15 @@ function UnitContent() {
           <button
             onClick={() => handleSelectWord(currentWordIdx + 1)}
             disabled={currentWordIdx + 1 >= unit.words.length}
-            className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-2xl border border-indigo-200 dark:border-indigo-800/70 bg-indigo-50 dark:bg-indigo-950/60 font-bold text-xs md:text-sm text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 active:scale-95 transition-all disabled:opacity-30 disabled:pointer-events-none shadow-xs"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 px-4 lg:py-4 lg:px-6 rounded-2xl border border-indigo-200 dark:border-indigo-800/70 bg-indigo-50 dark:bg-indigo-950/60 font-bold text-xs md:text-sm lg:text-base text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 active:scale-95 transition-all disabled:opacity-30 disabled:pointer-events-none shadow-xs"
           >
             <span>الكلمة التالية</span>
             {nextWord && (
-              <span className="text-[11px] text-indigo-400 dark:text-indigo-400 font-semibold ltr hidden sm:inline">
+              <span className="text-[11px] lg:text-xs text-indigo-400 dark:text-indigo-400 font-semibold ltr hidden sm:inline">
                 ({nextWord.word})
               </span>
             )}
-            <ChevronLeft size={18} />
+            <ChevronLeft size={18} className="lg:w-5 lg:h-5" />
           </button>
         </div>
 
