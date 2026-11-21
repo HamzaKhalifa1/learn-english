@@ -17,27 +17,32 @@ export default function Navbar() {
   return (
     <>
       {/* Mobile Top Bar */}
-      <header className="md:hidden sticky top-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
-          <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-base shadow-xs shadow-indigo-200 dark:shadow-indigo-950">
-            📚
+      <header className="md:hidden fixed top-0 left-0 right-0 z-50 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-xs">
+        <div className="w-full max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 active:scale-95 transition-all">
+            <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-base shadow-sm shadow-indigo-200 dark:shadow-indigo-950">
+              📚
+            </div>
+            <span className="font-black text-slate-800 dark:text-white text-base tracking-tight">تعلّم</span>
+          </Link>
+
+          <div className="flex items-center gap-2">
+            <ThemeToggle className="rounded-xl shadow-xs" />
           </div>
-          <span className="font-black text-slate-800 dark:text-white text-base">تعلّم</span>
-        </Link>
-        <ThemeToggle />
+        </div>
       </header>
 
       {/* Mobile Bottom Nav */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-        <div className="mx-3 mb-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-slate-200/80 dark:border-slate-800 px-2 py-2">
-          <div className="flex items-center justify-around">
+        <div className="mx-3 mb-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-slate-200/80 dark:border-slate-800 p-1.5">
+          <div className="grid grid-cols-5 gap-1">
             {navItems.map(({ href, label, icon: Icon }) => {
               const active = pathname === href;
               return (
                 <Link
                   key={href}
                   href={href}
-                  className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all duration-200 ${
+                  className={`flex flex-col items-center justify-center gap-1 py-1.5 px-1 rounded-xl transition-all duration-200 ${
                     active
                       ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 font-bold'
                       : 'text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60 font-semibold'
@@ -46,7 +51,7 @@ export default function Navbar() {
                   <div className={`transition-transform duration-200 ${active ? 'scale-110' : ''}`}>
                     <Icon size={20} strokeWidth={active ? 2.5 : 2} />
                   </div>
-                  <span className="text-[10px]">{label}</span>
+                  <span className="text-[10px] truncate max-w-full text-center leading-tight">{label}</span>
                 </Link>
               );
             })}
