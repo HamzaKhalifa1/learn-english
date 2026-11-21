@@ -16,8 +16,8 @@ export default function Navbar() {
   const pathname = usePathname();
   return (
     <>
-      {/* Mobile Top Bar */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-50 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-xs">
+      {/* Mobile Top Bar - Static at top of page, scrolls off naturally */}
+      <header className="md:hidden w-full bg-white/90 dark:bg-slate-900/90 border-b border-slate-200/80 dark:border-slate-800 shadow-xs">
         <div className="w-full max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 active:scale-95 transition-all">
             <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-base shadow-sm shadow-indigo-200 dark:shadow-indigo-950">
