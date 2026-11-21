@@ -60,9 +60,9 @@ export default function StatsPage() {
   ];
 
   return (
-    <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
+    <div className="min-h-screen pb-28 pt-0 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-5 lg:py-8">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-5 lg:mb-7">

@@ -121,12 +121,12 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
+    <div className="min-h-screen pb-28 pt-0 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <main className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-5 lg:py-8">
+      <main className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8">
         
         {/* Top Header Card */}
-        <div className="flex items-center justify-between mb-5 lg:mb-7">
+        <div className="flex items-center justify-between gap-3 mb-5 lg:mb-7">
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             <div className="flex items-center gap-2 lg:gap-3">
               <span className="text-2xl lg:text-4xl">👋</span>
@@ -141,7 +141,7 @@ export default function Home() {
             onClick={handleRetakePlacement}
             disabled={retakingTest}
             title="إعادة اختبار تحديد المستوى لتحديث مستواك"
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50 flex-none"
           >
             <RefreshCw size={13} className={retakingTest ? 'animate-spin' : ''} />
             <span>إعادة الامتحان</span>

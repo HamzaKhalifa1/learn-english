@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Lock, ChevronRight, RefreshCw, Zap, CheckCircle2, BookOpen, Sparkles, MessageSquare } from 'lucide-react';
+import { Lock, ChevronLeft, RefreshCw, Zap, CheckCircle2, BookOpen, Sparkles, MessageSquare } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import { getLevelColor } from '@/lib/words';
 import type { Unit } from '@/lib/words';
@@ -145,12 +145,12 @@ export default function LearnPage() {
     }));
 
   return (
-    <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
+    <div className="min-h-screen pb-28 pt-0 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-5 lg:py-8">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8">
         
         {/* Header with Level & Retake Button */}
-        <div className="mb-6 lg:mb-8 flex items-center justify-between">
+        <div className="mb-6 lg:mb-8 flex items-center justify-between gap-3">
           <div>
             <h1 className="text-2xl lg:text-4xl font-black text-slate-800 dark:text-white flex items-center gap-2 lg:gap-3">
               <span className="text-2xl lg:text-4xl">📖</span>
@@ -168,7 +168,7 @@ export default function LearnPage() {
             onClick={handleRetakePlacement}
             disabled={retakingTest}
             title="إعادة اختبار تحديد المستوى"
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50 flex-none"
           >
             <RefreshCw size={13} className={retakingTest ? 'animate-spin' : ''} />
             <span>إعادة الامتحان</span>
@@ -205,7 +205,7 @@ export default function LearnPage() {
               <div key={level} className="space-y-3 lg:space-y-4">
                 
                 {/* Level header bar */}
-                <div className="flex items-center justify-between px-1">
+                <div className="flex items-center justify-between px-1 flex-wrap gap-2">
                   <div className="flex items-center gap-2 lg:gap-3">
                     <span className="text-xl lg:text-3xl">{icon}</span>
                     <span className={`text-xs lg:text-sm font-black px-2.5 py-0.5 lg:px-3 lg:py-1 rounded-lg ${getLevelColor(level)}`}>
@@ -268,6 +268,7 @@ export default function LearnPage() {
                               : 'border-slate-100 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-md active:scale-[0.99]'
                           }`}
                         >
+                          {/* Card Main Info Row */}
                           <div className="flex items-center gap-3.5 lg:gap-5">
                             
                             {/* Unit Status Icon */}
@@ -291,10 +292,10 @@ export default function LearnPage() {
                               )}
                             </div>
 
-                            {/* Unit Info & Clean Progress Bar */}
+                            {/* Unit Info & Full-Width Clean Progress Bar */}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-2">
-                                <div className="font-bold text-slate-800 dark:text-white text-sm lg:text-xl truncate">
+                                <div className="font-bold text-slate-800 dark:text-white text-sm sm:text-base lg:text-xl truncate">
                                   {unit.titleAr}
                                 </div>
                                 <div className="text-xs lg:text-base font-bold flex-none">
@@ -308,12 +309,12 @@ export default function LearnPage() {
                                 </div>
                               </div>
 
-                              <div className="text-xs lg:text-base text-slate-400 dark:text-slate-400 ltr truncate mt-0.5">
+                              <div className="text-xs sm:text-sm lg:text-base text-slate-400 dark:text-slate-400 ltr truncate mt-0.5">
                                 {unit.title}
                               </div>
 
                               {/* Progress Track */}
-                              <div className="mt-2.5 h-2 lg:h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
+                              <div className="mt-2 h-2 lg:h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
                                 <div
                                   className={`h-full rounded-full transition-all duration-500 ${
                                     isCompleted
@@ -325,28 +326,25 @@ export default function LearnPage() {
                               </div>
                             </div>
 
-                            {/* Direct Fast-Track Test Button */}
-                            {!isCompleted && !isLocked && (
-                              <button
-                                type="button"
-                                title="إجراء فحص سريع لتخطي الكلمات المعروفة مسبقاً"
-                                className="flex items-center gap-1.5 text-[11px] lg:text-sm font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-300 dark:border-amber-800/80 px-2.5 py-1.5 lg:px-3.5 lg:py-2 rounded-xl transition-all shadow-xs flex-none active:scale-95"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  router.push(`/learn/${unit.id}?quiz=1`);
-                                }}
-                              >
-                                <Zap size={14} className="fill-amber-500 text-amber-500" />
-                                <span>فحص سريع</span>
-                              </button>
-                            )}
+                            {/* Chevron Indicator */}
+                            <div className={`flex-none transition-colors ${
+                              isCompleted
+                                ? 'text-emerald-400 dark:text-emerald-600'
+                                : isLocked
+                                ? 'text-slate-200 dark:text-slate-700'
+                                : 'text-slate-300 dark:text-slate-600'
+                            }`}>
+                              <ChevronLeft size={20} className="lg:w-6 lg:h-6" />
+                            </div>
+                          </div>
 
-                            {/* Direct Story Button for Completed Units */}
-                            {isCompleted && (
+                          {/* Completed Unit Actions Strip - Dedicated Clean Row */}
+                          {isCompleted && (
+                            <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center gap-2 sm:justify-end">
                               <button
                                 type="button"
                                 title="قراءة واستماع قصة الوحدة التفاعلية (+20 XP)"
-                                className="flex items-center gap-1.5 text-[11px] lg:text-sm font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800/80 px-2.5 py-1.5 lg:px-3.5 lg:py-2 rounded-xl transition-all shadow-xs flex-none active:scale-95"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 text-xs lg:text-sm font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800/80 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl transition-all shadow-xs active:scale-95"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedStoryUnit(unit.id);
@@ -355,14 +353,11 @@ export default function LearnPage() {
                                 <BookOpen size={14} className="text-indigo-600 dark:text-indigo-400" />
                                 <span>قصة الوحدة</span>
                               </button>
-                            )}
 
-                            {/* Direct AI Chat Button for Completed Units */}
-                            {isCompleted && (
                               <button
                                 type="button"
                                 title="خوض محادثة تفاعلية موجهة مع الذكاء الاصطناعي (+30 XP)"
-                                className="flex items-center gap-1.5 text-[11px] lg:text-sm font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/80 px-2.5 py-1.5 lg:px-3.5 lg:py-2 rounded-xl transition-all shadow-xs flex-none active:scale-95"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 text-xs lg:text-sm font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/80 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl transition-all shadow-xs active:scale-95"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   router.push(`/roleplay?unit=${unit.id}`);
@@ -371,19 +366,29 @@ export default function LearnPage() {
                                 <MessageSquare size={14} className="text-purple-600 dark:text-purple-400" />
                                 <span>محادثة AI</span>
                               </button>
-                            )}
+                            </div>
+                          )}
 
-                            <ChevronRight
-                              className={`flex-none transition-colors ${
-                                isCompleted
-                                  ? 'text-emerald-300'
-                                  : isLocked
-                                  ? 'text-slate-200 dark:text-slate-700'
-                                  : 'text-slate-300 dark:text-slate-600 group-hover:text-indigo-500'
-                              }`}
-                              size={20}
-                            />
-                          </div>
+                          {/* In-Progress Fast-Track Test Action Strip */}
+                          {!isCompleted && !isLocked && (
+                            <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+                              <span className="text-[11px] lg:text-xs text-slate-400 dark:text-slate-500 font-medium truncate">
+                                {done === 0 ? 'ابدأ بالتعلم أو تخطَّ الكلمات المعروفة' : `واصل التعلم (${total - done} كلمات متبقية)`}
+                              </span>
+                              <button
+                                type="button"
+                                title="إجراء فحص سريع لتخطي الكلمات المعروفة مسبقاً"
+                                className="flex items-center gap-1.5 text-xs lg:text-sm font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-300 dark:border-amber-800/80 px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl transition-all shadow-xs flex-none active:scale-95"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  router.push(`/learn/${unit.id}?quiz=1`);
+                                }}
+                              >
+                                <Zap size={14} className="fill-amber-500 text-amber-500" />
+                                <span>فحص سريع</span>
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </motion.div>
                     );

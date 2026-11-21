@@ -16,10 +16,16 @@ export default function Navbar() {
   const pathname = usePathname();
   return (
     <>
-      {/* Mobile Floating Theme Toggle */}
-      <div className="md:hidden fixed top-3 left-3 z-40">
-        <ThemeToggle className="shadow-lg backdrop-blur-xl bg-white/90 dark:bg-slate-900/90 border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-amber-400" />
-      </div>
+      {/* Mobile Top Bar */}
+      <header className="md:hidden sticky top-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 px-4 h-14 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+          <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-base shadow-xs shadow-indigo-200 dark:shadow-indigo-950">
+            📚
+          </div>
+          <span className="font-black text-slate-800 dark:text-white text-base">تعلّم</span>
+        </Link>
+        <ThemeToggle />
+      </header>
 
       {/* Mobile Bottom Nav */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">

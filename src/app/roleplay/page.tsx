@@ -107,7 +107,7 @@ function RoleplayContent() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-[#0b0f19] dark:via-[#0b0f19] dark:to-[#0b0f19] text-slate-800 dark:text-slate-100 pb-28 md:pt-20">
       <Navbar />
 
-      <main className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto px-4 lg:px-8 pt-6 md:pt-4 lg:pt-6">
+      <main className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto px-4 lg:px-8 pt-4 md:pt-4 lg:pt-6">
         {/* ── Hero Banner ────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
