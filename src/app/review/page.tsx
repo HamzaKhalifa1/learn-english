@@ -51,14 +51,15 @@ function ReviewContent() {
     playTTS(word, { voice: 'en-US-AriaNeural' });
   };
 
-  const handleResult = async (correct: boolean) => {
+  const handleResult = (correct: boolean) => {
     const w = reviewWords[current];
     if (w) {
-      await fetch('/api/words/progress', {
+      // Non-blocking optimistic update for instant seamless transitions
+      fetch('/api/words/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'update', wordId: w.word_id, stage: 5, correct }),
-      });
+      }).catch(err => console.error('Failed to update progress', err));
     }
 
     if (current + 1 >= reviewWords.length) {
@@ -155,20 +156,20 @@ function ReviewContent() {
   return (
     <div className="min-h-screen pb-28 pt-4 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
       <Navbar />
-      <div className="w-full max-w-2xl px-4 py-5">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-5 lg:py-8">
         
         {/* Header */}
-        <div className="mb-5">
-          <div className="flex justify-between items-center text-xs mb-2">
-            <span className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
-              <span>🔄</span>
+        <div className="mb-5 lg:mb-7">
+          <div className="flex justify-between items-center text-xs lg:text-sm mb-2.5">
+            <span className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 lg:gap-2">
+              <span className="text-base lg:text-lg">🔄</span>
               <span>{customWordsParam ? 'مراجعة الكلمات المحددة' : 'المراجعة الذكية المجدولة'}</span>
             </span>
             <span className="font-bold text-amber-600 dark:text-amber-400">
               الكلمة {current + 1} من {reviewWords.length}
             </span>
           </div>
-          <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-2 lg:h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-300"
               style={{ width: `${progressPct}%` }}
@@ -180,20 +181,21 @@ function ReviewContent() {
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 text-center border border-slate-100 dark:border-slate-800 shadow-xl relative"
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.12 }}
+            className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 lg:p-12 text-center border border-slate-100 dark:border-slate-800 shadow-xl relative"
           >
-            <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-md mb-4 inline-block ${getLevelColor(w.level)}`}>
+            <span className={`text-[10px] lg:text-xs font-black px-2.5 py-0.5 lg:px-3 lg:py-1 rounded-md mb-4 inline-block ${getLevelColor(w.level)}`}>
               {w.level}
             </span>
 
-            <div className="text-4xl md:text-5xl font-black text-slate-800 dark:text-white mb-1 ltr tracking-tight">
+            <div className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-800 dark:text-white mb-1.5 ltr tracking-tight">
               {w.word}
             </div>
             {wordData && (
-              <div className="text-base mb-6 ltr text-slate-400 dark:text-slate-400 font-mono">
+              <div className="text-base lg:text-xl mb-6 lg:mb-8 ltr text-slate-400 dark:text-slate-400 font-mono font-bold">
                 {wordData.phonetic}
               </div>
             )}
@@ -201,39 +203,39 @@ function ReviewContent() {
             <button
               onClick={() => speakWord(w.word)}
               title="استمع للنطق"
-              className="w-16 h-16 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-8 transition-all active:scale-95 shadow-xs border border-indigo-100 dark:border-indigo-800/60"
+              className="w-16 h-16 lg:w-20 lg:h-20 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900 text-indigo-600 dark:text-indigo-400 rounded-2xl lg:rounded-3xl flex items-center justify-center mx-auto mb-8 transition-all active:scale-95 shadow-xs border border-indigo-100 dark:border-indigo-800/60"
             >
-              <Volume2 size={26} />
+              <Volume2 size={26} className="lg:w-8 lg:h-8" />
             </button>
 
             {!showMeaning ? (
               <button
                 onClick={() => setShowMeaning(true)}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-2xl font-bold hover:from-indigo-700 hover:to-purple-700 active:scale-95 transition-all shadow-lg shadow-indigo-200 dark:shadow-indigo-950 text-sm"
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 lg:py-5 rounded-2xl font-black hover:from-indigo-700 hover:to-purple-700 active:scale-95 transition-all shadow-lg shadow-indigo-200 dark:shadow-indigo-950 text-sm lg:text-lg"
               >
                 أظهر المعنى 👁️
               </button>
             ) : (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.12 }}>
                 {wordData && (
-                  <div className="bg-indigo-50/70 dark:bg-indigo-950/50 border border-indigo-100 dark:border-indigo-800/60 rounded-2xl p-5 mb-6 text-center">
-                    <div className="text-2xl font-black text-indigo-900 dark:text-indigo-200 mb-1">{wordData.meaningAr}</div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400 ltr leading-relaxed font-medium">{wordData.meaningEn}</div>
+                  <div className="bg-indigo-50/70 dark:bg-indigo-950/50 border border-indigo-100 dark:border-indigo-800/60 rounded-2xl lg:rounded-3xl p-5 lg:p-7 mb-6 text-center">
+                    <div className="text-2xl lg:text-4xl font-black text-indigo-900 dark:text-indigo-200 mb-1.5">{wordData.meaningAr}</div>
+                    <div className="text-xs lg:text-base text-slate-500 dark:text-slate-400 ltr leading-relaxed font-medium">{wordData.meaningEn}</div>
                   </div>
                 )}
-                <div className="flex gap-3">
+                <div className="flex gap-3 lg:gap-4">
                   <button
                     onClick={() => handleResult(false)}
-                    className="flex-1 bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-2 border-rose-200 dark:border-rose-800/60 py-3.5 rounded-2xl font-bold hover:bg-rose-100 transition-colors flex items-center justify-center gap-2 active:scale-95 text-xs md:text-sm"
+                    className="flex-1 bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-2 border-rose-200 dark:border-rose-800/60 py-3.5 lg:py-4.5 rounded-2xl font-black hover:bg-rose-100 transition-colors flex items-center justify-center gap-2 active:scale-95 text-xs md:text-sm lg:text-base"
                   >
-                    <XCircle size={18} />
+                    <XCircle size={18} className="lg:w-5 lg:h-5" />
                     <span>لم أتذكر</span>
                   </button>
                   <button
                     onClick={() => handleResult(true)}
-                    className="flex-1 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-200 border-2 border-emerald-300 dark:border-emerald-800/60 py-3.5 rounded-2xl font-bold hover:bg-emerald-100 transition-colors flex items-center justify-center gap-2 active:scale-95 text-xs md:text-sm"
+                    className="flex-1 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-200 border-2 border-emerald-300 dark:border-emerald-800/60 py-3.5 lg:py-4.5 rounded-2xl font-black hover:bg-emerald-100 transition-colors flex items-center justify-center gap-2 active:scale-95 text-xs md:text-sm lg:text-base"
                   >
-                    <CheckCircle2 size={18} />
+                    <CheckCircle2 size={18} className="lg:w-5 lg:h-5" />
                     <span>تذكرت بنجاح</span>
                   </button>
                 </div>

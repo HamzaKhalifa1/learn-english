@@ -93,7 +93,7 @@ export default function UnitFastTrackQuiz({
         setCurrentIdx(i => i + 1);
         setSelectedOpt(null);
       }
-    }, 700);
+    }, 350);
   };
 
   const handleSkipUnknown = () => {
@@ -149,7 +149,7 @@ export default function UnitFastTrackQuiz({
 
           {knownWords.length > 0 && (
             <div className="mb-4 text-right">
-              <div className="text-xs font-bold text-slate-400 mb-2 flex items-center gap-1.5">
+              <div className="text-xs font-bold text-slate-400 dark:text-slate-400 mb-2 flex items-center gap-1.5">
                 <CheckCircle2 size={14} className="text-emerald-500" />
                 <span>الكلمات التي تم تخطيها ({knownWords.length}):</span>
               </div>
@@ -157,11 +157,11 @@ export default function UnitFastTrackQuiz({
                 {knownWords.map(w => (
                   <span
                     key={w.id}
-                    className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-lg text-xs font-bold"
+                    className="inline-flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 px-2.5 py-1 rounded-lg text-xs font-bold"
                   >
                     <span>✓</span>
                     <span className="ltr font-semibold">{w.word}</span>
-                    <span className="text-emerald-500 text-[10px]">({w.meaningAr})</span>
+                    <span className="text-emerald-500 dark:text-emerald-400 text-[10px]">({w.meaningAr})</span>
                   </span>
                 ))}
               </div>
@@ -170,7 +170,7 @@ export default function UnitFastTrackQuiz({
 
           {remainingWords.length > 0 && (
             <div className="mb-6 text-right">
-              <div className="text-xs font-bold text-slate-400 mb-2 flex items-center gap-1.5">
+              <div className="text-xs font-bold text-slate-400 dark:text-slate-400 mb-2 flex items-center gap-1.5">
                 <Sparkles size={14} className="text-indigo-500" />
                 <span>الكلمات التي ستتعلمها الآن ({remainingWords.length}):</span>
               </div>
@@ -178,10 +178,10 @@ export default function UnitFastTrackQuiz({
                 {remainingWords.map(w => (
                   <span
                     key={w.id}
-                    className="inline-flex items-center gap-1 bg-slate-50 text-slate-700 border border-slate-200 px-2.5 py-1 rounded-lg text-xs font-medium"
+                    className="inline-flex items-center gap-1 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-lg text-xs font-medium"
                   >
-                    <span className="ltr font-bold text-slate-800">{w.word}</span>
-                    <span className="text-slate-400 text-[10px]">({w.meaningAr})</span>
+                    <span className="ltr font-bold text-slate-800 dark:text-white">{w.word}</span>
+                    <span className="text-slate-400 dark:text-slate-400 text-[10px]">({w.meaningAr})</span>
                   </span>
                 ))}
               </div>
@@ -287,19 +287,19 @@ export default function UnitFastTrackQuiz({
                   const hasAnswered = selectedOpt !== null;
                   const letter = ['A', 'B', 'C', 'D'][i] ?? `${i + 1}`;
 
-                  let btnStyle = 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-800';
-                  let badgeStyle = 'bg-slate-100 text-slate-600';
+                  let btnStyle = 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/40 text-slate-800 dark:text-slate-100';
+                  let badgeStyle = 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300';
 
                   if (hasAnswered) {
                     if (isCorrect) {
-                      btnStyle = 'border-emerald-500 bg-emerald-50 text-emerald-900 shadow-sm';
+                      btnStyle = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/70 text-emerald-900 dark:text-emerald-200 shadow-sm';
                       badgeStyle = 'bg-emerald-500 text-white';
                     } else if (isSelected) {
-                      btnStyle = 'border-rose-500 bg-rose-50 text-rose-900 shadow-sm';
+                      btnStyle = 'border-rose-500 bg-rose-50 dark:bg-rose-950/70 text-rose-900 dark:text-rose-200 shadow-sm';
                       badgeStyle = 'bg-rose-500 text-white';
                     } else {
-                      btnStyle = 'border-slate-100 bg-slate-50/50 text-slate-400 opacity-40';
-                      badgeStyle = 'bg-slate-200 text-slate-400';
+                      btnStyle = 'border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 text-slate-400 dark:text-slate-500 opacity-40';
+                      badgeStyle = 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500';
                     }
                   }
 
@@ -318,10 +318,10 @@ export default function UnitFastTrackQuiz({
                       </div>
 
                       {hasAnswered && isCorrect && (
-                        <CheckCircle2 size={20} className="text-emerald-600 flex-none" />
+                        <CheckCircle2 size={20} className="text-emerald-600 dark:text-emerald-400 flex-none" />
                       )}
                       {hasAnswered && isSelected && !isCorrect && (
-                        <XCircle size={20} className="text-rose-500 flex-none" />
+                        <XCircle size={20} className="text-rose-500 dark:text-rose-400 flex-none" />
                       )}
                     </button>
                   );
@@ -332,7 +332,7 @@ export default function UnitFastTrackQuiz({
               <button
                 onClick={handleSkipUnknown}
                 disabled={selectedOpt !== null}
-                className="w-full py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-slate-600 hover:bg-slate-50 border border-dashed border-slate-200 transition-all flex items-center justify-center gap-1.5 disabled:opacity-40"
+                className="w-full py-2.5 rounded-xl text-xs font-bold text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 border border-dashed border-slate-200 dark:border-slate-700 transition-all flex items-center justify-center gap-1.5 disabled:opacity-40"
               >
                 <SkipForward size={14} />
                 <span>لا أعرف هذه الكلمة (تخطي للسؤال التالي)</span>
