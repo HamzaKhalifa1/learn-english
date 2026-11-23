@@ -433,6 +433,7 @@ export async function updateWordStage(wordId: string, stage: number, correct?: b
   let totalAttempts = existing.total_attempts;
   let correctAttempts = existing.correct_attempts;
   let isLearned = existing.is_learned;
+  let isMastered = existing.is_mastered ?? 0;
   let easeFactor = existing.ease_factor;
   let intervalDays = existing.interval_days;
   let nextReviewDate = existing.next_review_date;
@@ -450,6 +451,13 @@ export async function updateWordStage(wordId: string, stage: number, correct?: b
       nextReviewDate = new Date(
         Date.now() + intervalDays * 86400000
       ).toISOString().split('T')[0];
+
+      // Mastery criteria: long spaced repetition interval (14+ days) OR 4+ successful reviews with >= 80% accuracy
+      if (intervalDays >= 14 || (correctAttempts >= 4 && (correctAttempts / totalAttempts) >= 0.8)) {
+        isMastered = 1;
+      } else if (!correct) {
+        isMastered = 0;
+      }
     }
   }
 
@@ -461,6 +469,7 @@ export async function updateWordStage(wordId: string, stage: number, correct?: b
         total_attempts: totalAttempts,
         correct_attempts: correctAttempts,
         is_learned: isLearned,
+        is_mastered: isMastered,
         ease_factor: easeFactor,
         interval_days: intervalDays,
         next_review_date: nextReviewDate,
@@ -478,6 +487,7 @@ export async function updateWordStage(wordId: string, stage: number, correct?: b
         total_attempts = ?,
         correct_attempts = ?,
         is_learned = ?,
+        is_mastered = ?,
         ease_factor = ?,
         interval_days = ?,
         next_review_date = ?,
@@ -489,6 +499,7 @@ export async function updateWordStage(wordId: string, stage: number, correct?: b
     totalAttempts,
     correctAttempts,
     isLearned,
+    isMastered,
     easeFactor,
     intervalDays,
     nextReviewDate,
