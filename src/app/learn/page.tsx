@@ -124,12 +124,16 @@ export default function LearnPage() {
   const userLevelIndex = LEVEL_ORDER.indexOf(userLevel.substring(0, 2).toUpperCase());
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
-      <div className="text-center">
-        <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-          📚
+    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19] page-ambient">
+      <div className="text-center relative z-10">
+        <div className="relative w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+          <div className="absolute inset-0 bg-indigo-500/20 rounded-3xl blur-xl animate-pulse" />
+          <div className="relative w-16 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-indigo-100 dark:border-indigo-800/60 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+            📚
+          </div>
         </div>
-        <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري تحميل الوحدات...</div>
+        <div className="text-slate-700 dark:text-slate-200 font-extrabold text-base mb-1">جاري تحميل مسار التعلم...</div>
+        <div className="text-slate-400 dark:text-slate-500 text-xs font-medium">نجهز لك أفضل تجربة مخصصة لمستواك</div>
       </div>
     </div>
   );
@@ -145,9 +149,9 @@ export default function LearnPage() {
     }));
 
   return (
-    <div className="min-h-screen pb-28 pt-0 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
+    <div className="min-h-screen pb-28 pt-0 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center page-ambient">
       <Navbar />
-      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8 relative z-10">
         
         {/* Header with Level & Retake Button */}
         <div className="mb-6 lg:mb-8 flex items-center justify-between gap-3">
@@ -168,7 +172,7 @@ export default function LearnPage() {
             onClick={handleRetakePlacement}
             disabled={retakingTest}
             title="إعادة اختبار تحديد المستوى"
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50 flex-none"
+            className="flex items-center gap-1.5 glass-card hover:bg-slate-50 dark:hover:bg-slate-800/80 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200/80 dark:border-slate-800 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50 flex-none"
           >
             <RefreshCw size={13} className={retakingTest ? 'animate-spin' : ''} />
             <span>إعادة الامتحان</span>
@@ -205,30 +209,30 @@ export default function LearnPage() {
               <div key={level} className="space-y-3 lg:space-y-4">
                 
                 {/* Level header bar */}
-                <div className="flex items-center justify-between px-1 flex-wrap gap-2">
-                  <div className="flex items-center gap-2 lg:gap-3">
-                    <span className="text-xl lg:text-3xl">{icon}</span>
+                <div className="glass-card px-4 py-3 rounded-2xl flex items-center justify-between flex-wrap gap-2 border border-slate-200/70 dark:border-slate-800/80 shadow-xs">
+                  <div className="flex items-center gap-2.5 lg:gap-3">
+                    <span className="text-xl lg:text-2xl">{icon}</span>
                     <span className={`text-xs lg:text-sm font-black px-2.5 py-0.5 lg:px-3 lg:py-1 rounded-lg ${getLevelColor(level)}`}>
                       {level}
                     </span>
-                    <span className="text-sm lg:text-xl font-bold text-slate-700 dark:text-slate-200">{label}</span>
+                    <span className="text-sm lg:text-lg font-bold text-slate-700 dark:text-slate-200">{label}</span>
                   </div>
 
                   <div>
                     {isLevelLocked ? (
-                      <span className="text-[11px] lg:text-sm font-bold text-slate-400 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 lg:px-3.5 lg:py-1.5 rounded-full flex items-center gap-1.5 border border-slate-200 dark:border-slate-700">
+                      <span className="text-[11px] lg:text-xs font-bold text-slate-400 dark:text-slate-400 bg-slate-100/80 dark:bg-slate-800/80 px-2.5 py-1 lg:px-3 lg:py-1.5 rounded-full flex items-center gap-1.5 border border-slate-200 dark:border-slate-700">
                         <Lock size={12} />
                         <span>أكمل المستوى السابق</span>
                       </span>
                     ) : levelPct === 100 ? (
-                      <span className="text-[11px] lg:text-sm font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 lg:px-3.5 lg:py-1.5 rounded-full flex items-center gap-1.5 border border-emerald-200 dark:border-emerald-800/60">
-                        <CheckCircle2 size={14} className="text-emerald-600 dark:text-emerald-400" />
+                      <span className="text-[11px] lg:text-xs font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 lg:px-3 lg:py-1.5 rounded-full flex items-center gap-1.5 border border-emerald-200 dark:border-emerald-800/60">
+                        <CheckCircle2 size={13} className="text-emerald-600 dark:text-emerald-400" />
                         <span>مكتمل بالكامل 100%</span>
                       </span>
                     ) : (
-                      <span className="text-[11px] lg:text-sm font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 lg:px-3.5 lg:py-1.5 rounded-full flex items-center gap-1.5 border border-indigo-100 dark:border-indigo-800/60">
+                      <span className="text-[11px] lg:text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 lg:px-3 lg:py-1.5 rounded-full flex items-center gap-1.5 border border-indigo-100 dark:border-indigo-800/60">
                         <span>{doneWordsInLevel}/{totalWordsInLevel} كلمة</span>
-                        <span>({levelPct}%)</span>
+                        <span className="font-black text-indigo-600 dark:text-indigo-400">({levelPct}%)</span>
                       </span>
                     )}
                   </div>
@@ -260,12 +264,12 @@ export default function LearnPage() {
                           }}
                           role="button"
                           tabIndex={isLocked ? -1 : 0}
-                          className={`block bg-white dark:bg-slate-900 rounded-2xl lg:rounded-3xl p-4 lg:p-6 border transition-all cursor-pointer ${
+                          className={`block rounded-2xl lg:rounded-3xl p-4 lg:p-6 border transition-all cursor-pointer ${
                             isLocked
-                              ? 'opacity-55 cursor-not-allowed pointer-events-none border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50'
+                              ? 'opacity-40 cursor-not-allowed pointer-events-none border-slate-200/50 dark:border-slate-800/50 bg-slate-100/40 dark:bg-slate-900/40'
                               : isCompleted
-                              ? 'border-emerald-100 dark:border-emerald-900/50 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md'
-                              : 'border-slate-100 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-md active:scale-[0.99]'
+                              ? 'glass-card border-emerald-500/20 dark:border-emerald-500/20 hover:border-emerald-500/40 hover:shadow-lg hover:shadow-emerald-500/5 hover:-translate-y-0.5 active:scale-[0.99]'
+                              : 'glass-card border-slate-200/80 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-500/5 hover:-translate-y-0.5 active:scale-[0.99]'
                           }`}
                         >
                           {/* Card Main Info Row */}
@@ -314,12 +318,12 @@ export default function LearnPage() {
                               </div>
 
                               {/* Progress Track */}
-                              <div className="mt-2 h-2 lg:h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden relative">
+                              <div className="mt-2.5 h-2 lg:h-2.5 bg-slate-100 dark:bg-slate-800/80 rounded-full overflow-hidden relative">
                                 <div
                                   className={`h-full rounded-full transition-all duration-500 ${
                                     isCompleted
-                                      ? 'bg-gradient-to-l from-emerald-400 to-teal-500'
-                                      : 'bg-gradient-to-l from-indigo-500 to-purple-500'
+                                      ? 'bg-gradient-to-l from-emerald-400 via-teal-400 to-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+                                      : 'bg-gradient-to-l from-indigo-500 via-purple-500 to-pink-500 shadow-[0_0_12px_rgba(99,102,241,0.3)]'
                                   }`}
                                   style={{ width: `${pct}%` }}
                                 />
@@ -344,7 +348,7 @@ export default function LearnPage() {
                               <button
                                 type="button"
                                 title="قراءة واستماع قصة الوحدة التفاعلية (+20 XP)"
-                                className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 text-xs lg:text-sm font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800/80 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl transition-all shadow-xs active:scale-95"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 text-xs lg:text-sm font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50/80 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200/80 dark:border-indigo-800/80 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl transition-all shadow-xs active:scale-95"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedStoryUnit(unit.id);
@@ -357,7 +361,7 @@ export default function LearnPage() {
                               <button
                                 type="button"
                                 title="خوض محادثة تفاعلية موجهة مع الذكاء الاصطناعي (+30 XP)"
-                                className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 text-xs lg:text-sm font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/80 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl transition-all shadow-xs active:scale-95"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 text-xs lg:text-sm font-bold text-purple-700 dark:text-purple-300 bg-purple-50/80 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200/80 dark:border-purple-800/80 px-3 py-2 lg:px-4 lg:py-2.5 rounded-xl transition-all shadow-xs active:scale-95"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   router.push(`/roleplay?unit=${unit.id}`);
@@ -378,7 +382,7 @@ export default function LearnPage() {
                               <button
                                 type="button"
                                 title="إجراء فحص سريع لتخطي الكلمات المعروفة مسبقاً"
-                                className="flex items-center gap-1.5 text-xs lg:text-sm font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-300 dark:border-amber-800/80 px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl transition-all shadow-xs flex-none active:scale-95"
+                                className="flex items-center gap-1.5 text-xs lg:text-sm font-bold text-amber-800 dark:text-amber-300 bg-amber-50/80 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-300/80 dark:border-amber-800/80 px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl transition-all shadow-xs flex-none active:scale-95"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   router.push(`/learn/${unit.id}?quiz=1`);

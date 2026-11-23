@@ -114,10 +114,10 @@ function RoleplayContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-[#0b0f19] dark:via-[#0b0f19] dark:to-[#0b0f19] text-slate-800 dark:text-slate-100 pb-28 pt-0 md:pt-20">
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0b0f19] text-slate-800 dark:text-slate-100 pb-28 pt-0 md:pt-20 page-ambient">
       <Navbar />
 
-      <main className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto px-4 lg:px-8 pt-3 md:pt-4 lg:pt-6">
+      <main className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto px-4 lg:px-8 pt-3 md:pt-4 lg:pt-6 relative z-10">
         {/* ── Hero Banner ────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -166,7 +166,7 @@ function RoleplayContent() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="ابحث عن وحدة، موضوع، أو كلمة مستهدفة (مثال: Health, Food, Success)..."
-            className="w-full bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-2xl py-3 lg:py-4 pr-11 lg:pr-13 pl-10 lg:pl-12 text-xs md:text-sm lg:text-base font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-950 shadow-2xs transition-all"
+            className="w-full glass-card border border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-2xl py-3.5 lg:py-4 pr-11 lg:pr-13 pl-10 lg:pl-12 text-xs md:text-sm lg:text-base font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-950 shadow-2xs transition-all"
           />
           {searchQuery && (
             <button
@@ -180,7 +180,7 @@ function RoleplayContent() {
 
         {/* ── Level Filter Tabs ───────────────────────────────────────── */}
         <div className="flex items-center justify-between gap-2 mb-5 lg:mb-6 overflow-x-auto pb-1 no-scrollbar">
-          <div className="flex items-center gap-1.5 bg-white dark:bg-slate-900 p-1 lg:p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs flex-none">
+          <div className="flex items-center gap-1.5 glass-card p-1 lg:p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs flex-none">
             {LEVEL_TABS.map(tab => {
               const active = selectedLevel === tab;
               const count = levelCounts[tab] || 0;
@@ -191,7 +191,7 @@ function RoleplayContent() {
                   className={`px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl text-xs lg:text-sm font-black transition-all flex items-center gap-1.5 ${
                     active
                       ? 'bg-indigo-600 text-white shadow-xs'
-                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/80'
                   }`}
                 >
                   <span>{tab}</span>
@@ -215,7 +215,7 @@ function RoleplayContent() {
         {/* ── Scenarios List ─────────────────────────────────────────── */}
         <div className="space-y-3.5 lg:space-y-4">
           {filteredScenarios.length === 0 ? (
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-10 text-center border border-slate-200/80 dark:border-slate-800 shadow-xs">
+            <div className="glass-card rounded-3xl p-10 text-center border border-slate-200/80 dark:border-slate-800 shadow-xs">
               <div className="text-4xl mb-3">🔍</div>
               <h3 className="font-black text-slate-800 dark:text-white text-base lg:text-lg mb-1">لم نجد محادثة مطابقة</h3>
               <p className="text-xs lg:text-sm text-slate-400 dark:text-slate-400">
@@ -235,11 +235,15 @@ function RoleplayContent() {
                   onClick={() => setActiveScenario(scenario)}
                   role="button"
                   tabIndex={0}
-                  className="w-full bg-white dark:bg-slate-900 rounded-3xl p-4 md:p-5 lg:p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-700 transition-all cursor-pointer group active:scale-[0.99] text-right relative overflow-hidden"
+                  className={`w-full rounded-3xl p-4 md:p-5 lg:p-6 border transition-all cursor-pointer group active:scale-[0.99] text-right relative overflow-hidden ${
+                    isCompleted
+                      ? 'glass-card border-emerald-500/20 dark:border-emerald-500/20 hover:border-emerald-500/40 hover:shadow-lg'
+                      : 'glass-card border-slate-200/80 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-600 hover:shadow-lg hover:-translate-y-0.5'
+                  }`}
                 >
                   <div className="flex items-start gap-4 lg:gap-5">
                     {/* Character Avatar */}
-                    <div className="w-14 h-14 lg:w-18 lg:h-18 rounded-2xl bg-gradient-to-tr from-slate-100 to-indigo-50 dark:from-slate-800 dark:to-indigo-950/60 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-3xl lg:text-4xl shadow-2xs group-hover:scale-105 transition-transform flex-none">
+                    <div className="w-14 h-14 lg:w-18 lg:h-18 rounded-2xl bg-gradient-to-tr from-indigo-50/80 to-purple-50/80 dark:from-slate-800 dark:to-indigo-950/60 border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-center text-3xl lg:text-4xl shadow-xs group-hover:scale-105 group-hover:rotate-3 transition-transform flex-none">
                       {scenario.character.avatar}
                     </div>
 

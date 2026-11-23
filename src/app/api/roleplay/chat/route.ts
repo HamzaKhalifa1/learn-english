@@ -42,13 +42,15 @@ async function getAvailableGeminiModels(apiKey: string): Promise<string[]> {
           .map((m: any) => m.name.replace(/^models\//, ''));
 
         const rank = (name: string) => {
+          if (name === 'gemini-3.8-flash') return 0;
           if (name === 'gemini-3.5-flash') return 1;
           if (name === 'gemini-3.5-flash-lite') return 2;
           if (name === 'gemini-3.1-pro-preview') return 3;
           if (name === 'gemini-3-flash-preview') return 4;
-          if (name.includes('gemini-3.5')) return 5;
-          if (name.includes('gemini-3.1')) return 6;
-          if (name.includes('gemini-3')) return 7;
+          if (name.includes('gemini-3.8')) return 5;
+          if (name.includes('gemini-3.5')) return 6;
+          if (name.includes('gemini-3.1')) return 7;
+          if (name.includes('gemini-3')) return 8;
           return 99; // Deprecated 2.x and 1.x models go to the very end
         };
 
@@ -67,6 +69,7 @@ async function getAvailableGeminiModels(apiKey: string): Promise<string[]> {
 
   // Fallback list of current models recommended by Google AI Studio
   return [
+    'gemini-3.8-flash',
     'gemini-3.5-flash',
     'gemini-3.5-flash-lite',
     'gemini-3.1-pro-preview',

@@ -176,9 +176,9 @@ export default function VocabularyPage() {
   const isAllSelected = filtered.length > 0 && selectedWordIds.size === filtered.length;
 
   return (
-    <div className="min-h-screen pb-32 pt-0 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
+    <div className="min-h-screen pb-32 pt-0 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center page-ambient">
       <Navbar />
-      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8 relative z-10">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-4 lg:mb-6">
@@ -320,10 +320,10 @@ export default function VocabularyPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: Math.min(i * 0.015, 0.25) }}
                   onClick={() => setExpandedId(isOpen ? null : w.id)}
-                  className={`bg-white dark:bg-slate-900 rounded-2xl p-4 cursor-pointer select-none transition-all border ${
+                  className={`rounded-2xl p-4 cursor-pointer select-none transition-all border ${
                     isSelected
-                      ? 'border-indigo-400 dark:border-indigo-500 bg-indigo-50/30 dark:bg-indigo-950/40 shadow-md ring-2 ring-indigo-100 dark:ring-indigo-900/50'
-                      : 'border-slate-100 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-sm'
+                      ? 'glass-card border-indigo-500/50 bg-indigo-50/40 dark:bg-indigo-950/50 shadow-md ring-2 ring-indigo-200 dark:ring-indigo-800/60'
+                      : 'glass-card border-slate-200/80 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-md hover:-translate-y-0.5'
                   }`}
                 >
                   <div className="flex items-center gap-3">

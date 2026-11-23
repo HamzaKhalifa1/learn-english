@@ -60,9 +60,9 @@ export default function StatsPage() {
   ];
 
   return (
-    <div className="min-h-screen pb-28 pt-0 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center">
+    <div className="min-h-screen pb-28 pt-0 md:pt-24 bg-[#f8fafc] dark:bg-[#0b0f19] flex flex-col items-center page-ambient">
       <Navbar />
-      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8">
+      <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8 relative z-10">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-5 lg:mb-7">
@@ -75,7 +75,7 @@ export default function StatsPage() {
             onClick={handleRetakeTest}
             disabled={resetting}
             title="إعادة اختبار تحديد المستوى"
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 glass-card hover:bg-slate-50 dark:hover:bg-slate-800/80 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200/80 dark:border-slate-800 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50"
           >
             <RefreshCw size={13} className={resetting ? 'animate-spin' : ''} />
             <span>إعادة الامتحان</span>
@@ -95,7 +95,7 @@ export default function StatsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-100 dark:border-slate-800 shadow-sm transition-all hover:shadow-md"
+              className="glass-card rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-2xl">{c.icon}</span>
