@@ -18,6 +18,7 @@ import {
   Languages,
 } from 'lucide-react';
 import type { RoleplayScenario, SuggestedReply, TargetWordDetail } from '@/data/roleplayScenarios';
+import AISettingsModal from './AISettingsModal';
 
 interface Message {
   id: string;
@@ -56,6 +57,15 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
   const [isGoalReached, setIsGoalReached] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
+  const [showAISettings, setShowAISettings] = useState(false);
+  const [hasAIKey, setHasAIKey] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const key = localStorage.getItem('user_ai_api_key');
+      setHasAIKey(!!key);
+    }
+  }, [showAISettings]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
@@ -176,6 +186,9 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
 
     try {
       const chatHistory = messages.map(m => ({ sender: m.sender, text: m.text }));
+      const userApiKey = typeof window !== 'undefined' ? localStorage.getItem('user_ai_api_key') || undefined : undefined;
+      const userProvider = typeof window !== 'undefined' ? localStorage.getItem('user_ai_provider') || undefined : undefined;
+
       const res = await fetch('/api/roleplay/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -183,6 +196,8 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
           scenarioId: scenario.id,
           messages: chatHistory,
           userMessage: content,
+          userApiKey,
+          userProvider,
         }),
       });
 
@@ -283,6 +298,20 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
           </div>
 
           <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setShowAISettings(true)}
+              title="إعدادات محرك الذكاء الاصطناعي (Gemini / Groq)"
+              className={`p-1.5 px-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs active:scale-95 ${
+                hasAIKey
+                  ? 'bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                  : 'bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100'
+              }`}
+            >
+              <Sparkles size={13} className={hasAIKey ? 'text-emerald-500' : 'text-amber-500'} />
+              <span className="hidden sm:inline">{hasAIKey ? 'AI حي نشط ⚡' : 'إعدادات AI ⚙️'}</span>
+            </button>
+
             <button
               onClick={() => {
                 setIsMuted(prev => {
@@ -697,6 +726,13 @@ export default function RoleplayChatModal({ scenario, onClose, onFinish }: Props
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* ── AI Engine Configuration Modal ──────────────────────────── */}
+        <AISettingsModal
+          isOpen={showAISettings}
+          onClose={() => setShowAISettings(false)}
+          onKeyUpdated={k => setHasAIKey(k)}
+        />
       </motion.div>
     </div>
   );

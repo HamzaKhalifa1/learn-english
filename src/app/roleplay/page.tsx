@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import RoleplayChatModal from '@/components/RoleplayChatModal';
+import AISettingsModal from '@/components/AISettingsModal';
 import { ROLEPLAY_SCENARIOS, RoleplayScenario } from '@/data/roleplayScenarios';
 
 const LEVEL_TABS = ['الكل', 'A1', 'A2', 'B1', 'B2', 'C1'];
@@ -29,6 +30,15 @@ function RoleplayContent() {
   const [completedScenarios, setCompletedScenarios] = useState<string[]>([]);
   const [activeScenario, setActiveScenario] = useState<RoleplayScenario | null>(null);
   const [userXp, setUserXp] = useState<number | null>(null);
+  const [showAISettings, setShowAISettings] = useState(false);
+  const [hasAIKey, setHasAIKey] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const key = localStorage.getItem('user_ai_api_key');
+      setHasAIKey(!!key);
+    }
+  }, [showAISettings]);
 
   // Auto-launch scenario if query param passed (e.g. /roleplay?unit=b1-u5)
   useEffect(() => {
@@ -129,6 +139,17 @@ function RoleplayContent() {
               <p className="text-xs md:text-sm lg:text-base text-white/85 font-medium mt-1.5 max-w-xl leading-relaxed">
                 حوارات واقعية وتدريب صوتي تفاعلي لكل وحدات المنهج ({ROLEPLAY_SCENARIOS.length} وحدة) مع الكلمات المستهدفة ومكافأة +30 XP!
               </p>
+
+              <div className="mt-3.5 flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => setShowAISettings(true)}
+                  className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-white transition-all shadow-xs active:scale-95 border border-white/25 cursor-pointer"
+                >
+                  <Sparkles size={14} className={hasAIKey ? 'text-emerald-300' : 'text-amber-300'} />
+                  <span>{hasAIKey ? 'الذكاء الاصطناعي الحي نشط ⚡' : 'ربط محرك الذكاء الاصطناعي الحقيقي (Gemini / Groq) ⚙️'}</span>
+                </button>
+              </div>
             </div>
 
             <div className="hidden sm:flex w-20 h-20 lg:w-24 lg:h-24 bg-white/15 backdrop-blur-md rounded-3xl items-center justify-center text-4xl lg:text-5xl shadow-inner border border-white/20 flex-none">
@@ -297,6 +318,13 @@ function RoleplayContent() {
           />
         )}
       </AnimatePresence>
+
+      {/* ── AI Settings Modal ────────────────────────────────────────── */}
+      <AISettingsModal
+        isOpen={showAISettings}
+        onClose={() => setShowAISettings(false)}
+        onKeyUpdated={k => setHasAIKey(k)}
+      />
     </div>
   );
 }
