@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import { getLevelColor } from '@/lib/words';
 import type { Unit } from '@/lib/words';
 import InteractiveUnitStory from '@/components/InteractiveUnitStory';
+import LoadingScreen from '@/components/LoadingScreen';
 
 const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const LEVEL_LABELS: Record<string, string> = {
@@ -124,18 +125,11 @@ export default function LearnPage() {
   const userLevelIndex = LEVEL_ORDER.indexOf(userLevel.substring(0, 2).toUpperCase());
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19] page-ambient">
-      <div className="text-center relative z-10">
-        <div className="relative w-20 h-20 mx-auto mb-4 flex items-center justify-center">
-          <div className="absolute inset-0 bg-indigo-500/20 rounded-3xl blur-xl animate-pulse" />
-          <div className="relative w-16 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-indigo-100 dark:border-indigo-800/60 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
-            📚
-          </div>
-        </div>
-        <div className="text-slate-700 dark:text-slate-200 font-extrabold text-base mb-1">جاري تحميل مسار التعلم...</div>
-        <div className="text-slate-400 dark:text-slate-500 text-xs font-medium">نجهز لك أفضل تجربة مخصصة لمستواك</div>
-      </div>
-    </div>
+    <LoadingScreen
+      message="جاري تحميل مسار التعلم..."
+      subtitle="نجهز لك الوحدات والقصص المخصصة لمستواك"
+      icon="📖"
+    />
   );
 
   // Group units by level

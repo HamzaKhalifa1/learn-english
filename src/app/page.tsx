@@ -22,6 +22,7 @@ import {
 import Navbar from '@/components/Navbar';
 import XPBar from '@/components/XPBar';
 import OnboardingScreen from '@/components/OnboardingScreen';
+import LoadingScreen from '@/components/LoadingScreen';
 import { getLevelLabel } from '@/lib/words';
 
 interface Stats {
@@ -149,19 +150,11 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
-        <div className="text-center">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: 'spring', damping: 12 }}
-            className="w-16 h-16 mx-auto mb-4 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg shadow-indigo-500/25"
-          >
-            📚
-          </motion.div>
-          <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري التحميل...</div>
-        </div>
-      </div>
+      <LoadingScreen
+        message="جاري تحضير لوحة التعلم..."
+        subtitle="نسترجع إحصائياتك ومستواك وكلماتك المجدولة"
+        icon="🚀"
+      />
     );
   }
 

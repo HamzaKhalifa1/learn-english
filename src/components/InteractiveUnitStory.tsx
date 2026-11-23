@@ -21,6 +21,7 @@ import {
 import type { UnitStory, StoryQuestion } from '@/data/unitStories';
 import { getUnit } from '@/lib/words';
 import { playTTS, stopTTS } from '@/lib/tts';
+import LoadingScreen from '@/components/LoadingScreen';
 
 interface Props {
   unitId: string;
@@ -267,13 +268,13 @@ export default function InteractiveUnitStory({ unitId, onClose, onFinish }: Prop
 
   if (loading) {
     return (
-      <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-100 dark:border-slate-800">
-          <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-            📖
-          </div>
-          <div className="text-slate-600 dark:text-slate-300 font-bold text-sm">جاري تحضير القصة التفاعلية...</div>
-        </div>
+      <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <LoadingScreen
+          fullScreen={false}
+          message="جاري تحضير القصة التفاعلية..."
+          subtitle="سرد قصصي ممتع يربط كلمات الوحدة بسياق واقعي"
+          icon="📖"
+        />
       </div>
     );
   }

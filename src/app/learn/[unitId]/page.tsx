@@ -6,6 +6,7 @@ import WordLearningCycle from '@/components/WordLearningCycle';
 import UnitFastTrackQuiz from '@/components/UnitFastTrackQuiz';
 import InteractiveUnitStory from '@/components/InteractiveUnitStory';
 import Navbar from '@/components/Navbar';
+import LoadingScreen from '@/components/LoadingScreen';
 import type { Unit, WordData } from '@/lib/words';
 import { getCuratedWordVisual } from '@/lib/wordVisuals';
 import {
@@ -195,14 +196,11 @@ function UnitContent() {
   };
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
-      <div className="text-center">
-        <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-          📖
-        </div>
-        <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري التحميل...</div>
-      </div>
-    </div>
+    <LoadingScreen
+      message="جاري تحضير الوحدة التعليمية..."
+      subtitle="نجهز الكلمات التفاعلية وتمارين التثبيت"
+      icon="🎯"
+    />
   );
 
   if (!unit) return (
@@ -578,14 +576,11 @@ export default function UnitPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#f8fafc]">
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-              📖
-            </div>
-            <div className="text-slate-500 font-bold text-sm">جاري التحميل...</div>
-          </div>
-        </div>
+        <LoadingScreen
+          message="جاري فتح الوحدة..."
+          subtitle="لحظات ونبدأ جلسة التعلم"
+          icon="📖"
+        />
       }
     >
       <UnitContent />

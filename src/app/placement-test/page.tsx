@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { getLevelLabel, getLevelColor, getQuestionTypeLabel } from '@/lib/words';
 import { CheckCircle2, XCircle, Brain, BookOpen, Award, ArrowRight, BarChart3, Sparkles } from 'lucide-react';
+import LoadingScreen from '@/components/LoadingScreen';
 
 interface Question {
   id: string;
@@ -102,19 +103,11 @@ export default function PlacementTest() {
 
   if (loading || submitting) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8fafc]">
-        <div className="text-center p-6 max-w-sm mx-auto">
-          <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-            {submitting ? '🎯' : '🧠'}
-          </div>
-          <div className="text-slate-800 font-bold text-base mb-1">
-            {submitting ? 'جاري تحليل إجاباتك وتحديد مستواك...' : 'جاري تحميل الاختبار...'}
-          </div>
-          {submitting && (
-            <p className="text-xs text-slate-400">نقوم بتجهيز وحدات التعلم المناسبة لمستواك بدقة</p>
-          )}
-        </div>
-      </div>
+      <LoadingScreen
+        message={submitting ? 'جاري تحليل إجاباتك وتحديد مستواك بدقة...' : 'جاري تحضير اختبار تحديد المستوى...'}
+        subtitle={submitting ? 'نقوم بضبط وحدات التعلم الملائمة لمستواك الحقيقي' : 'أسئلة تفاعلية ذكية متدرجة الصعوبة'}
+        icon={submitting ? '🎯' : '🧠'}
+      />
     );
   }
 

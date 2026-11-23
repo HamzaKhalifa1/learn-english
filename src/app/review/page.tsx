@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Volume2, CheckCircle2, XCircle, ArrowRight, RotateCcw, Sparkles, BookOpen } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import LoadingScreen from '@/components/LoadingScreen';
 import { getWord, getLevelColor } from '@/lib/words';
 import { playTTS } from '@/lib/tts';
 
@@ -72,14 +73,11 @@ function ReviewContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
-        <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 bg-amber-50 dark:bg-amber-950/60 border border-amber-100 dark:border-amber-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-            🔄
-          </div>
-          <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري تحميل جلسة المراجعة...</div>
-        </div>
-      </div>
+      <LoadingScreen
+        message="جاري تجهيز جلسة المراجعة الذكية..."
+        subtitle="خوارزمية التكرار المتباعد تختار الكلمات الأكثر احتياجاً للتثبيت"
+        icon="🔄"
+      />
     );
   }
 
@@ -253,14 +251,11 @@ export default function ReviewPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-amber-50 dark:bg-amber-950/60 border border-amber-100 dark:border-amber-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-              🔄
-            </div>
-            <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري التحميل...</div>
-          </div>
-        </div>
+        <LoadingScreen
+          message="جاري تحضير جلسة المراجعة..."
+          subtitle="لحظات ونبدأ التكرار المتباعد"
+          icon="🔄"
+        />
       }
     >
       <ReviewContent />

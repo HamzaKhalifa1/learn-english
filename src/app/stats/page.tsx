@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import XPBar from '@/components/XPBar';
+import LoadingScreen from '@/components/LoadingScreen';
 import { getLevelLabel } from '@/lib/words';
 import { RefreshCw, BarChart2, Award, Zap, Flame, BookOpen, RotateCcw, Target } from 'lucide-react';
 
@@ -39,14 +40,11 @@ export default function StatsPage() {
 
   if (!stats) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
-        <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-100 dark:border-emerald-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-            📊
-          </div>
-          <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري تحميل الإحصائيات...</div>
-        </div>
-      </div>
+      <LoadingScreen
+        message="جاري تجميع إحصائياتك وتحليلاتك..."
+        subtitle="نقيس سرعة تقدمك ومعدل إتقانك للمفردات"
+        icon="📊"
+      />
     );
   }
 

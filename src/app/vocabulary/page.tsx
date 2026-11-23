@@ -18,6 +18,7 @@ import {
   Filter,
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import LoadingScreen from '@/components/LoadingScreen';
 import { getLevelColor } from '@/lib/words';
 import { playTTS } from '@/lib/tts';
 
@@ -162,14 +163,11 @@ export default function VocabularyPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0b0f19]">
-        <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800/60 rounded-2xl flex items-center justify-center text-3xl animate-bounce-gentle">
-            📦
-          </div>
-          <div className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري تحميل المفردات...</div>
-        </div>
-      </div>
+      <LoadingScreen
+        message="جاري فتح بنك المفردات..."
+        subtitle="نستعرض جميع كلماتك ومراحل إتقانها"
+        icon="📦"
+      />
     );
   }
 
