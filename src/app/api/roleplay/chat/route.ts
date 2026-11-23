@@ -16,12 +16,61 @@ function extractUsedTargetWords(text: string, targetWords: string[]): string[] {
   });
 }
 
-// ── 1. Real LLM AI Provider (Gemini 2.0 / Groq / OpenAI) ──────────────────────
+// ── 1. Real LLM AI Provider (Gemini / Groq / OpenAI) ──────────────────────────
 interface AIRoleplayResponse {
   reply: string;
   replyAr: string;
   tip?: string;
   suggestions: SuggestedReply[];
+}
+
+// Dynamically list models supported by the user's Gemini API key
+async function getAvailableGeminiModels(apiKey: string): Promise<string[]> {
+  try {
+    const listUrl = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
+    const res = await fetch(listUrl, {
+      headers: {
+        'x-goog-api-key': apiKey,
+      },
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.models)) {
+        const supported = data.models
+          .filter((m: any) => m.supportedGenerationMethods?.includes('generateContent'))
+          .map((m: any) => m.name.replace(/^models\//, ''));
+
+        const rank = (name: string) => {
+          if (name.includes('gemini-3.1-pro')) return 1;
+          if (name.includes('gemini-3-flash')) return 2;
+          if (name.includes('gemini-3.0-flash')) return 3;
+          if (name.includes('gemini-3.0-pro')) return 4;
+          if (name.includes('gemini-2.5-flash')) return 5;
+          if (name.includes('gemini-2.5-pro')) return 6;
+          if (name.includes('flash')) return 7;
+          if (name.includes('pro')) return 8;
+          return 20;
+        };
+
+        supported.sort((a: string, b: string) => rank(a) - rank(b));
+        if (supported.length > 0) {
+          return supported;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Could not list Gemini models dynamically:', e);
+  }
+
+  // Fallback list of current models including 3.1-pro-preview and 3-flash-preview
+  return [
+    'gemini-3.1-pro-preview',
+    'gemini-3-flash-preview',
+    'gemini-2.5-flash',
+    'gemini-2.5-pro',
+    'gemini-1.5-flash',
+  ];
 }
 
 async function callLLMProvider(
@@ -82,10 +131,10 @@ Learner: "${userMessage}"
 
 Generate in-character response in JSON:`;
 
-  // 1. Google Gemini (Gemini 2.5 Flash / 2.0 Flash / 1.5 Flash)
+  // 1. Google Gemini (Dynamic model detection: 3.1 Pro / 3 Flash / 2.5 Flash etc.)
   if (geminiKey) {
-    const models = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-2.5-pro', 'gemini-1.5-pro'];
-    for (const model of models) {
+    const models = await getAvailableGeminiModels(geminiKey);
+    for (const model of models.slice(0, 5)) {
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
         const res = await fetch(url, {
@@ -659,10 +708,10 @@ export async function POST(req: Request) {
 
       if (userProvider === 'gemini' || (!userProvider && (userApiKey.startsWith('AIzaSy') || userApiKey.startsWith('AQ.')))) {
         try {
-          const testModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-2.5-pro'];
+          const testModels = await getAvailableGeminiModels(userApiKey);
           let lastErrMsg = '';
 
-          for (const model of testModels) {
+          for (const model of testModels.slice(0, 6)) {
             const testUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${userApiKey}`;
             const res = await fetch(testUrl, {
               method: 'POST',
@@ -677,7 +726,7 @@ export async function POST(req: Request) {
             });
 
             if (res.ok) {
-              const friendlyName = model === 'gemini-2.5-flash' ? 'Google Gemini 2.5 Flash' : `Google Gemini (${model})`;
+              const friendlyName = `Google Gemini (${model})`;
               return NextResponse.json({ success: true, model: friendlyName });
             }
 
