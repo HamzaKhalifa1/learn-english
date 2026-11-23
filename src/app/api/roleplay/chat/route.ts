@@ -32,7 +32,7 @@ async function callLLMProvider(
   userApiKey?: string,
   userProvider?: string
 ): Promise<AIRoleplayResponse | null> {
-  const geminiKey = (userProvider === 'gemini' && userApiKey) || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || (!userProvider && userApiKey?.startsWith('AIzaSy') ? userApiKey : undefined);
+  const geminiKey = (userProvider === 'gemini' && userApiKey) || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || (!userProvider && (userApiKey?.startsWith('AIzaSy') || userApiKey?.startsWith('AQ.')) ? userApiKey : undefined);
   const groqKey = (userProvider === 'groq' && userApiKey) || process.env.GROQ_API_KEY || (!userProvider && userApiKey?.startsWith('gsk_') ? userApiKey : undefined);
   const openaiKey = (userProvider === 'openai' && userApiKey) || process.env.OPENAI_API_KEY || (!userProvider && userApiKey?.startsWith('sk-') ? userApiKey : undefined);
 
@@ -82,15 +82,18 @@ Learner: "${userMessage}"
 
 Generate in-character response in JSON:`;
 
-  // 1. Google Gemini (Gemini 2.0 Flash / 1.5 Flash)
+  // 1. Google Gemini (Gemini 2.5 Flash / 2.0 Flash / 1.5 Flash)
   if (geminiKey) {
-    const models = ['gemini-2.0-flash', 'gemini-1.5-flash'];
+    const models = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-2.5-pro', 'gemini-1.5-pro'];
     for (const model of models) {
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
         const res = await fetch(url, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': geminiKey,
+          },
           body: JSON.stringify({
             contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
             systemInstruction: { parts: [{ text: systemPrompt }] },
@@ -654,39 +657,37 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: false, error: 'لم يتم إرسال مفتاح الـ API.' }, { status: 400 });
       }
 
-      if (userProvider === 'gemini' || (!userProvider && userApiKey.startsWith('AIzaSy'))) {
+      if (userProvider === 'gemini' || (!userProvider && (userApiKey.startsWith('AIzaSy') || userApiKey.startsWith('AQ.')))) {
         try {
-          const testUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${userApiKey}`;
-          const res = await fetch(testUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ role: 'user', parts: [{ text: 'Reply with JSON: {"status": "ok"}' }] }],
-              generationConfig: { responseMimeType: 'application/json' },
-            }),
-          });
+          const testModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-2.5-pro'];
+          let lastErrMsg = '';
 
-          if (res.ok) {
-            return NextResponse.json({ success: true, model: 'Google Gemini 2.0 Flash' });
+          for (const model of testModels) {
+            const testUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${userApiKey}`;
+            const res = await fetch(testUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-goog-api-key': userApiKey,
+              },
+              body: JSON.stringify({
+                contents: [{ role: 'user', parts: [{ text: 'Reply with JSON: {"status": "ok"}' }] }],
+                generationConfig: { responseMimeType: 'application/json' },
+              }),
+            });
+
+            if (res.ok) {
+              const friendlyName = model === 'gemini-2.5-flash' ? 'Google Gemini 2.5 Flash' : `Google Gemini (${model})`;
+              return NextResponse.json({ success: true, model: friendlyName });
+            }
+
+            const errData = await res.json().catch(() => ({}));
+            if (errData?.error?.message) {
+              lastErrMsg = errData.error.message;
+            }
           }
 
-          // Try 1.5 flash if 2.0 is not available
-          const testUrl15 = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${userApiKey}`;
-          const res15 = await fetch(testUrl15, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ role: 'user', parts: [{ text: 'Reply with JSON: {"status": "ok"}' }] }],
-              generationConfig: { responseMimeType: 'application/json' },
-            }),
-          });
-
-          if (res15.ok) {
-            return NextResponse.json({ success: true, model: 'Google Gemini 1.5 Flash' });
-          }
-
-          const errData = await res.json().catch(() => ({}));
-          const errMsg = errData?.error?.message || 'مفتاح Gemini غير صالح أو منتهي الصلاحية.';
+          const errMsg = lastErrMsg || 'مفتاح Gemini غير صالح أو منتهي الصلاحية.';
           return NextResponse.json({ success: false, error: errMsg }, { status: 400 });
         } catch (e: any) {
           return NextResponse.json({ success: false, error: e.message || 'فشل الاتصال بـ Gemini.' }, { status: 500 });
