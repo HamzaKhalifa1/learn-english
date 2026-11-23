@@ -42,20 +42,22 @@ async function getAvailableGeminiModels(apiKey: string): Promise<string[]> {
           .map((m: any) => m.name.replace(/^models\//, ''));
 
         const rank = (name: string) => {
-          if (name.includes('gemini-3.1-pro')) return 1;
-          if (name.includes('gemini-3-flash')) return 2;
-          if (name.includes('gemini-3.0-flash')) return 3;
-          if (name.includes('gemini-3.0-pro')) return 4;
-          if (name.includes('gemini-2.5-flash')) return 5;
-          if (name.includes('gemini-2.5-pro')) return 6;
-          if (name.includes('flash')) return 7;
-          if (name.includes('pro')) return 8;
-          return 20;
+          if (name === 'gemini-3.5-flash') return 1;
+          if (name === 'gemini-3.5-flash-lite') return 2;
+          if (name === 'gemini-3.1-pro-preview') return 3;
+          if (name === 'gemini-3-flash-preview') return 4;
+          if (name.includes('gemini-3.5')) return 5;
+          if (name.includes('gemini-3.1')) return 6;
+          if (name.includes('gemini-3')) return 7;
+          return 99; // Deprecated 2.x and 1.x models go to the very end
         };
 
-        supported.sort((a: string, b: string) => rank(a) - rank(b));
-        if (supported.length > 0) {
-          return supported;
+        // Filter out deprecated 2.x and 1.x models if modern 3.x models are present
+        const modern3x = supported.filter((m: string) => m.includes('gemini-3'));
+        const targetList = modern3x.length > 0 ? modern3x : supported;
+        targetList.sort((a: string, b: string) => rank(a) - rank(b));
+        if (targetList.length > 0) {
+          return targetList;
         }
       }
     }
@@ -63,13 +65,12 @@ async function getAvailableGeminiModels(apiKey: string): Promise<string[]> {
     console.warn('Could not list Gemini models dynamically:', e);
   }
 
-  // Fallback list of current models including 3.1-pro-preview and 3-flash-preview
+  // Fallback list of current models recommended by Google AI Studio
   return [
+    'gemini-3.5-flash',
+    'gemini-3.5-flash-lite',
     'gemini-3.1-pro-preview',
     'gemini-3-flash-preview',
-    'gemini-2.5-flash',
-    'gemini-2.5-pro',
-    'gemini-1.5-flash',
   ];
 }
 
@@ -148,7 +149,6 @@ Generate in-character response in JSON:`;
             systemInstruction: { parts: [{ text: systemPrompt }] },
             generationConfig: {
               responseMimeType: 'application/json',
-              temperature: 0.7,
             },
           }),
         });

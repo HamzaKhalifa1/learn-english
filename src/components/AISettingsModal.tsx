@@ -144,7 +144,7 @@ export default function AISettingsModal({ isOpen, onClose, onKeyUpdated }: Props
                     <span className="font-extrabold text-xs">Google Gemini</span>
                     <span className="text-[9px] bg-indigo-600 text-white font-black px-1.5 py-0.5 rounded-md">موصى به</span>
                   </div>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Gemini 3.1 Pro / Flash المجاني</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Gemini 3.5 Flash المجاني</span>
                 </button>
 
                 <button
