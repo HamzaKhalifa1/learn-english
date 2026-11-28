@@ -62,10 +62,10 @@ export default function Navbar() {
       {/* Desktop Top Nav */}
       <nav className="hidden md:block fixed top-0 left-0 right-0 z-50">
         <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex justify-center">
-          <div className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl flex items-center justify-between px-4 lg:px-8 h-16 lg:h-18">
+          <div className="w-full max-w-5xl flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 lg:h-18">
             
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+            <Link href="/" className="flex items-center gap-2.5 shrink-0 hover:opacity-90 transition-opacity">
               <div className="w-9 h-9 lg:w-11 lg:h-11 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl lg:rounded-2xl flex items-center justify-center text-white text-base lg:text-xl shadow-sm shadow-indigo-200 dark:shadow-indigo-950">
                 📚
               </div>
@@ -73,7 +73,7 @@ export default function Navbar() {
             </Link>
 
             {/* Actions: Segmented Nav Tabs + Theme Toggle */}
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2.5 shrink-0">
               <div className="flex items-center gap-1 bg-slate-100/80 dark:bg-slate-800/80 p-1 lg:p-1.5 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
                 {navItems.map(({ href, label, icon: Icon }) => {
                   const active = pathname === href;
@@ -81,13 +81,13 @@ export default function Navbar() {
                     <Link
                       key={href}
                       href={href}
-                      className={`flex items-center gap-1.5 px-3.5 py-1.5 lg:px-4 lg:py-2 rounded-xl text-xs lg:text-sm font-bold transition-all duration-200 ${
+                      className={`flex items-center gap-1.5 px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl text-xs lg:text-sm font-bold transition-all duration-200 whitespace-nowrap ${
                         active
                           ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
                           : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-white/60 dark:hover:bg-slate-700/50'
                       }`}
                     >
-                      <Icon size={16} strokeWidth={active ? 2.5 : 2} className="lg:w-4.5 lg:h-4.5" />
+                      <Icon size={16} strokeWidth={active ? 2.5 : 2} className="lg:w-4.5 lg:h-4.5 shrink-0" />
                       <span>{label}</span>
                     </Link>
                   );

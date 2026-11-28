@@ -4,23 +4,18 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  ChevronRight,
+  ChevronLeft,
   RefreshCw,
-  BookOpen,
-  BarChart2,
-  Sparkles,
-  RotateCcw,
-  Archive,
   Flame,
-  Award,
-  ArrowUpRight,
   Zap,
-  MessageSquare,
   Target,
   Trophy,
+  ArrowUpRight,
+  Compass,
+  RotateCcw,
+  MessageSquare,
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import XPBar from '@/components/XPBar';
 import OnboardingScreen from '@/components/OnboardingScreen';
 import LoadingScreen from '@/components/LoadingScreen';
 import { getLevelLabel } from '@/lib/words';
@@ -84,12 +79,12 @@ const staggerContainer = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.08 },
+    transition: { staggerChildren: 0.07 },
   },
 };
 
 const staggerItem = {
-  hidden: { opacity: 0, y: 20, scale: 0.96 },
+  hidden: { opacity: 0, y: 18, scale: 0.97 },
   show: {
     opacity: 1,
     y: 0,
@@ -97,6 +92,17 @@ const staggerItem = {
     transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
   },
 };
+
+const LEVEL_THRESHOLDS: Record<string, number> = {
+  A1: 0,
+  A2: 500,
+  B1: 1500,
+  B2: 3000,
+  C1: 5000,
+  C2: 8000,
+};
+
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 export default function Home() {
   const router = useRouter();
@@ -148,6 +154,18 @@ export default function Home() {
   const dailyProgress = stats ? Math.min(stats.learnedWords % dailyGoal || (stats.learnedWords > 0 ? dailyGoal : 0), dailyGoal) : 0;
   const dailyComplete = dailyProgress >= dailyGoal;
 
+  // Level threshold calculation
+  const userLevel = (stats?.level || 'A1').toUpperCase();
+  const currentIdx = LEVELS.indexOf(userLevel);
+  const nextLevel = LEVELS[currentIdx + 1];
+  const currentThreshold = LEVEL_THRESHOLDS[userLevel] ?? 0;
+  const nextThreshold = nextLevel ? LEVEL_THRESHOLDS[nextLevel] : currentThreshold + 1000;
+  
+  const currentXP = stats?.xp ?? 0;
+  const xpInCurrentLevel = Math.max(0, currentXP - currentThreshold);
+  const xpNeededForNext = nextThreshold - currentThreshold;
+  const levelProgress = Math.min(100, Math.max(5, (xpInCurrentLevel / xpNeededForNext) * 100));
+
   if (loading) {
     return (
       <LoadingScreen
@@ -168,145 +186,228 @@ export default function Home() {
       <Navbar />
       <main className="w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 lg:px-8 py-4 lg:py-8 relative z-10">
         
-        {/* ── Time-Aware Greeting ── */}
-        <div className="flex items-center justify-between gap-3 mb-5 lg:mb-7">
+        {/* ── Time-Aware Greeting Header ── */}
+        <div className="flex items-center justify-between gap-3 mb-5 lg:mb-6">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
+            className="flex items-center gap-2.5 sm:gap-3.5"
           >
-            <div className="flex items-center gap-2 lg:gap-3">
-              <motion.span
-                className="text-2xl lg:text-4xl"
-                animate={{ rotate: [0, 14, -8, 14, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
-              >
-                {greeting.emoji}
-              </motion.span>
-              <div>
-                <h1 className="text-xl lg:text-3xl font-black text-slate-800 dark:text-white">
-                  {greeting.text}!
-                </h1>
-                <p className="text-xs lg:text-base text-slate-400 dark:text-slate-400 mt-0.5">
-                  {motivation}
-                </p>
-              </div>
+            <motion.span
+              className="text-2xl sm:text-3xl lg:text-4xl select-none"
+              animate={{ rotate: [0, 14, -8, 14, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
+            >
+              {greeting.emoji}
+            </motion.span>
+            <div>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-800 dark:text-white tracking-tight">
+                {greeting.text}!
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 font-medium line-clamp-1 mt-0.5">
+                {motivation}
+              </p>
             </div>
           </motion.div>
 
-          <button
-            onClick={handleRetakePlacement}
-            disabled={retakingTest}
-            title="إعادة اختبار تحديد المستوى لتحديث مستواك"
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2.5 rounded-xl text-xs lg:text-sm font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50 flex-none"
-          >
-            <RefreshCw size={13} className={retakingTest ? 'animate-spin' : ''} />
-            <span>إعادة الامتحان</span>
-          </button>
+          {/* Quick Header Status & Discreet Test Reset */}
+          <div className="flex items-center gap-2 flex-none">
+            {stats && (
+              <>
+                <div
+                  title={`سلسلة التزام ${stats.streak} يوم`}
+                  className="flex items-center gap-1.5 bg-gradient-to-tr from-amber-500/10 to-orange-500/15 border border-amber-500/25 text-amber-600 dark:text-amber-400 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl text-xs sm:text-sm font-black shadow-2xs"
+                >
+                  <Flame size={15} className="fill-amber-500 text-amber-500 animate-bounce-gentle" />
+                  <span>{stats.streak}</span>
+                  <span className="text-[10px] text-amber-500/80 font-bold hidden sm:inline">يوم</span>
+                </div>
+
+                <div
+                  title={`إجمالي النقاط ${stats.xp} XP`}
+                  className="flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60 text-indigo-700 dark:text-indigo-300 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl text-xs sm:text-sm font-black shadow-2xs"
+                >
+                  <Zap size={14} className="fill-indigo-500 text-indigo-500" />
+                  <span>{stats.xp}</span>
+                  <span className="text-[10px] text-indigo-400 font-bold hidden sm:inline">XP</span>
+                </div>
+              </>
+            )}
+
+            <button
+              type="button"
+              onClick={handleRetakePlacement}
+              disabled={retakingTest}
+              title="إعادة اختبار تحديد المستوى"
+              className="p-2 sm:p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all shadow-2xs active:scale-95 disabled:opacity-50 cursor-pointer"
+            >
+              <RefreshCw size={14} className={retakingTest ? 'animate-spin' : ''} />
+            </button>
+          </div>
         </div>
 
-        {/* ── XP & Streak Bar ── */}
+        {/* ── Unified Hero Learning Card ── */}
         {stats && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-5 lg:mb-7"
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 dark:from-[#131b34] dark:via-[#161c38] dark:to-[#0f1426] border border-indigo-400/30 dark:border-indigo-500/25 p-5 sm:p-7 text-white shadow-2xl shadow-indigo-500/20 mb-5 lg:mb-6"
           >
-            <XPBar xp={stats.xp} streak={stats.streak} level={stats.level} />
-          </motion.div>
-        )}
+            {/* Ambient Background Glows */}
+            <div className="absolute -top-12 -left-12 w-48 h-48 bg-white/10 dark:bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-purple-500/20 dark:bg-purple-500/25 rounded-full blur-3xl pointer-events-none" />
 
-        {/* ── Level Banner Card (Enhanced with gradient animation) ── */}
-        {stats && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 animate-gradient-shift p-5 lg:p-8 text-white shadow-lg shadow-indigo-500/20 mb-5 lg:mb-7"
-          >
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl pointer-events-none" />
-
-            <div className="relative z-10 flex items-center justify-between">
-              <div className="flex items-center gap-3.5 lg:gap-5">
-                <div className="w-14 h-14 lg:w-20 lg:h-20 bg-white/15 backdrop-blur-md rounded-2xl flex items-center justify-center text-3xl lg:text-5xl shadow-inner border border-white/20">
-                  🎯
+            <div className="relative z-10">
+              {/* Top Bar of Hero: Level Badge & Status */}
+              <div className="flex items-center justify-between gap-2 mb-4">
+                <div className="inline-flex items-center gap-2 bg-white/15 dark:bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-xs sm:text-sm font-black">
+                  <span className="text-base">🎯</span>
+                  <span>المستوى {stats.level}</span>
+                  <span className="w-1 h-1 rounded-full bg-white/40" />
+                  <span className="text-white/80 font-medium text-xs">{getLevelLabel(stats.level)}</span>
                 </div>
-                <div>
-                  <div className="text-xs lg:text-base text-white/75 font-semibold">المستوى التعليمي الحالي</div>
-                  <div className="text-2xl lg:text-4xl font-black flex items-center gap-2 mt-0.5">
-                    <span>{stats.level}</span>
-                    <span className="text-xs lg:text-sm bg-white/20 px-2.5 py-0.5 rounded-full font-medium text-white/90">
-                      {getLevelLabel(stats.level)}
-                    </span>
-                  </div>
+
+                <div className="text-[11px] sm:text-xs font-bold text-white/75 bg-black/20 dark:bg-black/30 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                  {nextLevel ? `المستوى التالي: ${nextLevel}` : 'المستوى الأقصى 🏆'}
                 </div>
               </div>
 
-              <Link
-                href="/learn"
-                className="bg-white text-indigo-700 hover:bg-indigo-50 px-4 py-2.5 lg:px-6 lg:py-3.5 rounded-xl text-xs lg:text-base font-extrabold transition-all flex items-center gap-1.5 shadow-md shadow-black/10 active:scale-95 btn-shimmer"
-              >
-                <span>متابعة التعلم</span>
-                <ChevronRight size={14} className="lg:hidden" />
-                <ChevronRight size={18} className="hidden lg:block" />
-              </Link>
+              {/* Main Headline & Learner Stats */}
+              <div className="mb-5">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight mb-1 text-white">
+                  واصل رحلة إتقان الإنجليزية!
+                </h2>
+                <p className="text-xs sm:text-sm text-indigo-100/80 dark:text-slate-300 font-medium">
+                  أتقنت <span className="font-bold text-white">{stats.masteredWords}</span> كلمة · ولديك <span className="font-bold text-white">{stats.learnedWords}</span> كلمة في حصيلتك اللغوية
+                </p>
+              </div>
+
+              {/* XP Progress towards Next Goal */}
+              <div className="mb-5 bg-black/20 dark:bg-black/35 backdrop-blur-md p-3 sm:p-3.5 rounded-2xl border border-white/10">
+                <div className="flex justify-between items-center text-xs font-bold mb-1.5 text-white/90">
+                  <span className="flex items-center gap-1.5">
+                    <Zap size={13} className="text-amber-300 fill-amber-300" />
+                    <span>{xpInCurrentLevel} XP في المستوى</span>
+                  </span>
+                  <span className="text-[11px] text-white/70">
+                    {nextLevel ? `متبقي ${Math.max(0, nextThreshold - currentXP)} XP للترقية` : 'أعلى إنجاز متاح'}
+                  </span>
+                </div>
+
+                {/* Progress Bar Track */}
+                <div className="h-2 sm:h-2.5 bg-white/15 rounded-full overflow-hidden relative">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${levelProgress}%` }}
+                    transition={{ duration: 0.9, ease: 'easeOut', delay: 0.2 }}
+                    className="h-full bg-gradient-to-r from-amber-300 via-pink-400 to-indigo-300 rounded-full relative"
+                  >
+                    <div className="absolute inset-0 bg-white/25 animate-pulse" />
+                  </motion.div>
+                </div>
+              </div>
+
+              {/* Hero Action Row */}
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                <Link
+                  href="/learn"
+                  className="flex-1 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 hover:opacity-95 text-white py-3.5 sm:py-4 px-6 rounded-2xl font-black text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/30 active:scale-95 transition-all btn-shimmer cursor-pointer"
+                >
+                  <span>متابعة مسار التعلم</span>
+                  <ChevronLeft size={18} />
+                </Link>
+
+                {stats.reviewDue > 0 ? (
+                  <Link
+                    href="/review"
+                    className="bg-white/10 hover:bg-white/20 border border-white/20 text-white py-3.5 sm:py-4 px-5 rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-95 backdrop-blur-md cursor-pointer"
+                  >
+                    <RotateCcw size={16} />
+                    <span>مراجعة الكلمات ({stats.reviewDue})</span>
+                  </Link>
+                ) : (
+                  <Link
+                    href="/roleplay"
+                    className="bg-white/10 hover:bg-white/20 border border-white/20 text-white py-3.5 sm:py-4 px-5 rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-95 backdrop-blur-md cursor-pointer"
+                  >
+                    <MessageSquare size={16} />
+                    <span>محادثة AI (+30 XP)</span>
+                  </Link>
+                )}
+              </div>
             </div>
           </motion.div>
         )}
 
-        {/* ── Daily Quest Card (Gamified) ── */}
+        {/* ── Daily Quest Card (Gamified & Sleek) ── */}
         {stats && (
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className={`glass-card rounded-2xl p-4 lg:p-6 mb-5 lg:mb-7 border ${
+            transition={{ delay: 0.12 }}
+            className={`rounded-2xl p-4 sm:p-5 mb-5 lg:mb-6 border backdrop-blur-xl transition-all shadow-xs ${
               dailyComplete
-                ? 'border-emerald-200 dark:border-emerald-800/50'
-                : 'border-amber-200/60 dark:border-amber-800/40'
+                ? 'bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent border-emerald-500/30 dark:border-emerald-500/20'
+                : 'bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border-amber-500/30 dark:border-amber-500/20'
             }`}
           >
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <div className={`w-9 h-9 lg:w-11 lg:h-11 rounded-xl flex items-center justify-center ${
-                  dailyComplete
-                    ? 'bg-gradient-to-tr from-emerald-500 to-emerald-600 text-white'
-                    : 'bg-gradient-to-tr from-amber-500 to-orange-500 text-white'
-                } shadow-md`}>
-                  {dailyComplete ? <Trophy size={18} /> : <Target size={18} />}
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center shadow-md flex-none ${
+                    dailyComplete
+                      ? 'bg-gradient-to-tr from-emerald-500 to-teal-500 text-white'
+                      : 'bg-gradient-to-tr from-amber-500 to-orange-500 text-white'
+                  }`}
+                >
+                  {dailyComplete ? <Trophy size={20} /> : <Target size={20} />}
                 </div>
                 <div>
-                  <h3 className="font-black text-sm lg:text-base text-slate-800 dark:text-white">
-                    🎯 مهمة اليوم
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {dailyComplete ? 'أحسنت! أنجزت مهمة اليوم ✅' : `تعلم ${dailyGoal} كلمات جديدة`}
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-black text-sm sm:text-base text-slate-800 dark:text-white">
+                      مهمة اليوم اليومية
+                    </h3>
+                    {dailyComplete && (
+                      <span className="text-[10px] font-black bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                        مكتملة ✨
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                    {dailyComplete
+                      ? 'أحسنت! أنجزت هدفك اليومي وحصلت على +50 XP 🌟'
+                      : `تعلم ${dailyGoal} كلمات جديدة اليوم لتحصل على +50 XP`}
                   </p>
                 </div>
               </div>
-              <div className="text-left">
-                <div className={`text-lg lg:text-xl font-black ${
-                  dailyComplete ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'
-                }`}>
+
+              <div className="text-left flex-none">
+                <div
+                  className={`text-lg sm:text-xl font-black ${
+                    dailyComplete ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'
+                  }`}
+                >
                   <AnimatedNumber value={dailyProgress} /> / {dailyGoal}
                 </div>
-                <p className="text-[10px] lg:text-xs text-slate-400 font-bold">
-                  {dailyComplete ? '🎉 مكتمل!' : '+50 XP عند الإنجاز'}
-                </p>
+                <div className="text-[10px] text-slate-400 font-bold">
+                  {dailyComplete ? '100% تم الإنجاز' : `متبقي ${dailyGoal - dailyProgress}`}
+                </div>
               </div>
             </div>
+
             {/* Progress Bar */}
-            <div className="w-full h-2.5 lg:h-3 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+            <div className="w-full h-2 sm:h-2.5 rounded-full bg-slate-100 dark:bg-slate-800/80 overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${(dailyProgress / dailyGoal) * 100}%` }}
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-                className={`h-full rounded-full ${
+                transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+                className={`h-full rounded-full relative overflow-hidden ${
                   dailyComplete
-                    ? 'bg-gradient-to-r from-emerald-500 to-emerald-400'
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400'
                     : 'bg-gradient-to-r from-amber-500 to-orange-400'
-                } relative overflow-hidden`}
+                }`}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
               </motion.div>
@@ -314,194 +415,181 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* ── 4 Stats Cards (Animated) ── */}
+        {/* ── 4 Stats Cards (Interactive Links) ── */}
         {stats && (
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="show"
-            className="grid grid-cols-2 gap-3.5 lg:gap-5 mb-5 lg:mb-7"
+            className="grid grid-cols-2 gap-3 sm:gap-4 mb-5 lg:mb-7"
           >
             {[
               {
-                label: 'كلمة تعلمتها',
+                href: '/vocabulary',
+                label: 'كلمة متعلمة',
                 value: stats.learnedWords,
                 icon: '📚',
-                badge: 'مفردات',
-                color: 'from-blue-500/10 to-indigo-500/5',
-                borderColor: 'border-blue-100 dark:border-blue-900/40',
+                badge: 'بنك الكلمات',
+                accentBg: 'from-blue-500/10 to-indigo-500/5',
+                border: 'border-blue-200/60 dark:border-blue-900/40 hover:border-blue-400 dark:hover:border-blue-600',
               },
               {
+                href: '/review',
                 label: 'للمراجعة اليوم',
                 value: stats.reviewDue,
                 icon: '🔄',
-                badge: 'تكرار متباعد',
-                color: 'from-teal-500/10 to-emerald-500/5',
-                borderColor: 'border-teal-100 dark:border-teal-900/40',
+                badge: stats.reviewDue > 0 ? 'متباعد (مطلوب)' : 'متباعد',
+                accentBg: 'from-teal-500/10 to-emerald-500/5',
+                border: 'border-teal-200/60 dark:border-teal-900/40 hover:border-teal-400 dark:hover:border-teal-600',
               },
               {
+                href: '/stats',
                 label: 'مجموع نقاطك',
                 value: stats.xp,
-                icon: '⭐',
-                badge: 'XP',
-                color: 'from-amber-500/10 to-yellow-500/5',
-                borderColor: 'border-amber-100 dark:border-amber-900/40',
+                icon: '⚡',
+                badge: 'XP الإجمالي',
+                accentBg: 'from-amber-500/10 to-yellow-500/5',
+                border: 'border-amber-200/60 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-600',
               },
               {
+                href: '/stats',
                 label: 'سلسلة الالتزام',
                 value: `${stats.streak} يوم`,
                 icon: '🔥',
                 badge: 'يومي',
+                accentBg: 'from-orange-500/10 to-red-500/5',
+                border: 'border-orange-200/60 dark:border-orange-900/40 hover:border-orange-400 dark:hover:border-orange-600',
                 isStreak: true,
-                color: 'from-orange-500/10 to-red-500/5',
-                borderColor: 'border-orange-100 dark:border-orange-900/40',
               },
             ].map((item, i) => (
-              <motion.div
-                key={item.label}
-                variants={staggerItem}
-                className={`glass-card card-3d rounded-2xl p-4 lg:p-6 border ${item.borderColor} bg-gradient-to-br ${item.color} transition-all ${
-                  (item as any).isStreak && stats.streak > 0 ? 'streak-glow' : ''
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2 lg:mb-3">
-                  <motion.span
-                    className="text-2xl lg:text-4xl"
-                    initial={{ scale: 0, rotate: -20 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: 'spring', damping: 10, delay: 0.1 * i }}
-                  >
-                    {item.icon}
-                  </motion.span>
-                  <span className="text-[10px] lg:text-xs font-bold text-slate-400 dark:text-slate-300 bg-white/60 dark:bg-slate-800/60 px-2 py-0.5 rounded-full border border-slate-100 dark:border-slate-700">
-                    {item.badge}
-                  </span>
-                </div>
-                <div className="text-xl lg:text-3xl font-black text-slate-800 dark:text-white">
-                  <AnimatedNumber value={item.value} />
-                </div>
-                <div className="text-xs lg:text-sm font-semibold text-slate-400 dark:text-slate-400 mt-0.5">{item.label}</div>
+              <motion.div key={item.label} variants={staggerItem}>
+                <Link
+                  href={item.href}
+                  className={`block group rounded-2xl sm:rounded-3xl p-4 sm:p-5 border ${item.border} bg-white dark:bg-slate-900/80 bg-gradient-to-br ${item.accentBg} transition-all duration-200 hover:-translate-y-1 hover:shadow-lg active:scale-[0.98] ${
+                    (item as any).isStreak && stats.streak > 0 ? 'streak-glow' : ''
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2 sm:mb-3">
+                    <span className="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-200">
+                      {item.icon}
+                    </span>
+                    <div className="flex items-center gap-1 text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-300 bg-white/70 dark:bg-slate-800/80 px-2 py-0.5 rounded-full border border-slate-100 dark:border-slate-700/80">
+                      <span>{item.badge}</span>
+                      <ArrowUpRight size={11} className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                    </div>
+                  </div>
+                  <div className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight">
+                    <AnimatedNumber value={item.value} />
+                  </div>
+                  <div className="text-xs sm:text-sm font-semibold text-slate-400 dark:text-slate-400 mt-0.5">
+                    {item.label}
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </motion.div>
         )}
 
-        {/* ── Quick Actions: 2x2 Grid + Bottom Items ── */}
-        <div className="space-y-3 lg:space-y-4">
+        {/* ── Quick Navigation: 6 Balanced Gateways ── */}
+        <div className="space-y-3 sm:space-y-4">
           <div className="flex items-center justify-between px-1">
-            <h2 className="font-extrabold text-sm lg:text-lg text-slate-700 dark:text-slate-300">الانتقال السريع</h2>
-            <span className="text-xs lg:text-sm text-slate-400 dark:text-slate-500">اختر وجهتك</span>
+            <div className="flex items-center gap-2">
+              <Compass size={18} className="text-indigo-600 dark:text-indigo-400" />
+              <h2 className="font-black text-sm sm:text-base lg:text-lg text-slate-800 dark:text-slate-200">
+                الانتقال السريع
+              </h2>
+            </div>
+            <span className="text-xs text-slate-400 dark:text-slate-400 font-medium">
+              بوابات التعلم الشاملة
+            </span>
           </div>
 
-          {/* 2x2 Grid for primary actions */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="show"
-            className="grid grid-cols-2 gap-3 lg:gap-4"
+            className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"
           >
             {[
               {
                 href: '/learn',
-                icon: BookOpen,
                 emoji: '📖',
                 title: 'وحدات التعلم',
                 subtitle: 'دروس وكلمات مرتبة',
                 gradient: 'from-indigo-600 to-blue-600',
-                shadowColor: 'shadow-indigo-500/20',
+                shadowColor: 'hover:shadow-indigo-500/20',
                 badge: 'الرئيسي',
               },
               {
                 href: '/learn',
-                icon: Sparkles,
                 emoji: '✨',
                 title: 'القصص التفاعلية',
                 subtitle: 'تعلم بالسياق الممتع',
                 gradient: 'from-teal-500 to-emerald-600',
-                shadowColor: 'shadow-teal-500/20',
+                shadowColor: 'hover:shadow-teal-500/20',
                 badge: 'جديد',
               },
               {
                 href: '/roleplay',
-                icon: MessageSquare,
                 emoji: '🤖',
                 title: 'محادثة AI',
                 subtitle: 'تحدث مع شخصيات ذكية',
                 gradient: 'from-purple-600 to-pink-600',
-                shadowColor: 'shadow-purple-500/20',
+                shadowColor: 'hover:shadow-purple-500/20',
                 badge: '+30 XP',
               },
               {
-                href: stats && stats.reviewDue > 0 ? '/review' : '/review',
-                icon: RotateCcw,
+                href: '/review',
                 emoji: '🔄',
                 title: 'المراجعة اليومية',
-                subtitle: stats && stats.reviewDue > 0 ? `${stats.reviewDue} كلمة بانتظارك` : 'راجع كلماتك',
+                subtitle: stats && stats.reviewDue > 0 ? `${stats.reviewDue} كلمة بانتظارك` : 'تكرار متباعد',
                 gradient: 'from-amber-500 to-orange-600',
-                shadowColor: 'shadow-amber-500/20',
-                badge: stats && stats.reviewDue > 0 ? 'هام' : 'مراجعة',
+                shadowColor: 'hover:shadow-amber-500/20',
+                badge: stats && stats.reviewDue > 0 ? 'مطلوب' : 'مراجعة',
               },
-            ].map((item, i) => (
+              {
+                href: '/vocabulary',
+                emoji: '🗂️',
+                title: 'بنك المفردات',
+                subtitle: 'تصفح وفلترة الكلمات',
+                gradient: 'from-violet-600 to-purple-700',
+                shadowColor: 'hover:shadow-violet-500/20',
+                badge: 'القاموس',
+              },
+              {
+                href: '/stats',
+                emoji: '📊',
+                title: 'الإحصائيات والتحليلات',
+                subtitle: 'معدل الدقة وتفاصيل أدائك',
+                gradient: 'from-emerald-500 to-cyan-600',
+                shadowColor: 'hover:shadow-emerald-500/20',
+                badge: 'التقارير',
+              },
+            ].map((item) => (
               <motion.div key={item.title} variants={staggerItem}>
                 <Link
                   href={item.href}
-                  className={`glass-card card-3d block rounded-2xl lg:rounded-3xl p-4 lg:p-5 border border-white/60 dark:border-white/5 hover:shadow-lg ${item.shadowColor} transition-all group active:scale-[0.97]`}
+                  className={`block group rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-850 hover:shadow-lg ${item.shadowColor} hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.97]`}
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div className={`w-11 h-11 lg:w-14 lg:h-14 bg-gradient-to-tr ${item.gradient} text-white rounded-xl lg:rounded-2xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform`}>
-                      <span className="text-xl lg:text-2xl">{item.emoji}</span>
+                    <div
+                      className={`w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-tr ${item.gradient} text-white rounded-2xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-200`}
+                    >
+                      <span className="text-xl sm:text-2xl">{item.emoji}</span>
                     </div>
-                    <span className="text-[9px] lg:text-[10px] font-black text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-100 dark:border-indigo-800/60 px-2 py-0.5 rounded-full">
                       {item.badge}
                     </span>
                   </div>
-                  <h3 className="font-black text-sm lg:text-base text-slate-800 dark:text-white mb-0.5">{item.title}</h3>
-                  <p className="text-[11px] lg:text-xs text-slate-500 dark:text-slate-400 font-medium">{item.subtitle}</p>
+                  <h3 className="font-black text-sm sm:text-base text-slate-800 dark:text-white mb-0.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-slate-400 dark:text-slate-400 font-medium line-clamp-1">
+                    {item.subtitle}
+                  </p>
                 </Link>
               </motion.div>
             ))}
-          </motion.div>
-
-          {/* Secondary items (smaller) */}
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate="show"
-            className="space-y-2.5 lg:space-y-3"
-          >
-            <motion.div variants={staggerItem}>
-              <Link
-                href="/vocabulary"
-                className="glass-card flex items-center gap-3.5 lg:gap-5 rounded-2xl p-3.5 lg:p-5 border border-white/60 dark:border-white/5 hover:shadow-md transition-all group active:scale-[0.99]"
-              >
-                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform flex-none">
-                  <Archive size={20} className="lg:hidden" />
-                  <Archive size={24} className="hidden lg:block" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-bold text-slate-800 dark:text-white text-sm lg:text-base">بنك المفردات</div>
-                  <div className="text-xs lg:text-sm text-slate-400 dark:text-slate-400 mt-0.5">تصفح وفلترة كل الكلمات المخزنة</div>
-                </div>
-                <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-purple-500 transition-colors flex-none" size={18} />
-              </Link>
-            </motion.div>
-
-            <motion.div variants={staggerItem}>
-              <Link
-                href="/stats"
-                className="glass-card flex items-center gap-3.5 lg:gap-5 rounded-2xl p-3.5 lg:p-5 border border-white/60 dark:border-white/5 hover:shadow-md transition-all group active:scale-[0.99]"
-              >
-                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform flex-none">
-                  <BarChart2 size={20} className="lg:hidden" />
-                  <BarChart2 size={24} className="hidden lg:block" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-bold text-slate-800 dark:text-white text-sm lg:text-base">الإحصائيات والتحليلات</div>
-                  <div className="text-xs lg:text-sm text-slate-400 dark:text-slate-400 mt-0.5">معدل الدقة وتفاصيل أدائك</div>
-                </div>
-                <ChevronRight className="text-slate-300 dark:text-slate-600 group-hover:text-emerald-500 transition-colors flex-none" size={18} />
-              </Link>
-            </motion.div>
           </motion.div>
         </div>
 
