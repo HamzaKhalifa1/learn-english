@@ -150,21 +150,43 @@ function UnitContent() {
 
   const handleWordComplete = (correct: boolean) => {
     if (!unit) return;
-    const word = unit.words[currentWordIdx];
-    if (!word) return;
+    const currentWord = unit.words[currentWordIdx];
+    if (!currentWord) return;
 
-    if (!completedWords.includes(word.id)) {
-      const newDone = [...completedWords, word.id];
-      setCompletedWords(newDone);
+    const newDone = completedWords.includes(currentWord.id)
+      ? completedWords
+      : [...completedWords, currentWord.id];
 
-      if (newDone.length >= unit.words.length) {
-        setUnitDone(true);
-        return;
+    setCompletedWords(newDone);
+
+    // If all words in the unit are now completed, conclude the unit!
+    if (newDone.length >= unit.words.length) {
+      setUnitDone(true);
+      return;
+    }
+
+    // Smart Navigation: Skip already known words and go straight to the next unlearned word
+    // 1. Look ahead from currentWordIdx + 1 to the end of the unit
+    let nextIdx = -1;
+    for (let i = currentWordIdx + 1; i < unit.words.length; i++) {
+      if (!newDone.includes(unit.words[i].id)) {
+        nextIdx = i;
+        break;
       }
     }
 
-    if (currentWordIdx + 1 < unit.words.length) {
-      setCurrentWordIdx(currentWordIdx + 1);
+    // 2. If no uncompleted word forward, wrap around from the beginning (0 to currentWordIdx)
+    if (nextIdx === -1) {
+      for (let i = 0; i < currentWordIdx; i++) {
+        if (!newDone.includes(unit.words[i].id)) {
+          nextIdx = i;
+          break;
+        }
+      }
+    }
+
+    if (nextIdx !== -1) {
+      setCurrentWordIdx(nextIdx);
     } else {
       setUnitDone(true);
     }
