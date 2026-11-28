@@ -33,9 +33,10 @@ export default function UnitFastTrackQuiz({
   const options = useMemo(() => {
     if (!currentWord) return [];
 
+    const currentMeaning = currentWord.meaningAr || (currentWord as any).meaning || '';
     const otherMeanings = allUnitWords
-      .filter(w => w.id !== currentWord.id && w.meaningAr && w.meaningAr !== currentWord.meaningAr)
-      .map(w => w.meaningAr);
+      .map(w => w.meaningAr || (w as any).meaning)
+      .filter((m): m is string => Boolean(m && m !== currentMeaning));
 
     const fallbackPool = [
       'تواصل وتفاعل', 'تحقيق الهدف', 'إدارة الوقت', 'تطوير المهارات',
@@ -51,7 +52,7 @@ export default function UnitFastTrackQuiz({
 
     const distractors: string[] = [];
     for (const m of pool) {
-      if (!distractors.includes(m) && m !== currentWord.meaningAr) {
+      if (!distractors.includes(m) && m !== currentMeaning) {
         distractors.push(m);
         if (distractors.length >= 3) break;
       }
@@ -60,12 +61,12 @@ export default function UnitFastTrackQuiz({
     let fbIdx = 0;
     while (distractors.length < 3 && fbIdx < fallbackPool.length) {
       const fb = fallbackPool[fbIdx++];
-      if (!distractors.includes(fb) && fb !== currentWord.meaningAr) {
+      if (!distractors.includes(fb) && fb !== currentMeaning) {
         distractors.push(fb);
       }
     }
 
-    const combined = [currentWord.meaningAr, ...distractors];
+    const combined = [currentMeaning, ...distractors];
     for (let i = combined.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [combined[i], combined[j]] = [combined[j], combined[i]];
@@ -82,7 +83,8 @@ export default function UnitFastTrackQuiz({
     if (selectedOpt !== null || !currentWord) return;
     setSelectedOpt(opt);
 
-    const isCorrect = opt === currentWord.meaningAr;
+    const currentMeaning = currentWord.meaningAr || (currentWord as any).meaning || '';
+    const isCorrect = opt === currentMeaning;
     const nextKnown = isCorrect ? [...knownIds, currentWord.id] : knownIds;
     if (isCorrect) setKnownIds(nextKnown);
 
@@ -161,7 +163,7 @@ export default function UnitFastTrackQuiz({
                   >
                     <span>✓</span>
                     <span className="ltr font-semibold">{w.word}</span>
-                    <span className="text-emerald-500 dark:text-emerald-400 text-[10px]">({w.meaningAr})</span>
+                    <span className="text-emerald-500 dark:text-emerald-400 text-[10px]">({w.meaningAr || (w as any).meaning})</span>
                   </span>
                 ))}
               </div>
@@ -181,7 +183,7 @@ export default function UnitFastTrackQuiz({
                     className="inline-flex items-center gap-1 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-lg text-xs font-medium"
                   >
                     <span className="ltr font-bold text-slate-800 dark:text-white">{w.word}</span>
-                    <span className="text-slate-400 dark:text-slate-400 text-[10px]">({w.meaningAr})</span>
+                    <span className="text-slate-400 dark:text-slate-400 text-[10px]">({w.meaningAr || (w as any).meaning})</span>
                   </span>
                 ))}
               </div>
@@ -283,7 +285,7 @@ export default function UnitFastTrackQuiz({
               <div className="space-y-2.5 mb-5">
                 {options.map((opt, i) => {
                   const isSelected = selectedOpt === opt;
-                  const isCorrect = opt === currentWord.meaningAr;
+                  const isCorrect = opt === (currentWord.meaningAr || (currentWord as any).meaning);
                   const hasAnswered = selectedOpt !== null;
                   const letter = ['A', 'B', 'C', 'D'][i] ?? `${i + 1}`;
 

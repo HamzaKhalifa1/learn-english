@@ -9,11 +9,33 @@ export interface WordData {
   partOfSpeechAr: string;
   meaningEn: string;
   meaningAr: string;
+  meaning?: string;
   synonyms: string[];
   antonyms: string[];
   examples: string[];
+  example?: string;
+  exampleAr?: string;
   imageQuery: string;
   category: string;
+}
+
+export function normalizeWord(w: any): WordData {
+  const meaningAr = w.meaningAr || w.meaning || w.translationAr || '';
+  const meaningEn = w.meaningEn || w.definition || '';
+  const examples = Array.isArray(w.examples) && w.examples.length > 0 
+    ? w.examples 
+    : w.example ? [w.example] : [];
+
+  return {
+    ...w,
+    meaningAr,
+    meaning: w.meaning || meaningAr,
+    meaningEn,
+    examples,
+    example: w.example || examples[0] || '',
+    synonyms: Array.isArray(w.synonyms) ? w.synonyms : [],
+    antonyms: Array.isArray(w.antonyms) ? w.antonyms : [],
+  };
 }
 
 export interface Unit {
@@ -46,7 +68,11 @@ const data = wordsData as {
 
 export function getAllUnits(): (Unit & { level: string })[] {
   return Object.entries(data.levels).flatMap(([lvl, l]) =>
-    l.units.map(u => ({ ...u, level: lvl }))
+    l.units.map(u => ({
+      ...u,
+      level: lvl,
+      words: (u.words || []).map(normalizeWord),
+    }))
   );
 }
 

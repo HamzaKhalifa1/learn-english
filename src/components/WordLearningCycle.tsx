@@ -66,11 +66,13 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
   // Build quiz options on reaching stage 5
   useEffect(() => {
     if (stage === 5) {
+      const currentMeaning = word.meaningAr || (word as any).meaning || '';
       const candidateMeanings: string[] = [];
       if (unitWords && unitWords.length > 0) {
         for (const w of unitWords) {
-          if (w.id !== word.id && w.meaningAr && w.meaningAr !== word.meaningAr) {
-            candidateMeanings.push(w.meaningAr);
+          const m = w.meaningAr || (w as any).meaning;
+          if (w.id !== word.id && m && m !== currentMeaning) {
+            candidateMeanings.push(m);
           }
         }
       }
@@ -89,7 +91,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
 
       const distractors: string[] = [];
       for (const m of shuffledCandidates) {
-        if (!distractors.includes(m) && m !== word.meaningAr) {
+        if (!distractors.includes(m) && m !== currentMeaning) {
           distractors.push(m);
           if (distractors.length >= 3) break;
         }
@@ -98,12 +100,12 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
       let fallbackIdx = 0;
       while (distractors.length < 3 && fallbackIdx < fallbackPool.length) {
         const candidate = fallbackPool[fallbackIdx++];
-        if (!distractors.includes(candidate) && candidate !== word.meaningAr) {
+        if (!distractors.includes(candidate) && candidate !== currentMeaning) {
           distractors.push(candidate);
         }
       }
 
-      const finalOptions = [word.meaningAr, ...distractors];
+      const finalOptions = [currentMeaning, ...distractors];
       for (let i = finalOptions.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [finalOptions[i], finalOptions[j]] = [finalOptions[j], finalOptions[i]];
@@ -219,7 +221,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
     if (selectedOption || isAdvancingRef.current || wrongOptions.includes(opt)) return;
 
     setSelectedOption(opt);
-    const correct = opt === word.meaningAr;
+    const correct = opt === (word.meaningAr || (word as any).meaning);
 
     if (correct) {
       // CORRECT: Advance & complete with brief rewarding 750ms overlay
@@ -294,7 +296,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
               {lastCorrect ? '🎉' : '👏'}
             </div>
             <div className="text-3xl lg:text-5xl font-black text-slate-800 dark:text-white mb-2 ltr">{word.word}</div>
-            <div className="text-indigo-600 dark:text-indigo-400 text-lg lg:text-2xl font-bold mb-4">{word.meaningAr}</div>
+            <div className="text-indigo-600 dark:text-indigo-400 text-lg lg:text-2xl font-bold mb-4">{word.meaningAr || (word as any).meaning}</div>
             <div className="text-emerald-600 dark:text-emerald-400 font-black text-xl lg:text-3xl mb-1">
               {lastCorrect ? 'أحسنت! تم إتقان الكلمة بنجاح ✓' : 'عمل رائع! استمر في التقدم 💪'}
             </div>
@@ -385,9 +387,9 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                 {/* Arabic Meaning & English definition */}
                 <div className="bg-gradient-to-br from-indigo-50/80 to-purple-50/80 dark:from-slate-800/95 dark:to-slate-900 rounded-2xl lg:rounded-3xl p-5 lg:p-7 mb-5 border border-indigo-100/80 dark:border-slate-700/80 shadow-xs">
                   <div className="text-xs lg:text-sm font-bold text-indigo-600 dark:text-indigo-400 mb-1">المعنى بالعربية:</div>
-                  <div className="text-2xl lg:text-4xl font-black text-slate-800 dark:text-white mb-3.5">{word.meaningAr}</div>
+                  <div className="text-2xl lg:text-4xl font-black text-slate-800 dark:text-white mb-3.5">{word.meaningAr || (word as any).meaning || '—'}</div>
                   <div className="text-xs lg:text-sm font-bold text-slate-400 dark:text-slate-400 mb-1">التعريف بالإنجليزية:</div>
-                  <div className="text-slate-600 dark:text-slate-200 text-sm lg:text-lg ltr leading-relaxed font-medium">{word.meaningEn}</div>
+                  <div className="text-slate-600 dark:text-slate-200 text-sm lg:text-lg ltr leading-relaxed font-medium">{word.meaningEn || (word as any).example || '—'}</div>
                 </div>
 
                 {/* Synonyms & Antonyms */}
@@ -541,7 +543,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                   {word.word}
                 </div>
                 <div className="text-center text-xs text-indigo-600 dark:text-indigo-400 font-bold mb-4">
-                  {word.meaningAr}
+                  {word.meaningAr || (word as any).meaning}
                 </div>
 
                 <div className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">أكمل الفراغ بالكلمة المناسبة:</div>
@@ -549,7 +551,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                 {/* Enhanced Sentence Container with styled blank slot & real-time preview */}
                 <div className="bg-slate-50/90 dark:bg-slate-800/85 border-2 border-indigo-100 dark:border-indigo-500/30 rounded-2xl lg:rounded-3xl p-5 lg:p-7 text-base md:text-xl lg:text-2xl ltr text-center font-bold text-slate-800 dark:text-slate-100 mb-4 lg:mb-6 leading-relaxed shadow-sm dark:shadow-indigo-950/40">
                   {(() => {
-                    const rawExample = word.examples[0] || '';
+                    const rawExample = (word.examples && word.examples[0]) || (word as any).example || '';
                     const escaped = word.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                     const regex = new RegExp(`(${escaped})`, 'gi');
                     const parts = rawExample.split(regex);
@@ -557,7 +559,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                     if (parts.length > 1) {
                       return (
                         <span>
-                          {parts.map((part, i) => {
+                          {parts.map((part: string, i: number) => {
                             if (part.toLowerCase() === word.word.toLowerCase()) {
                               return (
                                 <span
@@ -612,7 +614,7 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                   </motion.div>
                 )}
 
-                {word.examples[1] && (
+                {word.examples && word.examples[1] && (
                   <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 rounded-xl lg:rounded-2xl p-3.5 lg:p-4 mb-5 lg:mb-7 text-xs lg:text-sm ltr text-slate-600 dark:text-slate-300 font-medium">
                     <span className="font-bold text-slate-400 dark:text-slate-400 block mb-1">مثال إضافي:</span>
                     <span>{word.examples[1]}</span>
@@ -649,7 +651,8 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
 
                 <div className="grid grid-cols-1 gap-2.5 lg:gap-3.5">
                   {quizOptions.map((opt, i) => {
-                    const isCorrect = opt === word.meaningAr;
+                    const currentMeaning = word.meaningAr || (word as any).meaning;
+                    const isCorrect = opt === currentMeaning;
                     const isSelected = opt === selectedOption;
                     const isPreviouslyWrong = wrongOptions.includes(opt);
 
@@ -705,12 +708,12 @@ export default function WordLearningCycle({ word, unitId, level, unitWords, onCo
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={`mt-4 text-center text-sm font-black py-2.5 px-4 rounded-xl border ${
-                      selectedOption === word.meaningAr
+                      selectedOption === (word.meaningAr || (word as any).meaning)
                         ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60'
                         : 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-800/60'
                     }`}
                   >
-                    {selectedOption === word.meaningAr
+                    {selectedOption === (word.meaningAr || (word as any).meaning)
                       ? '🎉 ممتاز! إجابة صحيحة'
                       : '❌ إجابة غير صحيحة، حاول اختيار معنى آخر'
                     }

@@ -13,7 +13,7 @@ export async function GET() {
       const details = getWord(p.word_id);
       return {
         ...p,
-        meaningAr: details?.meaningAr || '—',
+        meaningAr: details?.meaningAr || (details as any)?.meaning || '—',
         meaningEn: details?.meaningEn || '',
         phonetic: details?.phonetic || '',
         category: details?.category || '',
